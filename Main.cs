@@ -4,19 +4,25 @@ using System.Collections.Generic;
 
 namespace Space_Shooter
 {
-    public class SpaceShooter
+    static class Program
     {
-        private Player _player;
-        private List<Enemy> _enemies;
-        private Dictionary<Type, int> _enemyAmountByClass = new Dictionary<Type, int>();
-        private Window gameWindow = new Window("Space Shooter", Global.Width, Global.Height);
-        public SpaceShooter()
+        static Player _player;
+        static List<Enemy> _enemies;
+        static Dictionary<Type, int> _enemyAmountByClass = new Dictionary<Type, int>();
+        static Window gameWindow = new Window("Space Shooter", Global.Width, Global.Height);
+        static void Main(string[] args)
         {
             GameSession.ResetScore();
             RegisterEnemies();
             _player = new Player(GameSession.SpaceshipChoice);
+            while (!SplashKit.QuitRequested())
+            {
+                Update();
+                Draw();
+                HandleInputs();
+            }
         }
-        private void RegisterEnemies()
+        static void RegisterEnemies()
         {
             _enemyAmountByClass[typeof(Asteroid)] = 0;
             _enemyAmountByClass[typeof(Spacemine)] = 0;
@@ -25,13 +31,13 @@ namespace Space_Shooter
             _enemyAmountByClass[typeof(RedAlienship)] = 0;
             _enemyAmountByClass[typeof(KamikazeAlien)] = 0;
         }
-        private void UpdateEnemyAmount(Type type, int increment) => _enemyAmountByClass[type] += increment;
-        private void ResetEnemyAmount()
+        static void UpdateEnemyAmount(Type type, int increment) => _enemyAmountByClass[type] += increment;
+        static void ResetEnemyAmount()
         {
             _enemyAmountByClass.Clear();
             RegisterEnemies();
         }
-        public void Draw()
+        static void Draw()
         {                
             GameSession.DrawBackground();
             switch(Menu.Scene)
@@ -57,7 +63,7 @@ namespace Space_Shooter
             }
             SplashKit.RefreshScreen(60);
         }
-        public void HandleInputs()
+        static void HandleInputs()
         {
             switch(Menu.Scene)
             {
@@ -101,7 +107,7 @@ namespace Space_Shooter
                     break;
             }
         }
-        public void HandleKeyboardInputs()
+        static void HandleKeyboardInputs()
         {
             if (SplashKit.KeyDown(KeyCode.LeftKey) && _player.X > 0)   _player.MoveLeft();
             if (SplashKit.KeyDown(KeyCode.RightKey) && _player.X < Global.Width)  _player.MoveRight();
@@ -109,7 +115,7 @@ namespace Space_Shooter
             if (SplashKit.KeyDown(KeyCode.DownKey) && _player.Y < Global.Height)  _player.MoveDown();
             if (SplashKit.KeyDown(KeyCode.SpaceKey) && _player.CoolDown == 0) _player.Shoot();
         }
-        public void Update()
+        static void Update()
         {
             SplashKit.ProcessEvents();
             GameSession.PlayMusic();
@@ -122,7 +128,7 @@ namespace Space_Shooter
                 AddEnemies();
             }
         }
-        private void AddEnemies()
+        static void AddEnemies()
         {
             int enemyTypeAmount;
             foreach (var enemyType in _enemyAmountByClass.Keys)
@@ -142,7 +148,7 @@ namespace Space_Shooter
                 }
             }
         }
-        private void UpdateEnemies()
+        static void UpdateEnemies()
         {
             foreach(Enemy enemy in _enemies.ToArray())
             {
@@ -165,6 +171,6 @@ namespace Space_Shooter
                 if (enemy is IHaveGun) _player.CheckEnemyBullets(((IHaveGun)enemy).Bullets);   
             }
         }
-        private void DrawEnemies() {foreach(Enemy enemy in _enemies.ToArray()) enemy.Draw();}
+        static void DrawEnemies() {foreach(Enemy enemy in _enemies.ToArray()) enemy.Draw();}
     }
 }
