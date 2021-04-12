@@ -13,7 +13,7 @@ namespace Space_Shooter
         private Animation _animation;
         private AnimationScript _explosionScript;
         private DrawingOptions _option;
-        public bool AnimationEnded(){return (_animation.Ended);};}
+        public bool AnimationEnded(){return (_animation.Ended);}
         public Explosion(int x, int y, Type type)
         {
             var explosionSound = SplashKit.LoadSoundEffect("explosionSound", "explosion.mp3");
