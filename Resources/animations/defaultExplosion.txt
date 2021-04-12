@@ -1,0 +1,5 @@
+SplashKit Animation
+
+f:[0-20],[0-20],3,
+
+i:defaultExplosion,0

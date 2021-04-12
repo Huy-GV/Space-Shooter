@@ -1,0 +1,8 @@
+bin/
+obj/
+.vscode/
+plans.txt
+lib/
+myeasylog.log
+.idea/
+.vs/

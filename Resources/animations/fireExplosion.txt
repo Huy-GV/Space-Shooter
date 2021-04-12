@@ -1,0 +1,5 @@
+SplashKit Animation
+
+f:[0-15],[0-15],4,
+
+i:fireExplosion,0

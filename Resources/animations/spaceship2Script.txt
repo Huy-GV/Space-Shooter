@@ -1,0 +1,5 @@
+SplashKit Animation
+
+f:[0-3],[0-3],9,0
+
+i:flying,0

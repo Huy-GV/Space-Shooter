@@ -1,0 +1,5 @@
+SplashKit Animation
+
+f:[0-16],[0-16],3,
+
+i:blueLaserExplosion,0
