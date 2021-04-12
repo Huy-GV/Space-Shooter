@@ -13,8 +13,7 @@ namespace Space_Shooter
         private Animation _animation;
         private AnimationScript _explosionScript;
         private DrawingOptions _option;
-        public bool AnimationEnded(){return (_animation.Ended);}
-        private void Move() { Y += 2;}
+        public bool AnimationEnded(){return (_animation.Ended);};}
         public Explosion(int x, int y, Type type)
         {
             var explosionSound = SplashKit.LoadSoundEffect("explosionSound", "explosion.mp3");
@@ -25,6 +24,7 @@ namespace Space_Shooter
         }
         public void SetAnimations(Type type)
         {
+            //different types only vary in animation so sub-classing them like alienship is unnecessary
             switch(type)
             {
                 case Type.RedLaser:
@@ -85,7 +85,7 @@ namespace Space_Shooter
         public override void Update()
         {
             _animation.Update();
-            Move();
+            Y += 2;
         }
     }
 }

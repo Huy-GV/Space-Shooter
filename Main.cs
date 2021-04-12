@@ -4,17 +4,18 @@ using System.Collections.Generic;
 
 namespace Space_Shooter
 {
-    static class Program
+    class Program
     {
+        static int _spaceshipChoice = 0;
         static Player _player;
         static List<Enemy> _enemies;
         static Dictionary<Type, int> _enemyAmountByClass = new Dictionary<Type, int>();
         static Window gameWindow = new Window("Space Shooter", Global.Width, Global.Height);
         static void Main(string[] args)
         {
-            GameSession.ResetScore();
+            GameBackground.ResetScore();
             RegisterEnemies();
-            _player = new Player(GameSession.SpaceshipChoice);
+            _player = new Player(_spaceshipChoice);
             while (!SplashKit.QuitRequested())
             {
                 Update();
@@ -22,6 +23,7 @@ namespace Space_Shooter
                 HandleInputs();
             }
         }
+        //add enemy types and their amount so that we can spawn them easily in AddEnemies
         static void RegisterEnemies()
         {
             _enemyAmountByClass[typeof(Asteroid)] = 0;
@@ -32,19 +34,20 @@ namespace Space_Shooter
             _enemyAmountByClass[typeof(KamikazeAlien)] = 0;
         }
         static void UpdateEnemyAmount(Type type, int increment) => _enemyAmountByClass[type] += increment;
-        static void ResetEnemyAmount()
+        static void ResetGame()
         {
             _enemyAmountByClass.Clear();
             RegisterEnemies();
+            GameBackground.ResetScore();
         }
         static void Draw()
         {                
-            GameSession.DrawBackground();
+            GameBackground.DrawBackground();
             switch(Menu.Scene)
             {
                 case Menu.GameScene.MainMenu:
                     Menu.DrawMainMenu(Difficulty.Index);
-                    Menu.DrawPlayerOption(GameSession.SpaceshipChoice);
+                    Menu.DrawPlayerOption(_spaceshipChoice);
                     break;
                 case Menu.GameScene.PauseMenu:
                     Menu.DrawPauseMenu();
@@ -54,9 +57,9 @@ namespace Space_Shooter
                     break;
                 default:
                     Menu.DrawPauseButton();
-                    Menu.DrawGameInfo((int)_player.Health, GameSession.Score);
-                    GameSession.GainScore();
-                    GameSession.DrawExplosions();
+                    Menu.DrawGameInfo((int)_player.Health, GameBackground.Score);
+                    GameBackground.GainScore();
+                    GameBackground.DrawExplosions();
                     DrawEnemies();
                     _player.Draw();
                     break;
@@ -65,13 +68,14 @@ namespace Space_Shooter
         }
         static void HandleInputs()
         {
+            //the game has different 'scenes' that can be accessed by buttons displayed on screen
             switch(Menu.Scene)
             {
                 case Menu.GameScene.MainMenu:
                     if (Menu.FirstOptionSelected())
                     {
                         _enemies = new List<Enemy>();
-                        _player = new Player(GameSession.SpaceshipChoice);
+                        _player = new Player(_spaceshipChoice);
                         Menu.ChangeScene(Menu.GameScene.GamePlay);
                     }
                     else if (Menu.SecondOptionSelected())
@@ -80,7 +84,7 @@ namespace Space_Shooter
                     }
                     else if (Menu.ThirdOptionSelected())
                     {
-                        GameSession.UpdatePlayerChoice();
+                        UpdatePlayerChoice();
                     }
                     break;
                 case Menu.GameScene.PauseMenu:
@@ -88,16 +92,14 @@ namespace Space_Shooter
                         Menu.ChangeScene(Menu.GameScene.GamePlay);
                     else if (Menu.SecondOptionSelected())
                     {
-                        ResetEnemyAmount();
-                        GameSession.ResetScore();
+                        ResetGame();
                         Menu.ChangeScene(Menu.GameScene.MainMenu);
                     }
                     break;
                 case Menu.GameScene.GameOver:
                     if (Menu.FirstOptionSelected())
                     {
-                        ResetEnemyAmount();
-                        GameSession.ResetScore();
+                        ResetGame();
                         Menu.ChangeScene(Menu.GameScene.MainMenu);
                     }
                     break;
@@ -118,16 +120,17 @@ namespace Space_Shooter
         static void Update()
         {
             SplashKit.ProcessEvents();
-            GameSession.PlayMusic();
+            GameBackground.PlayMusic();
             if (Menu.Scene == Menu.GameScene.GamePlay)
             {
                 _player.Update();
                 if (_player.Health <= 0) Menu.ChangeScene(Menu.GameScene.GameOver);
-                GameSession.UpdateExplosions();
+                GameBackground.UpdateExplosions();
                 UpdateEnemies();
                 AddEnemies();
             }
         }
+        static void UpdatePlayerChoice(){ _spaceshipChoice = _spaceshipChoice == 2 ? 0 : _spaceshipChoice + 1; }
         static void AddEnemies()
         {
             int enemyTypeAmount;
@@ -158,9 +161,10 @@ namespace Space_Shooter
                 {
                     if (enemy.IsDestroyed) 
                     {
-                        GameSession.CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType);
+                        GameBackground.CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType);
                     }
                     UpdateEnemyAmount(enemy.GetType(), -1);
+                    //because enemy spawning frequency depends on their current amount, we need to update it everytime an enemy is destroyed or spawned
                     _enemies.Remove(enemy);                     
                 }
                 if (_player.CollideWith(enemy))

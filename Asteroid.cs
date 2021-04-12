@@ -29,7 +29,6 @@ namespace Space_Shooter
                 Y = lastAsteroidY - 90;
             }
         }
-
         private void Move() => Y += 4; 
         public override void Update()
         {
