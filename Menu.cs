@@ -31,26 +31,9 @@ namespace Space_Shooter
         }
         public static void DrawMainMenu(int difficulty)
         {
-            string text;
-            Color color;
-            switch(difficulty)
-            {
-                case 1:
-                    text = "MEDIUM";
-                    color = Color.Orange;
-                    break;
-                case 2:
-                    text = "HARD";
-                    color = Color.Red;
-                    break;
-                default:
-                    text = "EASY";
-                    color = Color.Green;
-                    break;    
-            }
             SplashKit.DrawText("SPACE SHOOTER", Color.Yellow, Global.BigFont, 60, 100, 50);
             SplashKit.DrawText("Play", Color.White, Global.MediumFont, 40, 150, 200);
-            SplashKit.DrawText("Mode: " + text, color, Global.MediumFont, 40, 150, 300);
+            SplashKit.DrawText("Choose level" , Color.Orange, Global.MediumFont, 40, 150, 300);
             SplashKit.DrawText("Change Space Ship", Color.Blue, Global.MediumFont, 40, 150, 400);
         }
         public static void DrawPauseMenu()
@@ -66,7 +49,7 @@ namespace Space_Shooter
         }
         public static void DrawPauseButton(){ SplashKit.DrawText("Pause", Color.Red, Global.SmallFont, 24, 500, 40);}
         public static void DrawGameInfo(int playerHealth, double score){
-            SplashKit.DrawText($"Health: {playerHealth}", Color.Green, Global.SmallFont, 24, 20, 40);
+            SplashKit.DrawText($"Health: {(int)playerHealth}", Color.Green, Global.SmallFont, 24, 20, 40);
             SplashKit.DrawText($"Score: {(int)score}", Color.Yellow, Global.SmallFont, 24, 20, 70);
         }
         public static void DrawPlayerOption(int option)
@@ -88,26 +71,14 @@ namespace Space_Shooter
         }
         public static void DrawLevels()
         {
-            // SplashKit.DrawText("Intro", Color.White, Global.MediumFont, 40, 150, 100);
-            // SplashKit.DrawText("Level 2", Color.White, Global.MediumFont, 40, 150, 200);
-            // SplashKit.DrawText("Level 3", Color.White, Global.MediumFont, 40, 150, 300);
-            // SplashKit.DrawText("Level 4", Color.White, Global.MediumFont, 40, 150, 400);
-            // SplashKit.DrawText("Level 5", Color.White, Global.MediumFont, 40, 150, 500);
-            // SplashKit.DrawText("Level 6", Color.White, Global.MediumFont, 40, 150, 600);
             for (int i = 1; i <= 6; i++)
             {
                 Color color;
-                if (GameMode.LevelIsComplete(i)) color = Color.Green;
+                if (GameData.LevelIsComplete(i)) color = Color.Green;
                 else color = Color.White;
                 SplashKit.DrawText("Level " + i, color, Global.MediumFont, 40, 150, 100 * i);
             }
+            SplashKit.DrawText("Endless Flight", Color.Red, Global.MediumFont, 40, 150, 700);
         }
-        public static bool FirstOptionSelected(){return SplashKit.MouseClicked(MouseButton.LeftButton) &&
-                SplashKit.MouseY() >= 200 && SplashKit.MouseY() <= 250; }
-        public static bool SecondOptionSelected(){return SplashKit.MouseClicked(MouseButton.LeftButton) && 
-                SplashKit.MouseY() >= 300 && SplashKit.MouseY() <= 350; }
-        public static bool ThirdOptionSelected(){return SplashKit.MouseClicked(MouseButton.LeftButton) && 
-                SplashKit.MouseY() >= 400 && SplashKit.MouseY() <= 450;}
-        public static bool PauseOptionSelected(){return SplashKit.MouseClicked(MouseButton.LeftButton) && SplashKit.MouseX() >= 200 && SplashKit.MouseY() <= 55;}
     }
 }

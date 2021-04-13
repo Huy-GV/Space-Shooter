@@ -20,12 +20,15 @@ namespace Space_Shooter
         private DrawingOptions _option;
         private AnimationScript _flyScript;
         private Explosion _damageExplosion;
+        public double Score{get; private set;}
+        private void GainScore(){ Score += 1/(double)60;}
         private SoundEffect _laserSound = SplashKit.LoadSoundEffect("laserSound", "laser.mp3");
         public Player(int option){
             X = Global.Width / 2;
             Y = Global.Height * 4 / 5;
             XOffset = 45;
             YOffset = 45;       
+            Score = 0;
             SetAnimation((ShipType)option);
         }
         public void SetAnimation(ShipType type)
@@ -93,6 +96,7 @@ namespace Space_Shooter
         {
             UpdateAnimation();
             UpdateDamageExplosion();
+            GainScore();
             _gunSystem.Update();
         }
         private void UpdateBullets()

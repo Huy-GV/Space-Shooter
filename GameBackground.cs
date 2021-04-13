@@ -16,8 +16,8 @@ namespace Space_Shooter
         private static SoundEffect _music = SplashKit.LoadSoundEffect("arcade", "arcade.mp3");
         private static Bitmap _background = SplashKit.LoadBitmap("space", "space.png");
         private static List<Explosion> _explosions = new List<Explosion>();
-        public static double Score = 0;
-        public static void GainScore(){ Score += 1/(double)60;}
+        // public static double Score = 0;
+        // public static void GainScore(){ Score += 1/(double)60;}
         public static void DrawBackground()
         { 
             SplashKit.ClearScreen(Color.Black);
@@ -36,7 +36,6 @@ namespace Space_Shooter
             foreach (var explosion in _explosions.ToArray()) explosion.Draw();
         }
         public static void PlayMusic(){if (!SplashKit.SoundEffectPlaying("arcade")) SplashKit.PlaySoundEffect("arcade", (float)0.1); }
-        public static void ResetScore() {Score = 0;}
         public static void CreateExplosion(int x, int y, Explosion.Type type) => _explosions.Add(new Explosion(x, y, type));
     }
 }

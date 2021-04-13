@@ -24,6 +24,10 @@ namespace Space_Shooter
         {
             switch(level)
             {
+                case 1:
+                    Limit[typeof(Asteroid)] = 5;
+                    Limit[typeof(Spacemine)] = 3;  
+                    break;
                 case 2:
                     Limit[typeof(BlueAlienship)] = 6;
                     Limit[typeof(Asteroid)] = 5;
@@ -63,15 +67,14 @@ namespace Space_Shooter
                     //TODO: ADD A BOSS TYPE 
                     break;
                 default :
-                    Limit[typeof(Asteroid)] = 5;
-                    Limit[typeof(Spacemine)] = 3;  
+                    SetEnemyLimitByStage(0); 
                     break;
             }
         }
-        public static void ChangeStage() => Index += 1;
-        public static void UpdateEnemyLimit()
+        public static void IncreaseStage() => Index += 1;
+        public static void SetEnemyLimitByStage(int index)
         {
-            switch((Stage)Index)
+            switch((Stage)index)
             {
                 case Stage.Medium:
                     Limit[typeof(BlueAlienship)] = 4;
@@ -89,7 +92,7 @@ namespace Space_Shooter
                     Limit[typeof(Asteroid)] = 7;
                     Limit[typeof(Spacemine)] = 3;
                     break;
-                default:
+                case Stage.Easy:
                     Limit[typeof(BlueAlienship)] = 3;
                     Limit[typeof(PurpleAlienship)] = 2;
                     Limit[typeof(RedAlienship)] = 1;

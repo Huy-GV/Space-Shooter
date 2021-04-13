@@ -4,16 +4,16 @@ using System.Collections.Generic;
 
 namespace Space_Shooter
 {
-    public class GameMode
+    public class GameData
     {
-        public enum Mode
+        public enum Level
         {
             Endless,
             Mission,
             Dual,
             BossRun
         }
-        public static Dictionary<GameMode.Mode, int> HighScoreRecord = new Dictionary<GameMode.Mode, int>();
+        // public static Dictionary<GameLevel.Mode, int> HighScoreRecord = new Dictionary<GameLevel.Mode, int>();
         public static Dictionary<int, bool> LevelProgress = new Dictionary<int, bool>()
         {
             {1, false},
