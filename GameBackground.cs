@@ -16,7 +16,6 @@ namespace Space_Shooter
         private static SoundEffect _music = SplashKit.LoadSoundEffect("arcade", "arcade.mp3");
         private static Bitmap _background = SplashKit.LoadBitmap("space", "space.png");
         private static List<Explosion> _explosions = new List<Explosion>();
-        //explosions are considered 'background' because they do not affect the logic of the game, they merely add visual effects
         public static double Score = 0;
         public static void GainScore(){ Score += 1/(double)60;}
         public static void DrawBackground()

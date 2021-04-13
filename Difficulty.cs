@@ -4,7 +4,7 @@ namespace Space_Shooter
 {   
     public static class Difficulty
     {
-        public enum Level
+        public enum Stage
         {
             Easy,
             Medium,
@@ -12,24 +12,68 @@ namespace Space_Shooter
         }
         public static Dictionary<Type, int> Limit = new Dictionary<Type, int>()
         {
-            {typeof(BlueAlienship), 3},
-            {typeof(PurpleAlienship), 2},
-            {typeof(RedAlienship), 1},
+            {typeof(BlueAlienship), 0},
+            {typeof(PurpleAlienship), 0},
+            {typeof(RedAlienship), 0},
             {typeof(KamikazeAlien), 0},
-            {typeof(Asteroid), 7},
-            {typeof(Spacemine), 1}
+            {typeof(Asteroid), 0},
+            {typeof(Spacemine), 0}
         };
         public static int Index = 0;
-        public static void ChangeLevel()
+        public static void SetEnemyLimitByLevel(int level)
         {
-            Index = Index == 2 ? 0 : Index + 1;
-            UpdateEnemyLimit();
+            switch(level)
+            {
+                case 2:
+                    Limit[typeof(BlueAlienship)] = 6;
+                    Limit[typeof(Asteroid)] = 5;
+                    Limit[typeof(Spacemine)] = 2;
+                    break;
+                case 3:
+                    Limit[typeof(BlueAlienship)] = 0;
+                    Limit[typeof(PurpleAlienship)] = 6;
+                    Limit[typeof(Asteroid)] = 5;
+                    Limit[typeof(Spacemine)] = 2;
+                    break;
+                case 4:
+                    Limit[typeof(BlueAlienship)] = 3;
+                    Limit[typeof(PurpleAlienship)] = 0;
+                    Limit[typeof(RedAlienship)] = 5;
+                    Limit[typeof(KamikazeAlien)] = 0;
+                    Limit[typeof(Asteroid)] = 4;
+                    Limit[typeof(Spacemine)] = 2;
+                    //TODO: ADD A BOSS TYPE
+                    break;
+                case 5:
+                    Limit[typeof(BlueAlienship)] = 3;
+                    Limit[typeof(PurpleAlienship)] = 2;
+                    Limit[typeof(RedAlienship)] = 3;
+                    Limit[typeof(KamikazeAlien)] = 3;
+                    Limit[typeof(Asteroid)] = 5;
+                    Limit[typeof(Spacemine)] = 2; 
+                    //TODO: ADD A BOSS TYPE                   
+                    break;
+                case 6:
+                    Limit[typeof(BlueAlienship)] = 4;
+                    Limit[typeof(PurpleAlienship)] = 4;
+                    Limit[typeof(RedAlienship)] = 4;
+                    Limit[typeof(KamikazeAlien)] = 3;
+                    Limit[typeof(Asteroid)] = 6;
+                    Limit[typeof(Spacemine)] = 3; 
+                    //TODO: ADD A BOSS TYPE 
+                    break;
+                default :
+                    Limit[typeof(Asteroid)] = 5;
+                    Limit[typeof(Spacemine)] = 3;  
+                    break;
+            }
         }
+        public static void ChangeStage() => Index += 1;
         public static void UpdateEnemyLimit()
         {
-            switch((Level)Index)
+            switch((Stage)Index)
             {
-                case Level.Medium:
+                case Stage.Medium:
                     Limit[typeof(BlueAlienship)] = 4;
                     Limit[typeof(PurpleAlienship)] = 3;
                     Limit[typeof(RedAlienship)] = 2;
@@ -37,7 +81,7 @@ namespace Space_Shooter
                     Limit[typeof(Asteroid)] = 6;
                     Limit[typeof(Spacemine)] = 2;
                     break;
-                case Level.Hard: 
+                case Stage.Hard: 
                     Limit[typeof(BlueAlienship)] = 5;
                     Limit[typeof(PurpleAlienship)] = 3;
                     Limit[typeof(RedAlienship)] = 2;

@@ -17,10 +17,18 @@ namespace Space_Shooter
             MainMenu,
             PauseMenu,
             GamePlay,
-            GameOver
+            GameLevel,
+            GameOver,
+            LevelFinished,
         }
         public static GameScene Scene = GameScene.MainMenu;
         public static void ChangeScene(GameScene newScene) => Scene = newScene;
+        public static void DrawEndOfLevel(int level)
+        {
+            SplashKit.DrawText("CONGRATULATIONS", Color.Yellow, Global.BigFont, 60, 150, 50);
+            SplashKit.DrawText("You have completed level " + level , Color.Green, Global.MediumFont, 40, 150, 200);
+            SplashKit.DrawText("Quit to Menu", Color.Red, Global.MediumFont, 40, 150, 300);
+        }
         public static void DrawMainMenu(int difficulty)
         {
             string text;
@@ -42,7 +50,7 @@ namespace Space_Shooter
             }
             SplashKit.DrawText("SPACE SHOOTER", Color.Yellow, Global.BigFont, 60, 100, 50);
             SplashKit.DrawText("Play", Color.White, Global.MediumFont, 40, 150, 200);
-            SplashKit.DrawText("Difficulty: " + text, color, Global.MediumFont, 40, 150, 300);
+            SplashKit.DrawText("Mode: " + text, color, Global.MediumFont, 40, 150, 300);
             SplashKit.DrawText("Change Space Ship", Color.Blue, Global.MediumFont, 40, 150, 400);
         }
         public static void DrawPauseMenu()
@@ -77,6 +85,22 @@ namespace Space_Shooter
                     break;
             }
             bitmap.Draw(150, 500);
+        }
+        public static void DrawLevels()
+        {
+            // SplashKit.DrawText("Intro", Color.White, Global.MediumFont, 40, 150, 100);
+            // SplashKit.DrawText("Level 2", Color.White, Global.MediumFont, 40, 150, 200);
+            // SplashKit.DrawText("Level 3", Color.White, Global.MediumFont, 40, 150, 300);
+            // SplashKit.DrawText("Level 4", Color.White, Global.MediumFont, 40, 150, 400);
+            // SplashKit.DrawText("Level 5", Color.White, Global.MediumFont, 40, 150, 500);
+            // SplashKit.DrawText("Level 6", Color.White, Global.MediumFont, 40, 150, 600);
+            for (int i = 1; i <= 6; i++)
+            {
+                Color color;
+                if (GameMode.LevelIsComplete(i)) color = Color.Green;
+                else color = Color.White;
+                SplashKit.DrawText("Level " + i, color, Global.MediumFont, 40, 150, 100 * i);
+            }
         }
         public static bool FirstOptionSelected(){return SplashKit.MouseClicked(MouseButton.LeftButton) &&
                 SplashKit.MouseY() >= 200 && SplashKit.MouseY() <= 250; }
