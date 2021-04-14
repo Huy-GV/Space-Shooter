@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Space_Shooter
 {
-    public class GameData
+    public class Data
     {
         public enum Level
         {

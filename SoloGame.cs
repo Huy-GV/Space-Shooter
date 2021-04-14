@@ -28,15 +28,23 @@ namespace Space_Shooter
         }
         public void Update()
         {
-            GameBackground.PlayMusic(); 
+            Background.PlayMusic(); 
+            Background.UpdateExplosions();
             HandleKeyboardInputs();
-            _player.Update();
-            if (_player.Health <= 0) Status = GameStates.PlayerDestroyed;
-            GameBackground.UpdateExplosions();
+            UpdatePlayer();
             UpdateEnemies();
             UpdateLevel(_level);
             UpdateDifficulty(_player.Score);
-            AddEnemies();
+        }
+        private void UpdatePlayer()
+        {
+            _player.Update();
+            if (_player.Health <= 0)
+            {
+                _enemies.Clear();
+                Status = GameStates.PlayerDestroyed;
+            } 
+            
         }
         private void UpdateDifficulty(double score)
         {
@@ -46,7 +54,11 @@ namespace Space_Shooter
         }
         private void UpdateLevel(int level)
         {
-            if (level >= 1 && level <= 6 && _player.Score >= 100) AddBoss(level);
+            if (level >= 1 && level <= 6 && _player.Score >= 100 && _enemies.Count == 0) AddBoss(level);
+            //if the boss is destroyed and there is no enemy left
+
+            //change state to either over or in game, if the player wins game data will update the record
+            if (_enemies.Count == 0) Status = SoloGame.GameStates.LevelCompleted;
             else if (level == 7) Difficulty.IncreaseStage(); 
         }
         private void AddBoss(int level)
@@ -54,6 +66,7 @@ namespace Space_Shooter
             switch(level)
             {
                 case 7:
+                    //_enemies.Add(boss);
                     break;
                 case 8:
                     break;
@@ -64,7 +77,7 @@ namespace Space_Shooter
         public void Draw()
         {
             Menu.DrawGameInfo(_player.Health, _player.Score);
-            GameBackground.DrawExplosions();
+            Background.DrawExplosions();
             DrawEnemies();
             _player.Draw();
         }
@@ -97,21 +110,18 @@ namespace Space_Shooter
                 }
             }
         }
-        private void UpdateEnemyAmount(Type type, int increment) => _enemyAmountByClass[type] +=increment;
+        private void UpdateEnemyAmount(Type type, int increment) => _enemyAmountByClass[type] += increment;
         private void UpdateEnemies()
         {
+            if (_player.Score < 100) AddEnemies();
             foreach(Enemy enemy in _enemies.ToArray())
             {
                 enemy.Update();
                 enemy.CheckPlayerBullets(_player.Bullets);
                 if (enemy.AdjustedY > Global.Height || enemy.IsDestroyed)
                 {
-                    if (enemy.IsDestroyed) 
-                    {
-                        GameBackground.CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType);
-                    }
+                    if (enemy.IsDestroyed) Background.CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType);
                     UpdateEnemyAmount(enemy.GetType(), -1);
-                    //because enemy spawning frequency depends on their current amount, we need toupdate    it everytime an enemy is destroyed or spawned
                     _enemies.Remove(enemy);                     
                 }
                 if (_player.CollideWith(enemy))

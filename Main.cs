@@ -8,16 +8,15 @@ namespace Space_Shooter
 class Program
 {
     static int spaceshipChoice = 0;
-    static Player player;
     static SoloGame game;
     static int level;
+    static readonly int defaultLevel = 7;
     static Dictionary<Type, int> enemyAmountByClass = new Dictionary<Type, int>();
     static Window gameWindow = new Window("Space Shooter", Global.Width, Global.Height);
     static void Main(string[] args)
     {
         // GameBackground.ResetScore();
         RegisterEnemies();
-        level = 7;
         // player = new Player(spaceshipChoice);
         while (!SplashKit.QuitRequested())
         {
@@ -35,16 +34,9 @@ class Program
         enemyAmountByClass[typeof(RedAlienship)] = 0;
         enemyAmountByClass[typeof(KamikazeAlien)] = 0;
     }
-    // static void UpdateEnemyAmount(Type type, int increment) => enemyAmountByClass[type] +=increment;
-    // static void ResetGame()
-    // {
-    //     enemyAmountByClass.Clear();
-    //     RegisterEnemies();
-    //     // GameBackground.ResetScore();
-    // }
     static void Draw()
     {                
-        GameBackground.DrawBackground();
+        Background.DrawBackground();
         switch(Menu.Scene)
         {
             case Menu.GameScene.MainMenu:
@@ -96,8 +88,8 @@ class Program
         switch(option)
         {
             case 1:
-               
                 game = new SoloGame( level, spaceshipChoice, enemyAmountByClass);
+                level = defaultLevel;
                 Menu.ChangeScene(Menu.GameScene.GamePlay);
                 break;
             case 2:
@@ -116,7 +108,6 @@ class Program
                 Menu.ChangeScene(Menu.GameScene.GamePlay);
                 break;
             case 2:
-                // ResetGame();
                 Menu.ChangeScene(Menu.GameScene.MainMenu);
                 break;
         }
@@ -130,7 +121,6 @@ class Program
         switch(option)
         {
             case 1:
-                // ResetGame();
                 Menu.ChangeScene(Menu.GameScene.MainMenu);
                 break;
         }
@@ -138,7 +128,7 @@ class Program
     static void Update()
     {
         SplashKit.ProcessEvents();
-        GameBackground.PlayMusic();
+        Background.PlayMusic();
         if (Menu.Scene == Menu.GameScene.GamePlay)
         {
             if (game.Status == SoloGame.GameStates.PlayerAlive) game.Update();
@@ -146,6 +136,5 @@ class Program
         }
     }
     static void UpdatePlayerChoice(){ spaceshipChoice = spaceshipChoice == 2 ? 0 :spaceshipChoice + 1; }
-
 }
 }

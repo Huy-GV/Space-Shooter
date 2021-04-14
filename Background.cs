@@ -11,7 +11,7 @@ namespace Space_Shooter
         public static readonly  Font BigFont = SplashKit.LoadFont("Consolas", "consolab.ttf");
         public static readonly  Font MediumFont = SplashKit.LoadFont("SegouUI", "segoeuib.ttf");
     }
-    public static class GameBackground
+    public static class Background
     {
         private static SoundEffect _music = SplashKit.LoadSoundEffect("arcade", "arcade.mp3");
         private static Bitmap _background = SplashKit.LoadBitmap("space", "space.png");

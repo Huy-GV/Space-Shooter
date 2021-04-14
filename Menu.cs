@@ -74,7 +74,7 @@ namespace Space_Shooter
             for (int i = 1; i <= 6; i++)
             {
                 Color color;
-                if (GameData.LevelIsComplete(i)) color = Color.Green;
+                if (Data.LevelIsComplete(i)) color = Color.Green;
                 else color = Color.White;
                 SplashKit.DrawText("Level " + i, color, Global.MediumFont, 40, 150, 100 * i);
             }
