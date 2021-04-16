@@ -9,7 +9,7 @@ class Program
 {
     static int spaceshipChoice = 0;
     static SoloGame game;
-    static int level;
+    static int level = 0;
     static readonly int defaultLevel = 7;
     static Dictionary<Type, int> enemyAmountByClass = new Dictionary<Type, int>();
     static Window gameWindow = new Window("Space Shooter", Global.Width, Global.Height);
@@ -88,8 +88,9 @@ class Program
         switch(option)
         {
             case 1:
+                if (level == 0) level = defaultLevel;
                 game = new SoloGame( level, spaceshipChoice, enemyAmountByClass);
-                level = defaultLevel;
+                level = 0;
                 Menu.ChangeScene(Menu.GameScene.GamePlay);
                 break;
             case 2:
@@ -131,7 +132,7 @@ class Program
         Background.PlayMusic();
         if (Menu.Scene == Menu.GameScene.GamePlay)
         {
-            if (game.Status == SoloGame.GameStates.PlayerAlive) game.Update();
+            if (game.State == SoloGame.GameStates.PlayerAlive) game.Update();
             else Menu.ChangeScene(Menu.GameScene.GameOver); //TODO: FIX THIS TO DISPLAY APPROPRIATE MESSAGE
         }
     }

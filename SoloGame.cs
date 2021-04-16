@@ -16,7 +16,7 @@ namespace Space_Shooter
         private Player _player;
         private List<Enemy> _enemies;
         private Dictionary<Type, int> _enemyAmountByClass;
-        public GameStates Status{get; private set;}
+        public GameStates State{get; private set;}
         public SoloGame(int level , int spaceshipChoice, Dictionary<Type, int> enemyAmountByClass)
         {
             _player = new Player(spaceshipChoice);
@@ -24,7 +24,8 @@ namespace Space_Shooter
             _enemyAmountByClass = enemyAmountByClass;
             _level = level;
             Difficulty.SetEnemyLimitByLevel(level);
-            Status = GameStates.PlayerAlive;
+            State = GameStates.PlayerAlive;
+            Console.WriteLine("level is {0}", _level);
         }
         public void Update()
         {
@@ -39,10 +40,12 @@ namespace Space_Shooter
         private void UpdatePlayer()
         {
             _player.Update();
+            if (_player.Score < 100 && _level < 7) _player.GainScore();
+            else if (_level >= 7) _player.GainScore();
             if (_player.Health <= 0)
             {
                 _enemies.Clear();
-                Status = GameStates.PlayerDestroyed;
+                State = GameStates.PlayerDestroyed;
             } 
             
         }
@@ -58,8 +61,14 @@ namespace Space_Shooter
             //if the boss is destroyed and there is no enemy left
 
             //change state to either over or in game, if the player wins game data will update the record
-            if (_enemies.Count == 0) Status = SoloGame.GameStates.LevelCompleted;
+            if (_enemies.Count == 0 && _player.Score >= 100) State = SoloGame.GameStates.LevelCompleted;
             else if (level == 7) Difficulty.IncreaseStage(); 
+
+            if (level < 7)
+            {
+                if (_player.Score >= 100 && _enemies.Count == 0) AddBoss(level);
+                if (_enemies.Count == 0) State = SoloGame.GameStates.LevelCompleted;
+            } 
         }
         private void AddBoss(int level)
         {
@@ -113,7 +122,7 @@ namespace Space_Shooter
         private void UpdateEnemyAmount(Type type, int increment) => _enemyAmountByClass[type] += increment;
         private void UpdateEnemies()
         {
-            if (_player.Score < 100) AddEnemies();
+            if (_player.Score < 100 && _level < 7) AddEnemies();
             foreach(Enemy enemy in _enemies.ToArray())
             {
                 enemy.Update();

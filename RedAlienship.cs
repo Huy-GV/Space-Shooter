@@ -31,7 +31,7 @@ namespace Space_Shooter
         {
             if (Y >= 0) _gunSystem.AutoFire(X, Y);
             _gunSystem.Update();
-            _movePattern.Perform();
+            _movePattern.Update();
             Y = (int)_movePattern.UpdatedY;
             X = (int)_movePattern.UpdatedX;
         }

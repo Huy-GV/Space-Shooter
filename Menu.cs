@@ -5,9 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using SplashKitSDK;
 
-
-//TODO: FIX THE BUG WHERE THE WRONG SHIP IS CHOSEN. RE-NAME THE IMAGE LINKS ACCORDING TO THE NEW STRUCTURE
-
 namespace Space_Shooter
 {
     public static class Menu

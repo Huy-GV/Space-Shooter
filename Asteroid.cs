@@ -32,7 +32,7 @@ namespace Space_Shooter
         private void Move() => Y += 4; 
         public override void Update()
         {
-            _movePattern.Perform();
+            _movePattern.Update();
             Y = (int)_movePattern.UpdatedY;
         } 
     }

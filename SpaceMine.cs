@@ -45,7 +45,7 @@ namespace Space_Shooter
         public override void Update()
         { 
             _animation.Update();
-            _movePattern.Perform();
+            _movePattern.Update();
             Y = (int)_movePattern.UpdatedY;
         }
         private void Move() => Y += 3;

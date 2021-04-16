@@ -7,7 +7,7 @@ namespace Space_Shooter{
         public int Damage{get; protected set;}
         public bool IsDestroyed{get; protected set;}
         public void GetDestroyed() => IsDestroyed = true;
-        public void CheckPlayerBullets(List<Bullet> bullets)
+        public virtual void CheckPlayerBullets(List<Bullet> bullets)
         {
             foreach(var bullet in bullets.ToArray())
             {

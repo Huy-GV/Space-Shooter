@@ -21,7 +21,7 @@ namespace Space_Shooter
             //direction is either 1 or -1
             _direction = SplashKit.Rnd(2) * 2 - 1;
         }
-        public abstract void Perform();
+        public abstract void Update();
     }
     public class HorizontalMovement : MovePattern
     {
@@ -31,7 +31,7 @@ namespace Space_Shooter
             _horizontalSpeed = verticalSpeed;
             _verticalLimit = (Global.Width / 2) / (SplashKit.Rnd(4) + 1);
         }
-        public override void Perform()
+        public override void Update()
         {
             if (_position.Y < _verticalLimit) _position.Y += Speed;
             else
@@ -44,7 +44,7 @@ namespace Space_Shooter
     public class VerticalMovement : MovePattern
     {
         public VerticalMovement(int speed, double x, double y) : base(speed, x, y) {}
-        public override void Perform()
+        public override void Update()
         {
             _position.Y += Speed;
         }
@@ -60,7 +60,7 @@ namespace Space_Shooter
             _verticalLimit = Global.Width / 2;
             _firstCrossing = true;
         }
-        public override void Perform()
+        public override void Update()
         {
             _position.Y += Speed * _verticalDirection;
             _position.X += _direction * Speed;
@@ -87,7 +87,7 @@ namespace Space_Shooter
             _pathVector.Y = targetY - y;
             _pathVector = SplashKit.UnitVector(_pathVector);
         }
-        public override void Perform()
+        public override void Update()
         {
             _position.X += _pathVector.X * Speed;
             _position.Y += _pathVector.Y * Speed;

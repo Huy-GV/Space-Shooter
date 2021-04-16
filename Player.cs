@@ -21,7 +21,6 @@ namespace Space_Shooter
         private AnimationScript _flyScript;
         private Explosion _damageExplosion;
         public double Score{get; private set;}
-        private void GainScore(){ Score += 1/(double)60;}
         private SoundEffect _laserSound = SplashKit.LoadSoundEffect("laserSound", "laser.mp3");
         public Player(int option){
             X = Global.Width / 2;
@@ -96,9 +95,9 @@ namespace Space_Shooter
         {
             UpdateAnimation();
             UpdateDamageExplosion();
-            GainScore();
             _gunSystem.Update();
         }
+        public void GainScore(){ Score += 1/(double)60;}
         private void UpdateBullets()
         {
             foreach(var bullet in Bullets.ToArray())
