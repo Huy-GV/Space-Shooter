@@ -41,7 +41,7 @@ namespace Space_Shooter
             _option = SplashKit.OptionWithAnimation(_animation);
         }
         public Spacemine() : this(Global.Width, Global.Height){}
-        public override void Draw() { SplashKit.DrawBitmap(Bitmap, AdjustedX, AdjustedY, _option); }
+        public override void Draw()=> SplashKit.DrawBitmap(Bitmap, AdjustedX, AdjustedY, _option); 
         public override void Update()
         { 
             _animation.Update();

@@ -38,7 +38,7 @@ namespace Space_Shooter
         }
         private void SetCoolDown()=>_coolDownTime = _coolDownLimit;
         private void UpdateCoolDown()=> _coolDownTime = (_coolDownTime > 0 ? _coolDownTime - 1/(double)60 : 0);
-        public void DrawBullets(){ foreach( var bullets in Bullets) bullets.Draw(); }
+        public void DrawBullets() => Bullets.ForEach(bullet => bullet.Draw());
         public void Update()
         {
             foreach(var bullet in Bullets.ToArray())

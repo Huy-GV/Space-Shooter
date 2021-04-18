@@ -63,7 +63,7 @@ class Program
         //the game has different 'scenes' that can be accessed by buttons displayed on screen
         if (SplashKit.MouseClicked(MouseButton.LeftButton))
         {
-            var option = (int)Math.Floor((SplashKit.MouseY() / 100)) - 1;
+            var option = (int)Math.Floor((SplashKit.MouseY() / 100)) - 2;
             Console.WriteLine("option is {0}", option);
             switch(Menu.Scene)
             {
@@ -77,9 +77,9 @@ class Program
                     ProcessGameOver(option);
                     break;
                 case Menu.GameScene.GameLevel:
-                    level = option;
-                    Menu.ChangeScene(Menu.GameScene.MainMenu);
+                    ProcessGameLevel(option);
                     break;
+                default: break;
             }
         }
     }
@@ -87,35 +87,38 @@ class Program
     {
         switch(option)
         {
-            case 1:
+            case 0:
                 if (level == 0) level = defaultLevel;
-                game = new SoloGame( level, spaceshipChoice, enemyAmountByClass);
+                game = new SoloGame( level, spaceshipChoice);
                 level = 0;
                 Menu.ChangeScene(Menu.GameScene.GamePlay);
                 break;
-            case 2:
+            case 1:
                 Menu.ChangeScene(Menu.GameScene.GameLevel);
                 break;
-            case 3:
+            case 2:
                 UpdatePlayerChoice();
                 break;
+            default: break;
         }
     }
     static void ProcessPauseMenu(int option)
     {
         switch(option)
         {
-            case 1:
+            case 0:
                 Menu.ChangeScene(Menu.GameScene.GamePlay);
                 break;
-            case 2:
+            case 1:
                 Menu.ChangeScene(Menu.GameScene.MainMenu);
                 break;
+            default: break;
         }
     }
     static void ProcessGameLevel(int option)
     {
-        
+        level = option + 2;
+        Menu.ChangeScene(Menu.GameScene.MainMenu);
     }
     static void ProcessGameOver(int option)
     {

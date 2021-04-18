@@ -1,13 +1,21 @@
 using System;
 using System.Collections.Generic;
 using SplashKitSDK;
-
+using System.Linq;
 namespace Space_Shooter
 {
-    public class Nightmare : Enemy
+    public class Nightmare : Enemy, IHaveGun
     {
-        private GunSystem _leftMiddleGun, _rightMiddleGun, _leftGun, _rightGun;
+
         ///TODO: the bullet property will return concatenated lists of bullets from the 4 guns
+        public List<Bullet> Bullets
+        {
+            get
+            {
+                var firstList = (_guns[0].Bullets).Concat(_guns[1].Bullets);
+                return (_guns[2].Bullets).Concat(firstList).ToList();
+            }
+        }
         private List<GunSystem> _guns;
         private int _speed;
         private int _health;
@@ -15,11 +23,16 @@ namespace Space_Shooter
         {
             X = Global.Width / 2;
             Y = -20;
-            Bitmap = SplashKit.LoadBitmap("Nightmare", "Nightmare.png");
-            _leftGun = new GunSystem(Bullet.Direction.Down, 2, Bullet.Type.BlueLaser, false);
-            _rightGun = new GunSystem(Bullet.Direction.Down, 2, Bullet.Type.BlueLaser, false);
-            _leftMiddleGun = new GunSystem(Bullet.Direction.Down, 2, Bullet.Type.BlueLaser, false);
-            _rightMiddleGun = new GunSystem(Bullet.Direction.Down, 2, Bullet.Type.BlueLaser, false);
+            XOffset = 75;
+            YOffset = 50;
+            Bitmap = SplashKit.LoadBitmap("Nightmare", "Alienships/Nightmare.png");
+            _guns = new List<GunSystem>
+            {
+                new GunSystem(Bullet.Direction.Down, 2, Bullet.Type.BlueLaser, false),
+                new GunSystem(Bullet.Direction.Down, 2, Bullet.Type.BlueLaser, false),
+                new GunSystem(Bullet.Direction.Down, 2, Bullet.Type.BlueLaser, false)
+            };
+
             _speed = 5;
             _health = 100;
             _movePattern = new ZigzagMovement(_speed, X, Y);
@@ -33,7 +46,7 @@ namespace Space_Shooter
         }
         public override void CheckPlayerBullets(List<Bullet> bullets)
         {
-            foreach(var bullet in bullets)
+            foreach(var bullet in bullets.ToArray())
             {
                 if (bullet.HitTarget(this))
                 {
@@ -44,10 +57,16 @@ namespace Space_Shooter
         }
         private void UpdateGuns()
         {
-            _leftGun.AutoFire(X - 20, Y);
-            _rightGun.AutoFire(X + 20, Y);
-            _leftMiddleGun.AutoFire(X - 10, Y);
-            _rightMiddleGun.AutoFire(X + 10, Y);
+            for(int i = 0; i < 3; i++)
+            {
+                _guns[i].AutoFire((i-1) * 20 + X, Y);
+                _guns[i].Update();
+            }
+        }
+        public override void Draw()
+        { 
+            SplashKit.DrawBitmap(Bitmap, AdjustedX, AdjustedY); 
+            _guns.ForEach(gun => gun.DrawBullets());
         }
     }
 
@@ -75,7 +94,6 @@ namespace Space_Shooter
         }
         public override void Update()
         {
-            UpdateGuns();
             _movePattern.Update();
             X = _movePattern.UpdatedX;
             Y = _movePattern.UpdatedY;
@@ -90,13 +108,6 @@ namespace Space_Shooter
                     _health -= 7;
                 }
             }
-        }
-        private void UpdateGuns()
-        {
-            _leftGun.AutoFire(X - 20, Y);
-            _rightGun.AutoFire(X + 20, Y);
-            _leftMiddleGun.AutoFire(X - 10, Y);
-            _rightMiddleGun.AutoFire(X + 10, Y);
         }
     }
 }

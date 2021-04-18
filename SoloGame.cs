@@ -15,14 +15,16 @@ namespace Space_Shooter
         private int _level;
         private Player _player;
         private List<Enemy> _enemies;
-        private Dictionary<Type, int> _enemyAmountByClass;
+        private GameMode _mode;
         public GameStates State{get; private set;}
-        public SoloGame(int level , int spaceshipChoice, Dictionary<Type, int> enemyAmountByClass)
+        public SoloGame(int level , int spaceshipChoice)
         {
             _player = new Player(spaceshipChoice);
             _enemies = new List<Enemy>();
-            _enemyAmountByClass = enemyAmountByClass;
             _level = level;
+            if (_level == 7) _mode = new SurvivalMode();
+            else _mode = new ByLevels(_level);
+
             Difficulty.SetEnemyLimitByLevel(level);
             State = GameStates.PlayerAlive;
             Console.WriteLine("level is {0}", _level);
@@ -34,8 +36,6 @@ namespace Space_Shooter
             HandleKeyboardInputs();
             UpdatePlayer();
             UpdateEnemies();
-            UpdateLevel(_level);
-            UpdateDifficulty(_player.Score);
         }
         private void UpdatePlayer()
         {
@@ -55,34 +55,34 @@ namespace Space_Shooter
             if (score >= 200 && Difficulty.Index == 1) Difficulty.IncreaseStage();
             if (score >= 400 && Difficulty.Index == 2) Difficulty.IncreaseStage();
         }
-        private void UpdateLevel(int level)
-        {
-            if (level >= 1 && level <= 6 && _player.Score >= 100 && _enemies.Count == 0) AddBoss(level);
-            //if the boss is destroyed and there is no enemy left
+        // private void UpdateLevel(int level)
+        // {
+        //     if (level >= 1 && level <= 6 && _player.Score >= 100 && _enemies.Count == 0) AddBoss(level);
+        //     //if the boss is destroyed and there is no enemy left
 
-            //change state to either over or in game, if the player wins game data will update the record
-            if (_enemies.Count == 0 && _player.Score >= 100) State = SoloGame.GameStates.LevelCompleted;
-            else if (level == 7) Difficulty.IncreaseStage(); 
+        //     //change state to either over or in game, if the player wins game data will update the record
+        //     if (_enemies.Count == 0 && _player.Score >= 100) State = SoloGame.GameStates.LevelCompleted;
+        //     else if (level == 7) Difficulty.IncreaseStage(); 
 
-            if (level < 7)
-            {
-                if (_player.Score >= 100 && _enemies.Count == 0) AddBoss(level);
-                if (_enemies.Count == 0) State = SoloGame.GameStates.LevelCompleted;
-            } 
-        }
-        private void AddBoss(int level)
-        {
-            switch(level)
-            {
-                case 7:
-                    //_enemies.Add(boss);
-                    break;
-                case 8:
-                    break;
-                case 9:
-                    break;
-            }
-        }
+        //     if (level < 7)
+        //     {
+        //         if (_player.Score >= 100 && _enemies.Count == 0) AddBoss(level);
+        //         if (_enemies.Count == 0) State = SoloGame.GameStates.LevelCompleted;
+        //     } 
+        // }
+        // private void AddBoss(int level)
+        // {
+        //     switch(level)
+        //     {
+        //         case 7:
+        //             //_enemies.Add(boss);
+        //             break;
+        //         case 8:
+        //             break;
+        //         case 9:
+        //             break;
+        //     }
+        // }
         public void Draw()
         {
             Menu.DrawGameInfo(_player.Health, _player.Score);
@@ -98,40 +98,41 @@ namespace Space_Shooter
             if (SplashKit.KeyDown(KeyCode.DownKey) && _player.Y < Global.Height)  _player.MoveDown();
             if (SplashKit.KeyDown(KeyCode.SpaceKey) && _player.CoolDown == 0) _player.Shoot();
         }
-        private void DrawEnemies() {foreach(Enemy enemy in _enemies.ToArray()) enemy.Draw();}
-        private void AddEnemies()
-        {
-            int enemyTypeAmount;
-            foreach (var enemyType in _enemyAmountByClass.Keys)
-            {
-                enemyTypeAmount = _enemyAmountByClass[enemyType];
-                //generate enemies, their amount and spawning location is dependent on the currentamount    and closest enemy created
-                if (SplashKit.Rnd(0, 70) == 0 && enemyTypeAmount < Difficulty.Limit[enemyType])
-                {
-                    if (enemyTypeAmount == 0) _enemies.Add((Enemy)Activator.CreateInstance(enemyType));
-                    else
-                    {
-                        var lastEnemy = _enemies[_enemies.Count - 1];
-                        Object[] parameters = {lastEnemy.X, lastEnemy.Y};
-                        _enemies.Add((Enemy)Activator.CreateInstance(enemyType, parameters));
-                    }
-                    UpdateEnemyAmount(enemyType, 1);
-                }
-            }
-        }
-        private void UpdateEnemyAmount(Type type, int increment) => _enemyAmountByClass[type] += increment;
+        private void DrawEnemies() => _enemies.ForEach(enemy => enemy.Draw());
+        // private void AddEnemies()
+        // {
+        //     int enemyTypeAmount;
+        //     foreach (var enemyType in _enemyAmountByClass.Keys)
+        //     {
+        //         enemyTypeAmount = _enemyAmountByClass[enemyType];
+        //         //generate enemies, their amount and spawning location is dependent on the currentamount    and closest enemy created
+        //         if (SplashKit.Rnd(0, 70) == 0 && enemyTypeAmount < Difficulty.Limit[enemyType])
+        //         {
+        //             if (enemyTypeAmount == 0) _enemies.Add((Enemy)Activator.CreateInstance(enemyType));
+        //             else
+        //             {
+        //                 var lastEnemy = _enemies[_enemies.Count - 1];
+        //                 Object[] parameters = {lastEnemy.X, lastEnemy.Y};
+        //                 _enemies.Add((Enemy)Activator.CreateInstance(enemyType, parameters));
+        //             }
+        //             UpdateEnemyAmount(enemyType, 1);
+        //         }
+        //     }
+        // }
+        // private void UpdateEnemyAmount(Type type, int increment) => _enemyAmountByClass[type] += increment;
         private void UpdateEnemies()
         {
-            if (_player.Score < 100 && _level < 7) AddEnemies();
+            _mode.AddEnemies((int)_player.Score, _enemies);
             foreach(Enemy enemy in _enemies.ToArray())
             {
                 enemy.Update();
                 enemy.CheckPlayerBullets(_player.Bullets);
-                if (enemy.AdjustedY > Global.Height || enemy.IsDestroyed)
+                if (enemy.Y > Global.Height || enemy.IsDestroyed)
                 {
                     if (enemy.IsDestroyed) Background.CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType);
-                    UpdateEnemyAmount(enemy.GetType(), -1);
-                    _enemies.Remove(enemy);                     
+                    // UpdateEnemyAmount(enemy.GetType(), -1);
+                    _enemies.Remove(enemy);
+                    _mode.UpdateEnemyAmount(enemy.GetType(), -1);                   
                 }
                 if (_player.CollideWith(enemy))
                 { 

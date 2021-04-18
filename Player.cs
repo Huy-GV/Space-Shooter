@@ -14,8 +14,8 @@ namespace Space_Shooter
         }
         public double CoolDown{get; private set;}
         public int Health{get; private set;}
-        private GunSystem _gunSystem;
-        public List<Bullet> Bullets{ get { return _gunSystem.Bullets; }}
+        private GunSystem _gun;
+        public List<Bullet> Bullets{ get { return _gun.Bullets; }}
         private Animation _animation;
         private DrawingOptions _option;
         private AnimationScript _flyScript;
@@ -53,7 +53,7 @@ namespace Space_Shooter
             _flyScript = SplashKit.LoadAnimationScript("FlyingScript1", "spaceship1Script.txt");
             _animation = _flyScript.CreateAnimation("flying");
             _option = SplashKit.OptionWithAnimation(_animation);
-            _gunSystem = new GunSystem(Bullet.Direction.Up, 1.25, Bullet.Type.RedBeam, true);
+            _gun = new GunSystem(Bullet.Direction.Up, 1.25, Bullet.Type.RedBeam, true);
         }
         private void SetAgileShip()
         {  
@@ -63,7 +63,7 @@ namespace Space_Shooter
             _flyScript = SplashKit.LoadAnimationScript("FlyingScript2", "spaceship2Script.txt");
             _animation = _flyScript.CreateAnimation("flying");
             _option = SplashKit.OptionWithAnimation(_animation);
-            _gunSystem = new GunSystem(Bullet.Direction.Up, 1, Bullet.Type.RedBeam, true);
+            _gun = new GunSystem(Bullet.Direction.Up, 1, Bullet.Type.RedBeam, true);
         }
         private void SetArmouredShip()
         {
@@ -73,12 +73,12 @@ namespace Space_Shooter
             _flyScript = SplashKit.LoadAnimationScript("FlyingScript3", "spaceship3Script.txt");
             _animation = _flyScript.CreateAnimation("flying");
             _option = SplashKit.OptionWithAnimation(_animation);
-            _gunSystem = new GunSystem(Bullet.Direction.Up, 1.5, Bullet.Type.RedBeam, true);
+            _gun = new GunSystem(Bullet.Direction.Up, 1.5, Bullet.Type.RedBeam, true);
         }
         public override void Draw()
         { 
             SplashKit.DrawBitmap(Bitmap,AdjustedX,AdjustedY,_option );
-            DrawBullets();
+            _gun.DrawBullets();
             DrawDamage();    
         }
         private void DrawDamage(){ if (_damageExplosion != null) _damageExplosion.Draw();}
@@ -89,13 +89,13 @@ namespace Space_Shooter
         public void MoveDown() => Y += 4;
         public void Shoot() 
         { 
-            if (_gunSystem.CoolDownEnded) _gunSystem.OpenFire(X, Y);
+            if (_gun.CoolDownEnded) _gun.OpenFire(X, Y);
         }
         public override void Update()
         {
             UpdateAnimation();
             UpdateDamageExplosion();
-            _gunSystem.Update();
+            _gun.Update();
         }
         public void GainScore(){ Score += 1/(double)60;}
         private void UpdateBullets()
@@ -115,10 +115,6 @@ namespace Space_Shooter
             }
         }
         public void LoseHealth(int damage) => Health -= damage;
-        private void DrawBullets()
-        {
-            foreach(var bullet in Bullets.ToArray()) bullet.Draw(); 
-        }
         public void CheckEnemyBullets(List<Bullet> enemyBullets)
         {
             foreach(var bullet in enemyBullets.ToArray())
@@ -126,7 +122,7 @@ namespace Space_Shooter
                 if (bullet.HitTarget(this))
                 {
                     Health -= 10;
-                    _damageExplosion = new Explosion(X, Y, Explosion.Type.BlueLaser);
+                    _damageExplosion = new Explosion(X, Y, Explosion.Type.Fire);
                     enemyBullets.Remove(bullet);
                 }
             }
