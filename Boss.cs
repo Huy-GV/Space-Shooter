@@ -19,7 +19,7 @@ namespace Space_Shooter
             XOffset = 75;
             YOffset = 50;
             Damage = 10;
-            Bitmap = SplashKit.LoadBitmap("Nightmare", "Alienships/Nightmare.png");
+            Bitmap = SplashKit.LoadBitmap("Nightmare", "Bosses/Nightmare.png");
             _gun = new GunSystem(Bullet.Direction.Down, 1.5, Bullet.Type.RedLaser, false);
             _speed = 5;
             _health = 100;
@@ -29,6 +29,7 @@ namespace Space_Shooter
         {
             UpdateGuns();
             _movePattern.Update();
+            //TODO: MAKE THE ZIG ZAG MOVEMENT MORE RANDOM
             X = _movePattern.UpdatedX;
             Y = _movePattern.UpdatedY;
         }
@@ -57,36 +58,64 @@ namespace Space_Shooter
 
     //TODO: make the second boss with the ability to disappear, spawn kamikazes?
 
-    public class Mothership : Enemy
+    public class Phantom : Enemy, IHaveGun
     {
-        private GunSystem _leftMiddleGun, _rightMiddleGun, _leftGun, _rightGun;
-        ///TODO: create an image of triple bullet and put it in guns
-
-        private List<GunSystem> _guns;
+        public List<Bullet> Bullets{get{ return _gun.Bullets;}}
+        private GunSystem _gun;
         private int _speed;
         private int _health;   
-        public Mothership()
+        private double _invisibleTime;
+        private double _time;
+        private bool _isInvisible;
+        private Animation _animation;
+        private DrawingOptions _option;
+        private AnimationScript _flyScript;
+        public Phantom()
         {
             X = Global.Width / 2;
             Y = -20;
-            Bitmap = SplashKit.LoadBitmap("Nightmare", "Nightmare.png");
-            _leftGun = new GunSystem(Bullet.Direction.Down, 2, Bullet.Type.BlueLaser, false);
-            _rightGun = new GunSystem(Bullet.Direction.Down, 2, Bullet.Type.BlueLaser, false);
-            _leftMiddleGun = new GunSystem(Bullet.Direction.Down, 2, Bullet.Type.BlueLaser, false);
-            _rightMiddleGun = new GunSystem(Bullet.Direction.Down, 2, Bullet.Type.BlueLaser, false);
-            _speed = 5;
+            Bitmap = SplashKit.LoadBitmap("Phantom", "Bosses/Phantom.png");
+            Bitmap.SetCellDetails(322/2, 140, 2, 1, 2);
+            XOffset = 322 / 4;
+            YOffset = 140 / 2;
+            _flyScript = SplashKit.LoadAnimationScript("Flickering", "flickerScript.txt");
+            _animation = _flyScript.CreateAnimation("flickering");
+            _option = SplashKit.OptionWithAnimation(_animation);
+            _gun = new GunSystem(Bullet.Direction.Down, 1.2, Bullet.Type.TripleLaser, false);
+            _speed = 6;
             _health = 100;
+            _isInvisible = false;
             _movePattern = new ZigzagMovement(_speed, X, Y);
         }
         public override void Update()
         {
             _movePattern.Update();
+            _gun.AutoFire(X, Y);
+            _gun.Update();
+            _animation.Update();
             X = _movePattern.UpdatedX;
             Y = _movePattern.UpdatedY;
+            UpdateVisibility();
+        }
+        private void UpdateVisibility()
+        {
+            _time += 1/(double)60;
+            if (_time >= _invisibleTime)
+            {
+                _time = 0;
+                _invisibleTime = SplashKit.Rnd(0, 4) + 3;
+                _isInvisible = !_isInvisible;
+            }
+        }
+        public override void Draw()
+        { 
+            //if (!_isInvisible)
+             SplashKit.DrawBitmap(Bitmap, AdjustedX, AdjustedY, _option); 
+            _gun.DrawBullets();
         }
         public override void CheckPlayerBullets(List<Bullet> bullets)
         {
-            foreach(var bullet in bullets)
+            foreach(var bullet in bullets.ToArray())
             {
                 if (bullet.HitTarget(this))
                 {

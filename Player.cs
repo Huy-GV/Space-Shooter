@@ -82,7 +82,6 @@ namespace Space_Shooter
             DrawDamage();    
         }
         private void DrawDamage(){ if (_damageExplosion != null) _damageExplosion.Draw();}
-        private void UpdateAnimation() => _animation.Update();
         public void MoveLeft() => X -= 4;
         public void MoveRight() => X += 4;
         public void MoveUp() => Y -= 4;
@@ -93,7 +92,7 @@ namespace Space_Shooter
         }
         public override void Update()
         {
-            UpdateAnimation();
+            _animation.Update();
             UpdateDamageExplosion();
             _gun.Update();
         }

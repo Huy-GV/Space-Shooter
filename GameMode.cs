@@ -73,9 +73,16 @@ namespace Space_Shooter
             //TODO: modify so that the correct boss is added
             else if (enemies.Count == 0 && !_bossSpawned)
             {
-                Console.WriteLine("Boss added");
-                enemies.Add(new Nightmare());
+                enemies.Add(SpawnBoss());
                 _bossSpawned = true;
+            }
+        }
+        private Enemy SpawnBoss()
+        {
+            switch(_level)
+            {
+                case 5: return new Nightmare();
+                default: return new Phantom();    
             }
         }
         private void SetEnemyLimitsByLevel()

@@ -10,7 +10,7 @@ namespace Space_Shooter
             RedLaser,
             BlueLaser,
             RedBeam,
-            TripleShot
+            TripleLaser
         }
         public enum Direction
         {
@@ -48,9 +48,12 @@ namespace Space_Shooter
                     Bitmap = SplashKit.LoadBitmap("RedBeam", "Bullets/RedBeam.png");
                     _speed = 8;
                     break;  
-                case Type.TripleShot:
-                    //TODO: create an image here for the second boss
-                break;             
+                case Type.TripleLaser:
+                    XOffset = 63;
+                    YOffset = 30;
+                    Bitmap = SplashKit.LoadBitmap("TripleLaser", "Bullets/TripleLaser.png");
+                    _speed = 7;
+                    break;             
             }
         }
         private void Move() => Y -= _speed * _direction; 
