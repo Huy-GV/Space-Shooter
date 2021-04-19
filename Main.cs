@@ -15,9 +15,7 @@ class Program
     static Window gameWindow = new Window("Space Shooter", Global.Width, Global.Height);
     static void Main(string[] args)
     {
-        // GameBackground.ResetScore();
         RegisterEnemies();
-        // player = new Player(spaceshipChoice);
         while (!SplashKit.QuitRequested())
         {
             Update();

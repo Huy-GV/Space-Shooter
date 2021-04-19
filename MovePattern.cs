@@ -101,4 +101,6 @@ namespace Space_Shooter
             return angle;
         }
     }
+
+    //TODO: make a more randomized zig zag, may be a bool field as a flag?
 }

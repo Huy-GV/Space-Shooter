@@ -16,14 +16,18 @@ namespace Space_Shooter
         {
             X = Global.Width / 2;
             Y = -20;
-            XOffset = 75;
-            YOffset = 50;
-            Damage = 10;
-            Bitmap = SplashKit.LoadBitmap("Nightmare", "Bosses/Nightmare.png");
+            Damage = 12;
             _gun = new GunSystem(Bullet.Direction.Down, 1.5, Bullet.Type.RedLaser, false);
             _speed = 5;
             _health = 100;
             _movePattern = new ZigzagMovement(_speed, X, Y);
+        }
+        private void SetAnimation()
+        {
+            XOffset = 75;
+            YOffset = 50;
+            Damage = 10;
+            Bitmap = SplashKit.LoadBitmap("Nightmare", "Bosses/Nightmare.png");
         }
         public override void Update()
         {
@@ -56,8 +60,6 @@ namespace Space_Shooter
         }
     }
 
-    //TODO: make the second boss with the ability to disappear, spawn kamikazes?
-
     public class Phantom : Enemy, IHaveGun
     {
         public List<Bullet> Bullets{get{ return _gun.Bullets;}}
@@ -74,18 +76,23 @@ namespace Space_Shooter
         {
             X = Global.Width / 2;
             Y = -20;
-            Bitmap = SplashKit.LoadBitmap("Phantom", "Bosses/Phantom.png");
-            Bitmap.SetCellDetails(322/2, 140, 2, 1, 2);
-            XOffset = 322 / 4;
-            YOffset = 140 / 2;
-            _flyScript = SplashKit.LoadAnimationScript("Flickering", "flickerScript.txt");
-            _animation = _flyScript.CreateAnimation("flickering");
-            _option = SplashKit.OptionWithAnimation(_animation);
+            Damage = 15;
+            SetAnimation();
             _gun = new GunSystem(Bullet.Direction.Down, 1.2, Bullet.Type.TripleLaser, false);
             _speed = 6;
             _health = 100;
             _isInvisible = false;
             _movePattern = new ZigzagMovement(_speed, X, Y);
+        }
+        private void SetAnimation()
+        {
+            Bitmap = SplashKit.LoadBitmap("Phantom", "Bosses/Phantom.png");
+            Bitmap.SetCellDetails(300/2, 130, 2, 1, 2);
+            XOffset = 300 / 4;
+            YOffset = 130 / 2;
+            _flyScript = SplashKit.LoadAnimationScript("Flickering", "flickerScript.txt");
+            _animation = _flyScript.CreateAnimation("flickering");
+            _option = SplashKit.OptionWithAnimation(_animation);
         }
         public override void Update()
         {
@@ -109,8 +116,7 @@ namespace Space_Shooter
         }
         public override void Draw()
         { 
-            //if (!_isInvisible)
-             SplashKit.DrawBitmap(Bitmap, AdjustedX, AdjustedY, _option); 
+            if (!_isInvisible) SplashKit.DrawBitmap(Bitmap, AdjustedX, AdjustedY, _option); 
             _gun.DrawBullets();
         }
         public override void CheckPlayerBullets(List<Bullet> bullets)

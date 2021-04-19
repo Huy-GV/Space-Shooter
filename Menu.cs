@@ -77,5 +77,7 @@ namespace Space_Shooter
             }
             SplashKit.DrawText("Endless Flight", Color.Red, Global.MediumFont, 40, 150, 700);
         }
+
+        //TODO: write the logic for top right buttons
     }
 }
