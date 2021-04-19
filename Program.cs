@@ -61,7 +61,7 @@ namespace Space_Shooter
             //the game has different 'scenes' that can be accessed by buttons displayed on screen
             if (SplashKit.MouseClicked(MouseButton.LeftButton))
             {
-                var option = (int)Math.Floor((SplashKit.MouseY() / 100)) - 2;
+                var option = (int)Math.Floor((SplashKit.MouseY() / 100));
                 Console.WriteLine("option is {0}", option);
                 switch(Menu.Scene)
                 {
@@ -85,16 +85,16 @@ namespace Space_Shooter
         {
             switch(option)
             {
-                case 0:
+                case 2:
                     if (level == 0) level = defaultLevel;
                     game = new SoloGame( level, spaceshipChoice);
                     level = 0;
                     Menu.ChangeScene(Menu.GameScene.GamePlay);
                     break;
-                case 1:
+                case 3:
                     Menu.ChangeScene(Menu.GameScene.GameLevel);
                     break;
-                case 2:
+                case 4:
                     UpdatePlayerChoice();
                     break;
                 default: break;
@@ -104,10 +104,10 @@ namespace Space_Shooter
         {
             switch(option)
             {
-                case 0:
+                case 2:
                     Menu.ChangeScene(Menu.GameScene.GamePlay);
                     break;
-                case 1:
+                case 3:
                     Menu.ChangeScene(Menu.GameScene.MainMenu);
                     break;
                 default: break;
@@ -115,14 +115,15 @@ namespace Space_Shooter
         }
         static void ProcessGameLevel(int option)
         {
-            level = option + 2;
+            level = option;
+            Console.WriteLine("level is " + level);
             Menu.ChangeScene(Menu.GameScene.MainMenu);
         }
         static void ProcessGameOver(int option)
         {
             switch(option)
             {
-                case 0:
+                case 2:
                     Menu.ChangeScene(Menu.GameScene.MainMenu);
                     break;
                 default: break;
@@ -131,7 +132,7 @@ namespace Space_Shooter
         static void Update()
         {
             SplashKit.ProcessEvents();
-            // Background.PlayMusic();
+            Background.PlayMusic();
             if (Menu.Scene == Menu.GameScene.GamePlay)
             {
                 if (game.State == SoloGame.GameStates.PlayerAlive) game.Update();

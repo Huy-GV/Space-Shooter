@@ -22,15 +22,25 @@ namespace Space_Shooter
             _player = new Player(spaceshipChoice);
             _enemies = new List<Enemy>();
             _level = level;
-            if (_level == 7) _mode = new SurvivalMode();
-            else _mode = new ByLevels(_level);
-            Difficulty.SetEnemyLimitByLevel(level);
+            SetGameMode();
+            // Difficulty.SetEnemyLimitByLevel(level);
             State = GameStates.PlayerAlive;
             Console.WriteLine("level is {0}", _level);
         }
+        private void SetGameMode()
+        {
+            if (_level == 7) _mode = new SurvivalMode();
+            else _mode = new ByLevelMode(_level);
+            switch(_level)
+            {
+                case 7: _mode = new SurvivalMode(); break;
+                case 6: _mode = new MineFieldMode(); break;
+                case 5: _mode = new BossRunMode(); break;
+                default: _mode = new ByLevelMode(_level); break;
+            }
+        }
         public void Update()
         {
-            // Background.PlayMusic(); 
             Background.UpdateExplosions();
             HandleKeyboardInputs();
             UpdatePlayer();
@@ -48,12 +58,6 @@ namespace Space_Shooter
                 State = GameStates.PlayerDestroyed;
             } 
 
-        }
-        private void UpdateDifficulty(double score)
-        {
-            if (score >= 100 && Difficulty.Index == 0) Difficulty.IncreaseStage();
-            if (score >= 200 && Difficulty.Index == 1) Difficulty.IncreaseStage();
-            if (score >= 400 && Difficulty.Index == 2) Difficulty.IncreaseStage();
         }
         public void Draw()
         {

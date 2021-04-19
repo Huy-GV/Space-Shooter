@@ -34,7 +34,6 @@ namespace Space_Shooter
             _enemyAmountByClass[typeof(RedAlienship)] = 0;
             _enemyAmountByClass[typeof(KamikazeAlien)] = 0;
         }
-
         public virtual void AddEnemies(int score, List<Enemy> enemies)
         {
             int enemyTypeAmount;
@@ -56,11 +55,11 @@ namespace Space_Shooter
         }
         public void UpdateEnemyAmount(Type type, int increment) => _enemyAmountByClass[type] += increment;
     }
-    public class ByLevels : GameMode
+    public class ByLevelMode : GameMode
     {
         private int _level;
         private bool _bossSpawned;
-        public ByLevels(int level) : base()
+        public ByLevelMode(int level) : base()
         {
             _level = level;
             Console.WriteLine("level is " + _level);
@@ -73,16 +72,17 @@ namespace Space_Shooter
             //TODO: modify so that the correct boss is added
             else if (enemies.Count == 0 && !_bossSpawned)
             {
-                enemies.Add(SpawnBoss());
+                SpawnBoss(enemies);
                 _bossSpawned = true;
             }
         }
-        private Enemy SpawnBoss()
+        private void SpawnBoss(List<Enemy> enemies)
         {
             switch(_level)
             {
-                case 5: return new Nightmare();
-                default: return new Phantom();    
+                case 4: enemies.Add(new Nightmare()); break;
+                case 5: enemies.Add(new Phantom()); break;
+                default: break;
             }
         }
         private void SetEnemyLimitsByLevel()
@@ -90,48 +90,31 @@ namespace Space_Shooter
             switch(_level)
             {
                 case 1:
+                    Limits[typeof(BlueAlienship)] = 5;
+                    Limits[typeof(RedAlienship)] = 2;
                     Limits[typeof(Asteroid)] = 5;
-                    Limits[typeof(Spacemine)] = 3;  
+                    Limits[typeof(Spacemine)] = 1;
                     break;
-                case 2:
-                    Limits[typeof(BlueAlienship)] = 6;
-                    Limits[typeof(Asteroid)] = 5;
+                case 3:
+                    Limits[typeof(BlueAlienship)] = 3;
+                    Limits[typeof(RedAlienship)] = 5;
+                    Limits[typeof(Asteroid)] = 4;
                     Limits[typeof(Spacemine)] = 2;
                     break;
                 case 4:
                     Limits[typeof(BlueAlienship)] = 3;
-                    Limits[typeof(PurpleAlienship)] = 0;
-                    Limits[typeof(RedAlienship)] = 5;
-                    Limits[typeof(KamikazeAlien)] = 0;
-                    Limits[typeof(Asteroid)] = 4;
-                    Limits[typeof(Spacemine)] = 2;
-                    //TODO: ADD A BOSS TYPE
-                    break;
-                case 5:
-                    Limits[typeof(BlueAlienship)] = 3;
                     Limits[typeof(PurpleAlienship)] = 2;
-                    Limits[typeof(RedAlienship)] = 3;
-                    Limits[typeof(KamikazeAlien)] = 3;
-                    Limits[typeof(Asteroid)] = 5;
-                    Limits[typeof(Spacemine)] = 2;                    
-                    break;
-                case 6:
-                    Limits[typeof(BlueAlienship)] = 4;
-                    Limits[typeof(PurpleAlienship)] = 4;
                     Limits[typeof(RedAlienship)] = 4;
                     Limits[typeof(KamikazeAlien)] = 3;
-                    Limits[typeof(Asteroid)] = 6;
+                    Limits[typeof(Asteroid)] = 5;
                     Limits[typeof(Spacemine)] = 3; 
                     break;
-                default:
-                //level 3
-                    Limits[typeof(BlueAlienship)] = 0;
+                default: //TODO: find a way to avoid default
+                //level 2
                     Limits[typeof(PurpleAlienship)] = 6;
                     Limits[typeof(Asteroid)] = 5;
                     Limits[typeof(Spacemine)] = 2;
                     break;
-                
-                //TODO: reduce the number of levels to 5
             }
         }
     }
@@ -180,5 +163,41 @@ namespace Space_Shooter
             else if (score > 100 && _stage == 1) _stage++;
             base.AddEnemies(score, enemies);
         } 
+    }
+    public class MineFieldMode : GameMode
+    {
+        public MineFieldMode() : base()
+        {
+            Limits[typeof(Asteroid)] = 10;
+            Limits[typeof(Spacemine)] = 4;
+        }
+    }
+    public class BossRunMode : GameMode
+    {
+        private int _stage = 0;
+        private Dictionary<Type, bool> _spawnList;
+        public BossRunMode() : base()
+        {
+            _spawnList = new Dictionary<Type, bool>()
+            {
+                {typeof(Phantom), false},
+                {typeof(Nightmare), false},
+            };
+        }
+        public override void AddEnemies(int score, List<Enemy> enemies)
+        {
+            if (_stage == 0 && !_spawnList[typeof(Nightmare)])
+            {
+                _spawnList[typeof(Nightmare)] = true;
+                _spawnList[typeof(Phantom)] = false;
+                enemies.Add(new Nightmare());   
+            } 
+            else if (_stage == 1 && !_spawnList[typeof(Phantom)])
+            {
+                _spawnList[typeof(Nightmare)] = false;
+                _spawnList[typeof(Phantom)] = true;
+                enemies.Add(new Phantom());
+            }
+        }
     }
 }
