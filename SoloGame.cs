@@ -31,11 +31,12 @@ namespace Space_Shooter
         }
         public void Update()
         {
-            Background.PlayMusic(); 
+            // Background.PlayMusic(); 
             Background.UpdateExplosions();
             HandleKeyboardInputs();
             UpdatePlayer();
             UpdateEnemies();
+            Console.WriteLine(_player.Health);
         }
         private void UpdatePlayer()
         {

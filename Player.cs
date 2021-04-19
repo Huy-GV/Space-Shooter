@@ -121,6 +121,7 @@ namespace Space_Shooter
             {
                 if (bullet.HitTarget(this))
                 {
+                    Console.WriteLine("got hit");
                     Health -= 10;
                     _damageExplosion = new Explosion(X, Y, Explosion.Type.Fire);
                     enemyBullets.Remove(bullet);

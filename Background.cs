@@ -16,8 +16,6 @@ namespace Space_Shooter
         private static SoundEffect _music = SplashKit.LoadSoundEffect("arcade", "arcade.mp3");
         private static Bitmap _background = SplashKit.LoadBitmap("space", "space.png");
         private static List<Explosion> _explosions = new List<Explosion>();
-        // public static double Score = 0;
-        // public static void GainScore(){ Score += 1/(double)60;}
         public static void DrawBackground()
         { 
             SplashKit.ClearScreen(Color.Black);

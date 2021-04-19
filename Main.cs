@@ -124,15 +124,16 @@ class Program
     {
         switch(option)
         {
-            case 1:
+            case 0:
                 Menu.ChangeScene(Menu.GameScene.MainMenu);
                 break;
+            default: break;
         }
     }
     static void Update()
     {
         SplashKit.ProcessEvents();
-        Background.PlayMusic();
+        // Background.PlayMusic();
         if (Menu.Scene == Menu.GameScene.GamePlay)
         {
             if (game.State == SoloGame.GameStates.PlayerAlive) game.Update();

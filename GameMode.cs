@@ -123,6 +123,8 @@ namespace Space_Shooter
                     Limits[typeof(Asteroid)] = 5;
                     Limits[typeof(Spacemine)] = 2;
                     break;
+                
+                //TODO: reduce the number of levels to 5
             }
         }
     }

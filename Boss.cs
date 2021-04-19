@@ -8,15 +8,8 @@ namespace Space_Shooter
     {
 
         ///TODO: the bullet property will return concatenated lists of bullets from the 4 guns
-        public List<Bullet> Bullets
-        {
-            get
-            {
-                var firstList = (_guns[0].Bullets).Concat(_guns[1].Bullets);
-                return (_guns[2].Bullets).Concat(firstList).ToList();
-            }
-        }
-        private List<GunSystem> _guns;
+        public List<Bullet> Bullets{get{ return _gun.Bullets;}}
+        private GunSystem _gun; 
         private int _speed;
         private int _health;
         public Nightmare()
@@ -25,14 +18,9 @@ namespace Space_Shooter
             Y = -20;
             XOffset = 75;
             YOffset = 50;
+            Damage = 10;
             Bitmap = SplashKit.LoadBitmap("Nightmare", "Alienships/Nightmare.png");
-            _guns = new List<GunSystem>
-            {
-                new GunSystem(Bullet.Direction.Down, 2, Bullet.Type.BlueLaser, false),
-                new GunSystem(Bullet.Direction.Down, 2, Bullet.Type.BlueLaser, false),
-                new GunSystem(Bullet.Direction.Down, 2, Bullet.Type.BlueLaser, false)
-            };
-
+            _gun = new GunSystem(Bullet.Direction.Down, 1.5, Bullet.Type.RedLaser, false);
             _speed = 5;
             _health = 100;
             _movePattern = new ZigzagMovement(_speed, X, Y);
@@ -51,22 +39,19 @@ namespace Space_Shooter
                 if (bullet.HitTarget(this))
                 {
                     bullets.Remove(bullet);
-                    _health -= 7;
+                    _health -= 10;
                 }
             }
         }
         private void UpdateGuns()
         {
-            for(int i = 0; i < 3; i++)
-            {
-                _guns[i].AutoFire((i-1) * 20 + X, Y);
-                _guns[i].Update();
-            }
+            _gun.AutoFire(X, Y);
+            _gun.Update();
         }
         public override void Draw()
         { 
             SplashKit.DrawBitmap(Bitmap, AdjustedX, AdjustedY); 
-            _guns.ForEach(gun => gun.DrawBullets());
+            _gun.DrawBullets();
         }
     }
 
@@ -75,7 +60,8 @@ namespace Space_Shooter
     public class Mothership : Enemy
     {
         private GunSystem _leftMiddleGun, _rightMiddleGun, _leftGun, _rightGun;
-        ///TODO: the bullet property will return concatenated lists of bullets from the 4 guns
+        ///TODO: create an image of triple bullet and put it in guns
+
         private List<GunSystem> _guns;
         private int _speed;
         private int _health;   

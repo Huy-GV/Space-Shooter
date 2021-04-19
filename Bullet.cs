@@ -9,7 +9,8 @@ namespace Space_Shooter
         {
             RedLaser,
             BlueLaser,
-            RedBeam
+            RedBeam,
+            TripleShot
         }
         public enum Direction
         {
@@ -17,6 +18,7 @@ namespace Space_Shooter
             Down = -1
         }
         private int _direction;
+        private int _speed;
         public Bullet(int x, int y, Direction direction, Type type, bool hasSound){
             if (hasSound) SplashKit.LoadSoundEffect("laserSound", "laser.mp3").Play();
             X = x;
@@ -29,23 +31,29 @@ namespace Space_Shooter
             switch(type)
             {
                 case Type.RedLaser:
-                    XOffset = 28;
-                    YOffset = 41;
+                    XOffset = 100;
+                    YOffset = 146;
                     Bitmap = SplashKit.LoadBitmap("RedLaser", "Bullets/RedLaser.png");
+                    _speed = 9;
                     break;
                 case Type.BlueLaser:
                     XOffset = 21;
                     YOffset = 30;
                     Bitmap = SplashKit.LoadBitmap("BlueLaser", "Bullets/BlueLaser.png");
+                    _speed = 7;
                     break;
                 case Type.RedBeam:
                     XOffset = 21;
                     YOffset = 30;
                     Bitmap = SplashKit.LoadBitmap("RedBeam", "Bullets/RedBeam.png");
-                    break;               
+                    _speed = 8;
+                    break;  
+                case Type.TripleShot:
+                    //TODO: create an image here for the second boss
+                break;             
             }
         }
-        private void Move() => Y -= 7 * _direction; 
+        private void Move() => Y -= _speed * _direction; 
         public override void Update() => Move(); 
         public bool HitTarget(GameObject gameObject)
         {

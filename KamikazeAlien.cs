@@ -4,14 +4,15 @@ using System.Collections.Generic;
 
 namespace Space_Shooter
 {
-    public class KamikazeAlien : Alienship
+    public class KamikazeAlien : Enemy
     {
         private DrawingOptions _option;
-        public KamikazeAlien(int lastEnemyX, int lastEnemyY) : base(lastEnemyX, lastEnemyY)
+        public KamikazeAlien(int lastEnemyX, int lastEnemyY) : base()
         {
+            X = (2 * SplashKit.Rnd(0, 6) + 1) * 50; 
+            Y = -50;
             Damage = 12;
             ExplosionType = Explosion.Type.Fire;
-            _gunSystem = new GunSystem(Bullet.Direction.Down, 4);
             _movePattern = new ChargingMovement(9, X, Y);
             SetAnimations();
         }
