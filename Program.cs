@@ -38,7 +38,7 @@ namespace Space_Shooter
             switch(Menu.Scene)
             {
                 case Menu.GameScene.MainMenu:
-                    Menu.DrawMainMenu(Difficulty.Index);
+                    Menu.DrawMainMenu();
                     Menu.DrawPlayerOption(spaceshipChoice);
                     break;
                 case Menu.GameScene.PauseMenu:

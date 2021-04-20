@@ -6,8 +6,6 @@ namespace Space_Shooter
 {
     public class Nightmare : Enemy, IHaveGun
     {
-
-        ///TODO: the bullet property will return concatenated lists of bullets from the 4 guns
         public List<Bullet> Bullets{get{ return _gun.Bullets;}}
         private GunSystem _gun; 
         private int _speed;
@@ -20,6 +18,7 @@ namespace Space_Shooter
             _gun = new GunSystem(Bullet.Direction.Down, 1.5, Bullet.Type.RedLaser, false);
             _speed = 5;
             _health = 100;
+            SetAnimation();
             _movePattern = new ZigzagMovement(_speed, X, Y);
         }
         private void SetAnimation()

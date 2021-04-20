@@ -23,7 +23,6 @@ namespace Space_Shooter
             _enemies = new List<Enemy>();
             _level = level;
             SetGameMode();
-            // Difficulty.SetEnemyLimitByLevel(level);
             State = GameStates.PlayerAlive;
             Console.WriteLine("level is {0}", _level);
         }
@@ -34,8 +33,8 @@ namespace Space_Shooter
             switch(_level)
             {
                 case 7: _mode = new SurvivalMode(); break;
-                case 6: _mode = new MineFieldMode(); break;
-                case 5: _mode = new BossRunMode(); break;
+                case 6: _mode = new BossRunMode(); break;
+                case 5: _mode = new MineFieldMode(); break;
                 default: _mode = new ByLevelMode(_level); break;
             }
         }
@@ -45,11 +44,11 @@ namespace Space_Shooter
             HandleKeyboardInputs();
             UpdatePlayer();
             UpdateEnemies();
-            Console.WriteLine(_player.Health);
         }
         private void UpdatePlayer()
         {
             _player.Update();
+            //TODO: modify this to make it appropriate for new modes
             if (_player.Score < 100 && _level < 7) _player.GainScore();
             else if (_level >= 7) _player.GainScore();
             if (_player.Health <= 0)

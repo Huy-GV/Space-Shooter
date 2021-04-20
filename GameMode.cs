@@ -40,7 +40,7 @@ namespace Space_Shooter
             foreach (var enemyType in _enemyAmountByClass.Keys)
             {
                 enemyTypeAmount = _enemyAmountByClass[enemyType];
-                if (SplashKit.Rnd(0, 70) == 0 && enemyTypeAmount < Difficulty.Limit[enemyType])
+                if (SplashKit.Rnd(0, 70) == 0 && enemyTypeAmount < Limits[enemyType])
                 {
                     if (enemyTypeAmount == 0) enemies.Add((Enemy)Activator.CreateInstance(enemyType));
                     else
@@ -73,15 +73,17 @@ namespace Space_Shooter
             else if (enemies.Count == 0 && !_bossSpawned)
             {
                 SpawnBoss(enemies);
+                Console.WriteLine("enemy type is {0}", enemies[0].GetType());
                 _bossSpawned = true;
             }
         }
         private void SpawnBoss(List<Enemy> enemies)
         {
+            Console.WriteLine("Boss for this level is {0}", _level);
             switch(_level)
             {
-                case 4: enemies.Add(new Nightmare()); break;
-                case 5: enemies.Add(new Phantom()); break;
+                case 3: enemies.Add(new Nightmare()); break;
+                case 4: enemies.Add(new Phantom()); break;
                 default: break;
             }
         }
@@ -121,7 +123,6 @@ namespace Space_Shooter
     public class SurvivalMode : GameMode
     {
         private int _stage;
-
         public SurvivalMode() : base()
         {
             _stage = 0;

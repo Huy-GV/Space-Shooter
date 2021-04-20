@@ -26,7 +26,7 @@ namespace Space_Shooter
             SplashKit.DrawText("You have completed level " + level , Color.Green, Global.MediumFont, 40, 150, 200);
             SplashKit.DrawText("Quit to Menu", Color.Red, Global.MediumFont, 40, 150, 300);
         }
-        public static void DrawMainMenu(int difficulty)
+        public static void DrawMainMenu()
         {
             SplashKit.DrawText("SPACE SHOOTER", Color.Yellow, Global.BigFont, 60, 100, 50);
             SplashKit.DrawText("Play", Color.White, Global.MediumFont, 40, 150, 200);
@@ -68,14 +68,16 @@ namespace Space_Shooter
         }
         public static void DrawLevels()
         {
-            for (int i = 1; i <= 6; i++)
+            for (int i = 1; i <= 4; i++)
             {
                 Color color;
                 if (Data.LevelIsComplete(i)) color = Color.Green;
                 else color = Color.White;
                 SplashKit.DrawText("Level " + i, color, Global.MediumFont, 40, 150, 100 * i);
             }
-            SplashKit.DrawText("Endless Flight", Color.Red, Global.MediumFont, 40, 150, 700);
+            SplashKit.DrawText("Endless Mine Field", Color.Red, Global.MediumFont, 40, 150, 500);
+            SplashKit.DrawText("Boss Run", Color.Red, Global.MediumFont, 40, 150, 600);
+            SplashKit.DrawText("Survival", Color.Red, Global.MediumFont, 40, 150, 700);
         }
 
         //TODO: write the logic for top right buttons
