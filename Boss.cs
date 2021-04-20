@@ -21,7 +21,7 @@ namespace Space_Shooter
             _speed = 5;
             _health = 100;
             SetAnimation();
-            _movePattern = new ZigzagMovement(_speed, X, Y, true);
+            _movePattern = new ZigzagMovement(_speed, _speed + 6, X, Y, true);
         }
         private void SetAnimation()
         {
@@ -93,7 +93,7 @@ namespace Space_Shooter
             _speed = 6;
             _health = 100;
             _isInvisible = false;
-            _movePattern = new ZigzagMovement(_speed, X, Y, true);
+            _movePattern = new ZigzagMovement(_speed, _speed, X, Y, true);
         }
         private void SetAnimation()
         {

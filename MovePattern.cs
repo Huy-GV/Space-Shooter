@@ -11,10 +11,12 @@ namespace Space_Shooter
         protected Point2D _position;
         public int UpdatedX { get{ return (int)_position.X;}}
         public int UpdatedY { get{ return (int)_position.Y;}}
-        public double Speed{get; protected set;}
-        public MovePattern(double speed, double x, double y)
+        public double HorizontalSpeed{get; protected set;}
+        public double VerticalSpeed{get; protected set;}
+        public MovePattern(double horizontalSpeed, double verticalSpeed, double x, double y)
         {
-            Speed = speed;
+            HorizontalSpeed = horizontalSpeed;
+            VerticalSpeed = verticalSpeed ;
             _position = new Point2D();
             _position.Y = y;
             _position.X = x;
@@ -26,14 +28,13 @@ namespace Space_Shooter
     public class HorizontalMovement : MovePattern
     {
         private int _verticalLimit, _horizontalSpeed;
-        public HorizontalMovement(int horizontalSpeed, int verticalSpeed, double x, double y) : base(verticalSpeed, x ,y) 
+        public HorizontalMovement(int horizontalSpeed, int verticalSpeed, double x, double y) : base(horizontalSpeed, verticalSpeed, x ,y) 
         { 
-            _horizontalSpeed = verticalSpeed;
             _verticalLimit = (Global.Width / 2) / (SplashKit.Rnd(4) + 1);
         }
         public override void Update()
         {
-            if (_position.Y < _verticalLimit) _position.Y += Speed;
+            if (_position.Y < _verticalLimit) _position.Y += VerticalSpeed;
             else
             {
                 _position.X += _direction * _horizontalSpeed;
@@ -43,10 +44,10 @@ namespace Space_Shooter
     }
     public class VerticalMovement : MovePattern
     {
-        public VerticalMovement(int speed, double x, double y) : base(speed, x, y) {}
+        public VerticalMovement(int verticalSpeed, double x, double y) : base(0, verticalSpeed, x, y) {}
         public override void Update()
         {
-            _position.Y += Speed;
+            _position.Y += VerticalSpeed;
         }
     }
 
@@ -55,8 +56,8 @@ namespace Space_Shooter
         private int _verticalLimit, _verticalDirection;
         private bool _firstCrossing;
         private bool _random;
-        public ZigzagMovement(int speed, double x, double y) : this(speed, x ,y, false) {}
-        public ZigzagMovement(int speed, double x, double y, bool random): base(speed, x, y)
+        public ZigzagMovement(int horizontalSpeed, int verticalSpeed, double x, double y) : this(horizontalSpeed,  verticalSpeed, x ,y, false) {}
+        public ZigzagMovement(int horizontalSpeed, int verticalSpeed, double x, double y, bool random): base(horizontalSpeed,  verticalSpeed, x, y)
         {
             _verticalDirection = 1;
             _verticalLimit = Global.Width / 2;
@@ -65,11 +66,11 @@ namespace Space_Shooter
         }
         public override void Update()
         {
-            _position.Y += Speed * _verticalDirection;
-            _position.X += _direction * Speed;
+            _position.Y += VerticalSpeed * _verticalDirection;
+            _position.X += _direction * HorizontalSpeed;
             if(_random && SplashKit.Rnd(0,70) == 0) {
-                Speed *= (SplashKit.Rnd(0,2) + 0.5);
-                Console.WriteLine("new speed is " + Speed);
+                HorizontalSpeed *= (SplashKit.Rnd(0,2) + 0.5);
+                Console.WriteLine("new hori speed is " + HorizontalSpeed);
             }
             if (_position.X >= Global.Width - 5 || _position.X <= 5) _direction *= -1;
             if (_position.Y >= _verticalLimit)
@@ -83,7 +84,7 @@ namespace Space_Shooter
     public class ChargingMovement : MovePattern
     {
         private Vector2D _pathVector;
-        public ChargingMovement(int speed, int x, int y) : base(speed,x , y)
+        public ChargingMovement(int speed, int x, int y) : base(speed, speed,x , y)
         {
             var randomX = SplashKit.Rnd(0, 6);
             var targetX = (2 * randomX + 1) * 50; 
@@ -96,8 +97,8 @@ namespace Space_Shooter
         }
         public override void Update()
         {
-            _position.X += _pathVector.X * Speed;
-            _position.Y += _pathVector.Y * Speed;
+            _position.X += _pathVector.X * VerticalSpeed;
+            _position.Y += _pathVector.Y * VerticalSpeed;
         }
         public double GetAngle(int x)
         {

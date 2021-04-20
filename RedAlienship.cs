@@ -13,7 +13,7 @@ namespace Space_Shooter
             SetAnimations();
             _gunSystem = new GunSystem(Bullet.Direction.Down, 2);
             
-            _movePattern = new ZigzagMovement(2, X, Y);
+            _movePattern = new ZigzagMovement(2,3, X, Y);
         }
         public RedAlienship() : this(Global.Width, Global.Height) { }
         private void SetAnimations()
