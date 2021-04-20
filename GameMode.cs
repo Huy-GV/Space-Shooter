@@ -26,13 +26,15 @@ namespace Space_Shooter
                 {typeof(Asteroid), 0},
                 {typeof(Spacemine), 0}
             };
-            _enemyAmountByClass = new Dictionary<Type, int>();
-            _enemyAmountByClass[typeof(Asteroid)] = 0;
-            _enemyAmountByClass[typeof(Spacemine)] = 0;
-            _enemyAmountByClass[typeof(BlueAlienship)] = 0;
-            _enemyAmountByClass[typeof(PurpleAlienship)] = 0;
-            _enemyAmountByClass[typeof(RedAlienship)] = 0;
-            _enemyAmountByClass[typeof(KamikazeAlien)] = 0;
+            _enemyAmountByClass = new Dictionary<Type, int>()
+            {
+                {typeof(BlueAlienship), 0},
+                {typeof(PurpleAlienship), 0},
+                {typeof(RedAlienship), 0},
+                {typeof(KamikazeAlien), 0},
+                {typeof(Asteroid), 0},
+                {typeof(Spacemine), 0}
+            };
         }
         public virtual void AddEnemies(int score, List<Enemy> enemies)
         {
@@ -62,7 +64,6 @@ namespace Space_Shooter
         public ByLevelMode(int level) : base()
         {
             _level = level;
-            Console.WriteLine("level is " + _level);
             _bossSpawned = false;
             SetEnemyLimitsByLevel();
         }
@@ -73,7 +74,6 @@ namespace Space_Shooter
             else if (enemies.Count == 0 && !_bossSpawned)
             {
                 SpawnBoss(enemies);
-                Console.WriteLine("enemy type is {0}", enemies[0].GetType());
                 _bossSpawned = true;
             }
         }
@@ -169,8 +169,8 @@ namespace Space_Shooter
     {
         public MineFieldMode() : base()
         {
-            Limits[typeof(Asteroid)] = 10;
-            Limits[typeof(Spacemine)] = 4;
+            Limits[typeof(Asteroid)] = 15;
+            Limits[typeof(Spacemine)] = 9;
         }
     }
     public class BossRunMode : GameMode

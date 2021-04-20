@@ -11,8 +11,8 @@ namespace Space_Shooter
         protected Point2D _position;
         public int UpdatedX { get{ return (int)_position.X;}}
         public int UpdatedY { get{ return (int)_position.Y;}}
-        public int Speed{get; protected set;}
-        public MovePattern(int speed, double x, double y)
+        public double Speed{get; protected set;}
+        public MovePattern(double speed, double x, double y)
         {
             Speed = speed;
             _position = new Point2D();
@@ -54,16 +54,23 @@ namespace Space_Shooter
     {
         private int _verticalLimit, _verticalDirection;
         private bool _firstCrossing;
-        public ZigzagMovement(int speed, double x, double y) : base(speed, x, y)
+        private bool _random;
+        public ZigzagMovement(int speed, double x, double y) : this(speed, x ,y, false) {}
+        public ZigzagMovement(int speed, double x, double y, bool random): base(speed, x, y)
         {
             _verticalDirection = 1;
             _verticalLimit = Global.Width / 2;
             _firstCrossing = true;
+            _random = random;
         }
         public override void Update()
         {
             _position.Y += Speed * _verticalDirection;
             _position.X += _direction * Speed;
+            if(_random && SplashKit.Rnd(0,70) == 0) {
+                Speed *= (SplashKit.Rnd(0,2) + 0.5);
+                Console.WriteLine("new speed is " + Speed);
+            }
             if (_position.X >= Global.Width - 5 || _position.X <= 5) _direction *= -1;
             if (_position.Y >= _verticalLimit)
             {

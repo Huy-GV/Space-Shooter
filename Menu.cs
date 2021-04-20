@@ -75,8 +75,8 @@ namespace Space_Shooter
                 else color = Color.White;
                 SplashKit.DrawText("Level " + i, color, Global.MediumFont, 40, 150, 100 * i);
             }
-            SplashKit.DrawText("Endless Mine Field", Color.Red, Global.MediumFont, 40, 150, 500);
-            SplashKit.DrawText("Boss Run", Color.Red, Global.MediumFont, 40, 150, 600);
+            SplashKit.DrawText("Endless Mine Field", Color.Orange, Global.MediumFont, 40, 150, 500);
+            SplashKit.DrawText("Boss Run", Color.Orange, Global.MediumFont, 40, 150, 600);
             SplashKit.DrawText("Survival", Color.Red, Global.MediumFont, 40, 150, 700);
         }
 

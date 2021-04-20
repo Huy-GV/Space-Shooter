@@ -116,7 +116,6 @@ namespace Space_Shooter
         static void ProcessGameLevel(int option)
         {
             level = option;
-            Console.WriteLine("level is " + level);
             Menu.ChangeScene(Menu.GameScene.MainMenu);
         }
         static void ProcessGameOver(int option)

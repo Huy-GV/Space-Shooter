@@ -9,6 +9,8 @@ namespace Space_Shooter
         public List<Bullet> Bullets{get{ return _gun.Bullets;}}
         private GunSystem _gun; 
         private int _speed;
+        private double _time;
+        private double _movePatternDuration;
         private int _health;
         public Nightmare()
         {
@@ -19,7 +21,7 @@ namespace Space_Shooter
             _speed = 5;
             _health = 100;
             SetAnimation();
-            _movePattern = new ZigzagMovement(_speed, X, Y);
+            _movePattern = new ZigzagMovement(_speed, X, Y, true);
         }
         private void SetAnimation()
         {
@@ -57,6 +59,16 @@ namespace Space_Shooter
             SplashKit.DrawBitmap(Bitmap, AdjustedX, AdjustedY); 
             _gun.DrawBullets();
         }
+        private void ChangeMovePattern()
+        {
+            _time += 1/(double)60;
+            if (_time >= _movePatternDuration)
+            {
+                _time = 0;
+                _movePatternDuration = SplashKit.Rnd(0, 4) + 4;
+                _movePattern = new HorizontalMovement(2, 3, X, Y);
+            }
+        }
     }
 
     public class Phantom : Enemy, IHaveGun
@@ -81,7 +93,7 @@ namespace Space_Shooter
             _speed = 6;
             _health = 100;
             _isInvisible = false;
-            _movePattern = new ZigzagMovement(_speed, X, Y);
+            _movePattern = new ZigzagMovement(_speed, X, Y, true);
         }
         private void SetAnimation()
         {

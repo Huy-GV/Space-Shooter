@@ -24,12 +24,9 @@ namespace Space_Shooter
             _level = level;
             SetGameMode();
             State = GameStates.PlayerAlive;
-            Console.WriteLine("level is {0}", _level);
         }
         private void SetGameMode()
         {
-            if (_level == 7) _mode = new SurvivalMode();
-            else _mode = new ByLevelMode(_level);
             switch(_level)
             {
                 case 7: _mode = new SurvivalMode(); break;
@@ -37,6 +34,8 @@ namespace Space_Shooter
                 case 5: _mode = new MineFieldMode(); break;
                 default: _mode = new ByLevelMode(_level); break;
             }
+            Console.WriteLine("mode is " + _mode);
+            Console.WriteLine("level is " + _level);
         }
         public void Update()
         {
