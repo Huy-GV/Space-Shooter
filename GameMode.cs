@@ -14,6 +14,7 @@ namespace Space_Shooter
         }
         public Dictionary<Type, int> Limits;
         public Modes Mode{get; private set;}
+        public int SpawnRate{get; protected set;}
         protected Dictionary<Type, int> _enemyAmountByClass;
         public GameMode()
         {
@@ -35,16 +36,21 @@ namespace Space_Shooter
                 {typeof(Asteroid), 0},
                 {typeof(Spacemine), 0}
             };
+            SpawnRate = 70;
+        }
+        protected bool TimeToSpawn()
+        {
+            return SplashKit.Rnd(0, SpawnRate) == 0;
         }
         public virtual void AddEnemies(int score, List<Enemy> enemies)
         {
-            int enemyTypeAmount;
+            int enemyAmount;
             foreach (var enemyType in _enemyAmountByClass.Keys)
             {
-                enemyTypeAmount = _enemyAmountByClass[enemyType];
-                if (SplashKit.Rnd(0, 70) == 0 && enemyTypeAmount < Limits[enemyType])
+                enemyAmount = _enemyAmountByClass[enemyType];
+                if (TimeToSpawn() && enemyAmount < Limits[enemyType])
                 {
-                    if (enemyTypeAmount == 0) enemies.Add((Enemy)Activator.CreateInstance(enemyType));
+                    if (enemyAmount == 0) enemies.Add((Enemy)Activator.CreateInstance(enemyType));
                     else
                     {
                         var lastEnemy = enemies[enemies.Count - 1];
@@ -53,6 +59,8 @@ namespace Space_Shooter
                     }
                     UpdateEnemyAmount(enemyType, 1);
                 }
+
+                Console.WriteLine("Asteroid amount is "+ _enemyAmountByClass[typeof(Asteroid)]);
             }
         }
         public void UpdateEnemyAmount(Type type, int increment) => _enemyAmountByClass[type] += increment;
@@ -70,7 +78,6 @@ namespace Space_Shooter
         public override void AddEnemies(int score, List<Enemy> enemies)
         {
             if (score < 10 ) base.AddEnemies(score, enemies);
-            //TODO: modify so that the correct boss is added
             else if (enemies.Count == 0 && !_bossSpawned)
             {
                 SpawnBoss(enemies);
@@ -133,6 +140,7 @@ namespace Space_Shooter
             switch(_stage)
             {
                 case 2: 
+                    SpawnRate = SplashKit.Rnd(0,70);
                     Limits[typeof(BlueAlienship)] = 5;
                     Limits[typeof(PurpleAlienship)] = 3;
                     Limits[typeof(RedAlienship)] = 2;
@@ -141,6 +149,7 @@ namespace Space_Shooter
                     Limits[typeof(Spacemine)] = 3;
                     break;
                 case 0:
+                    SpawnRate = SplashKit.Rnd(0,80);                
                     Limits[typeof(BlueAlienship)] = 3;
                     Limits[typeof(PurpleAlienship)] = 2;
                     Limits[typeof(RedAlienship)] = 1;
@@ -149,6 +158,7 @@ namespace Space_Shooter
                     Limits[typeof(Spacemine)] = 1;
                     break;
                 default:
+                    SpawnRate = SplashKit.Rnd(0,65);
                     Limits[typeof(BlueAlienship)] = 4;
                     Limits[typeof(PurpleAlienship)] = 3;
                     Limits[typeof(RedAlienship)] = 2;
@@ -167,10 +177,12 @@ namespace Space_Shooter
     }
     public class MineFieldMode : GameMode
     {
-        public MineFieldMode() : base()
+        public MineFieldMode(int spawnRate) : base()
         {
             Limits[typeof(Asteroid)] = 15;
             Limits[typeof(Spacemine)] = 9;
+            SpawnRate = spawnRate;
+
         }
     }
     public class BossRunMode : GameMode

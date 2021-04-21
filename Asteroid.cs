@@ -19,17 +19,9 @@ namespace Space_Shooter
         public Asteroid() : this(Global.Width, Global.Height){}
         public void SetCoordinates(int lastAsteroidX, int lastAsteroidY)
         {
-            if (lastAsteroidY >= 90)
-            {
-                X = (2 * SplashKit.Rnd(0, 6) + 1) * 50; 
-                Y = -45;
-            } else
-            {
-                X = (2 * SplashKit.Rnd(0, 6) + 1) * 50;
-                Y = lastAsteroidY - 90;
-            }
+            X = (2 * SplashKit.Rnd(0, 6) + 1) * 50;
+            Y = (lastAsteroidY > 50) ? -10 : -90;
         }
-        private void Move() => Y += 4; 
         public override void Update()
         {
             _movePattern.Update();

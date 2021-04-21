@@ -27,7 +27,7 @@ namespace Space_Shooter
     }
     public class HorizontalMovement : MovePattern
     {
-        private int _verticalLimit, _horizontalSpeed;
+        private int _verticalLimit;
         public HorizontalMovement(int horizontalSpeed, int verticalSpeed, double x, double y) : base(horizontalSpeed, verticalSpeed, x ,y) 
         { 
             _verticalLimit = (Global.Width / 2) / (SplashKit.Rnd(4) + 1);
@@ -37,7 +37,7 @@ namespace Space_Shooter
             if (_position.Y < _verticalLimit) _position.Y += VerticalSpeed;
             else
             {
-                _position.X += _direction * _horizontalSpeed;
+                _position.X += _direction * HorizontalSpeed;
                 if (_position.X >= Global.Width - 5 || _position.X <= 5) _direction *= -1;
             }
         }
@@ -53,33 +53,42 @@ namespace Space_Shooter
 
     public class ZigzagMovement : MovePattern
     {
-        private int _verticalLimit, _verticalDirection;
+        private int _heightLimit, _verticalDirection, _horizontalDirection;
         private bool _firstCrossing;
         private bool _random;
         public ZigzagMovement(int horizontalSpeed, int verticalSpeed, double x, double y) : this(horizontalSpeed,  verticalSpeed, x ,y, false) {}
         public ZigzagMovement(int horizontalSpeed, int verticalSpeed, double x, double y, bool random): base(horizontalSpeed,  verticalSpeed, x, y)
         {
             _verticalDirection = 1;
-            _verticalLimit = Global.Width / 2;
-            _firstCrossing = true;
+            _horizontalDirection = 1;
+            _heightLimit = Global.Width / 2;
+            //if it enters the game window for the first time, it wont reverse its vertical direction
+            _firstCrossing = _position.Y <= 0 ? true : false;
             _random = random;
         }
         public override void Update()
         {
             _position.Y += VerticalSpeed * _verticalDirection;
-            _position.X += _direction * HorizontalSpeed;
-            if(_random && SplashKit.Rnd(0,70) == 0) {
-                HorizontalSpeed *= (SplashKit.Rnd(0,2) + 0.5);
-                Console.WriteLine("new hori speed is " + HorizontalSpeed);
-            }
-            if (_position.X >= Global.Width - 5 || _position.X <= 5) _direction *= -1;
-            if (_position.Y >= _verticalLimit)
+            _position.X += HorizontalSpeed * _horizontalDirection;
+            RandomizeSpeed();
+            if (_position.X >= Global.Width - 5 || _position.X <= 5) _horizontalDirection *= -1;
+            if (_position.Y > _heightLimit)
             {
                 if (_firstCrossing) _firstCrossing = false;
                 _verticalDirection *= -1;
             } else if (_position.Y <= 0 && !_firstCrossing) _verticalDirection *= -1;
         }   
+        private void RandomizeSpeed()
+        {
+            if(_random && SplashKit.Rnd(0,70) == 0) 
+            {
+                var temp = HorizontalSpeed;
+                HorizontalSpeed += VerticalSpeed;
+                VerticalSpeed += temp;
+            }
+        }
     }
+
 
     public class ChargingMovement : MovePattern
     {
@@ -109,6 +118,4 @@ namespace Space_Shooter
             return angle;
         }
     }
-
-    //TODO: make a more randomized zig zag, may be a bool field as a flag?
 }

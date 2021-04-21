@@ -25,7 +25,7 @@ namespace Space_Shooter
             if (lastSpacemineY >= 120)
             {
                 X = (2 * randomX + 1) * 100; 
-                Y = -120;
+                Y = -140;
             } else
             {
                 X = (2 * SplashKit.Rnd(0,3) + 1) * 100;

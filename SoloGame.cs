@@ -15,7 +15,7 @@ namespace Space_Shooter
         private int _level;
         private Player _player;
         private List<Enemy> _enemies;
-        private GameMode _mode;
+        private GameMode _gameMode;
         public GameStates State{get; private set;}
         public SoloGame(int level , int spaceshipChoice)
         {
@@ -29,12 +29,12 @@ namespace Space_Shooter
         {
             switch(_level)
             {
-                case 7: _mode = new SurvivalMode(); break;
-                case 6: _mode = new BossRunMode(); break;
-                case 5: _mode = new MineFieldMode(); break;
-                default: _mode = new ByLevelMode(_level); break;
+                case 7: _gameMode = new SurvivalMode(); break;
+                case 6: _gameMode = new BossRunMode(); break;
+                case 5: _gameMode = new MineFieldMode(10); break;
+                default: _gameMode = new ByLevelMode(_level); break;
             }
-            Console.WriteLine("mode is " + _mode);
+            Console.WriteLine("mode is " + _gameMode);
             Console.WriteLine("level is " + _level);
         }
         public void Update()
@@ -75,7 +75,7 @@ namespace Space_Shooter
         private void DrawEnemies() => _enemies.ForEach(enemy => enemy.Draw());
         private void UpdateEnemies()
         {
-            _mode.AddEnemies((int)_player.Score, _enemies);
+            _gameMode.AddEnemies((int)_player.Score, _enemies);
             foreach(Enemy enemy in _enemies.ToArray())
             {
                 enemy.Update();
@@ -84,7 +84,7 @@ namespace Space_Shooter
                 {
                     if (enemy.IsDestroyed) Background.CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType);
                     _enemies.Remove(enemy);
-                    _mode.UpdateEnemyAmount(enemy.GetType(), -1);                   
+                    _gameMode.UpdateEnemyAmount(enemy.GetType(), -1);                   
                 }
                 if (_player.CollideWith(enemy))
                 { 

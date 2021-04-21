@@ -21,7 +21,7 @@ namespace Space_Shooter
             _speed = 5;
             _health = 100;
             SetAnimation();
-            _movePattern = new ZigzagMovement(_speed, _speed + 6, X, Y, true);
+            _movePattern = new ZigzagMovement(_speed, _speed - 2, X, Y, true);
         }
         private void SetAnimation()
         {
@@ -33,8 +33,8 @@ namespace Space_Shooter
         public override void Update()
         {
             UpdateGuns();
+            ChangeMovePattern();
             _movePattern.Update();
-            //TODO: MAKE THE ZIG ZAG MOVEMENT MORE RANDOM
             X = _movePattern.UpdatedX;
             Y = _movePattern.UpdatedY;
         }
@@ -65,8 +65,16 @@ namespace Space_Shooter
             if (_time >= _movePatternDuration)
             {
                 _time = 0;
-                _movePatternDuration = SplashKit.Rnd(0, 4) + 4;
-                _movePattern = new HorizontalMovement(2, 3, X, Y);
+                _movePatternDuration = 4;
+                if (_movePattern.GetType() == typeof(HorizontalMovement))
+                {
+                    Console.WriteLine("hori to zig zag ");
+                    _movePattern = new ZigzagMovement(_speed - 1, _speed - 2, X, Y);
+                } else if (Y < Global.Height / 2)
+                {
+                    Console.WriteLine("zig zag to hori ");
+                    _movePattern = new HorizontalMovement(_speed - 2, _speed - 3, X, Y);
+                }
             }
         }
     }
@@ -77,7 +85,7 @@ namespace Space_Shooter
         private GunSystem _gun;
         private int _speed;
         private int _health;   
-        private double _invisibleTime;
+        private double _invisibleDuration;
         private double _time;
         private bool _isInvisible;
         private Animation _animation;
@@ -90,9 +98,10 @@ namespace Space_Shooter
             Damage = 15;
             SetAnimation();
             _gun = new GunSystem(Bullet.Direction.Down, 1.2, Bullet.Type.TripleLaser, false);
-            _speed = 6;
+            _speed = 4;
             _health = 100;
             _isInvisible = false;
+            _invisibleDuration = 3;
             _movePattern = new ZigzagMovement(_speed, _speed, X, Y, true);
         }
         private void SetAnimation()
@@ -118,10 +127,10 @@ namespace Space_Shooter
         private void UpdateVisibility()
         {
             _time += 1/(double)60;
-            if (_time >= _invisibleTime)
+            if (_time >= _invisibleDuration)
             {
                 _time = 0;
-                _invisibleTime = SplashKit.Rnd(0, 4) + 3;
+                _invisibleDuration = SplashKit.Rnd(3, 5);
                 _isInvisible = !_isInvisible;
             }
         }
@@ -142,4 +151,6 @@ namespace Space_Shooter
             }
         }
     }
+
+    //TODO: WRITE AN ABSTRACT CLASS FOR BOSSES
 }
