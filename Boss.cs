@@ -17,7 +17,7 @@ namespace Space_Shooter
             X = Global.Width / 2;
             Y = -20;
             Damage = 12;
-            _gun = new GunSystem(Bullet.Direction.Down, 1.5, Bullet.Type.RedLaser, false);
+            _gun = new GunSystem(Bullet.Direction.Down, 1.2, Bullet.Type.RedLaser, false);
             _speed = 5;
             _health = 100;
             SetAnimation();
@@ -68,11 +68,9 @@ namespace Space_Shooter
                 _movePatternDuration = 4;
                 if (_movePattern.GetType() == typeof(HorizontalMovement))
                 {
-                    Console.WriteLine("hori to zig zag ");
                     _movePattern = new ZigzagMovement(_speed - 1, _speed - 2, X, Y);
                 } else if (Y < Global.Height / 2)
                 {
-                    Console.WriteLine("zig zag to hori ");
                     _movePattern = new HorizontalMovement(_speed - 2, _speed - 3, X, Y);
                 }
             }
@@ -97,7 +95,7 @@ namespace Space_Shooter
             Y = -20;
             Damage = 15;
             SetAnimation();
-            _gun = new GunSystem(Bullet.Direction.Down, 1.2, Bullet.Type.TripleLaser, false);
+            _gun = new GunSystem(Bullet.Direction.Down, 1, Bullet.Type.TripleLaser, false);
             _speed = 4;
             _health = 100;
             _isInvisible = false;

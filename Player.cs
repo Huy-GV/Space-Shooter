@@ -20,6 +20,7 @@ namespace Space_Shooter
         private DrawingOptions _option;
         private AnimationScript _flyScript;
         private Explosion _damageExplosion;
+        private int _speed;
         public double Score{get; private set;}
         private SoundEffect _laserSound = SplashKit.LoadSoundEffect("laserSound", "laser.mp3");
         public Player(int option){
@@ -54,6 +55,7 @@ namespace Space_Shooter
             _animation = _flyScript.CreateAnimation("flying");
             _option = SplashKit.OptionWithAnimation(_animation);
             _gun = new GunSystem(Bullet.Direction.Up, 1.25, Bullet.Type.RedBeam, true);
+            _speed = 4;
         }
         private void SetAgileShip()
         {  
@@ -64,6 +66,7 @@ namespace Space_Shooter
             _animation = _flyScript.CreateAnimation("flying");
             _option = SplashKit.OptionWithAnimation(_animation);
             _gun = new GunSystem(Bullet.Direction.Up, 1, Bullet.Type.RedBeam, true);
+            _speed = 5;
         }
         private void SetArmouredShip()
         {
@@ -74,6 +77,7 @@ namespace Space_Shooter
             _animation = _flyScript.CreateAnimation("flying");
             _option = SplashKit.OptionWithAnimation(_animation);
             _gun = new GunSystem(Bullet.Direction.Up, 1.5, Bullet.Type.RedBeam, true);
+            _speed = 3;
         }
         public override void Draw()
         { 

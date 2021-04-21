@@ -59,8 +59,6 @@ namespace Space_Shooter
                     }
                     UpdateEnemyAmount(enemyType, 1);
                 }
-
-                Console.WriteLine("Asteroid amount is "+ _enemyAmountByClass[typeof(Asteroid)]);
             }
         }
         public void UpdateEnemyAmount(Type type, int increment) => _enemyAmountByClass[type] += increment;

@@ -83,8 +83,8 @@ namespace Space_Shooter
             if(_random && SplashKit.Rnd(0,70) == 0) 
             {
                 var temp = HorizontalSpeed;
-                HorizontalSpeed += VerticalSpeed;
-                VerticalSpeed += temp;
+                HorizontalSpeed = VerticalSpeed;
+                VerticalSpeed = temp;
             }
         }
     }
