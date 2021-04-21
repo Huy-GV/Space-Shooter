@@ -4,14 +4,34 @@ using SplashKitSDK;
 using System.Linq;
 namespace Space_Shooter
 {
-    public class Nightmare : Enemy, IHaveGun
+    public abstract class Boss : Enemy, IHaveGun
     {
         public List<Bullet> Bullets{get{ return _gun.Bullets;}}
-        private GunSystem _gun; 
-        private int _speed;
+        protected GunSystem _gun;   
+        public int Damage{get; protected set;}
+        protected int _health;
+        protected int _speed;
+        public Boss()
+        {
+            X = Global.Width / 2;
+            Y = -21;
+        }
+        public override void CheckPlayerBullets(List<Bullet> bullets)
+        {
+            foreach(var bullet in bullets.ToArray())
+            {
+                if (bullet.HitTarget(this))
+                {
+                    bullets.Remove(bullet);
+                    _health -= 10;
+                }
+            }
+        }
+    }
+    public class Nightmare : Boss
+    { 
         private double _time;
         private double _movePatternDuration;
-        private int _health;
         public Nightmare()
         {
             X = Global.Width / 2;
@@ -37,17 +57,6 @@ namespace Space_Shooter
             _movePattern.Update();
             X = _movePattern.UpdatedX;
             Y = _movePattern.UpdatedY;
-        }
-        public override void CheckPlayerBullets(List<Bullet> bullets)
-        {
-            foreach(var bullet in bullets.ToArray())
-            {
-                if (bullet.HitTarget(this))
-                {
-                    bullets.Remove(bullet);
-                    _health -= 10;
-                }
-            }
         }
         private void UpdateGuns()
         {
@@ -77,12 +86,8 @@ namespace Space_Shooter
         }
     }
 
-    public class Phantom : Enemy, IHaveGun
+    public class Phantom : Boss
     {
-        public List<Bullet> Bullets{get{ return _gun.Bullets;}}
-        private GunSystem _gun;
-        private int _speed;
-        private int _health;   
         private double _invisibleDuration;
         private double _time;
         private bool _isInvisible;
@@ -91,8 +96,6 @@ namespace Space_Shooter
         private AnimationScript _flyScript;
         public Phantom()
         {
-            X = Global.Width / 2;
-            Y = -20;
             Damage = 15;
             SetAnimation();
             _gun = new GunSystem(Bullet.Direction.Down, 1, Bullet.Type.TripleLaser, false);
@@ -137,18 +140,5 @@ namespace Space_Shooter
             if (!_isInvisible) SplashKit.DrawBitmap(Bitmap, AdjustedX, AdjustedY, _option); 
             _gun.DrawBullets();
         }
-        public override void CheckPlayerBullets(List<Bullet> bullets)
-        {
-            foreach(var bullet in bullets.ToArray())
-            {
-                if (bullet.HitTarget(this))
-                {
-                    bullets.Remove(bullet);
-                    _health -= 7;
-                }
-            }
-        }
     }
-
-    //TODO: WRITE AN ABSTRACT CLASS FOR BOSSES
 }

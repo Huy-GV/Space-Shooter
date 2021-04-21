@@ -11,7 +11,7 @@ namespace Space_Shooter
         {
             X = (2 * SplashKit.Rnd(0, 6) + 1) * 50; 
             Y = -50;
-            Damage = 12;
+            CollisionDamage = 13;
             ExplosionType = Explosion.Type.Fire;
             _movePattern = new ChargingMovement(9, X, Y);
             SetAnimations();

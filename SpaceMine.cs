@@ -11,10 +11,10 @@ namespace Space_Shooter
         private AnimationScript _flyScript;
         public Spacemine(int lastSpacemineX, int lastSpacemineY): base()
         {
-            Damage = 15;
             XOffset = 60;
             YOffset = 60;
             ExplosionType = Explosion.Type.Default;
+            CollisionDamage = 16;
             SetAnimations();
             SetCoordinates(lastSpacemineX, lastSpacemineY);
             _movePattern = new VerticalMovement(3, X, Y);

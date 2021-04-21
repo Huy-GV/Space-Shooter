@@ -118,14 +118,13 @@ namespace Space_Shooter
             }
         }
         public void LoseHealth(int damage) => Health -= damage;
-        public void CheckEnemyBullets(List<Bullet> enemyBullets)
+        public void CheckEnemyBullets(List<Bullet> enemyBullets, int enemyDamage)
         {
             foreach(var bullet in enemyBullets.ToArray())
             {
                 if (bullet.HitTarget(this))
                 {
-                    Console.WriteLine("got hit");
-                    Health -= 10;
+                    Health -= enemyDamage;
                     _damageExplosion = new Explosion(X, Y, Explosion.Type.Fire);
                     enemyBullets.Remove(bullet);
                 }

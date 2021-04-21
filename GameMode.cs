@@ -6,14 +6,7 @@ namespace Space_Shooter
 {
     public abstract class GameMode
     {
-        public enum Modes
-        {
-            ByLevels,
-            Survival,
-            BossRun
-        }
         public Dictionary<Type, int> Limits;
-        public Modes Mode{get; private set;}
         public int SpawnRate{get; protected set;}
         protected Dictionary<Type, int> _enemyAmountByClass;
         public GameMode()

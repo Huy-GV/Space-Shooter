@@ -4,7 +4,7 @@ namespace Space_Shooter{
     {
         protected MovePattern _movePattern;
         public Explosion.Type ExplosionType{get; protected set;}  
-        public int Damage{get; protected set;}
+        public int CollisionDamage{get; protected set;}
         public bool IsDestroyed{get; protected set;}
         public void GetDestroyed() => IsDestroyed = true;
         public virtual void CheckPlayerBullets(List<Bullet> bullets)
@@ -21,6 +21,7 @@ namespace Space_Shooter{
         public Enemy()
         {
             IsDestroyed = false;
+            CollisionDamage = 10;
         }
     }
 }

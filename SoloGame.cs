@@ -89,9 +89,9 @@ namespace Space_Shooter
                 if (_player.CollideWith(enemy))
                 { 
                     enemy.GetDestroyed();
-                    _player.LoseHealth(enemy.Damage);
+                    _player.LoseHealth(10);
                 }
-                if (enemy is IHaveGun) _player.CheckEnemyBullets(((IHaveGun)enemy).Bullets);   
+                if (enemy is IHaveGun) _player.CheckEnemyBullets(((IHaveGun)enemy).Bullets, ((IHaveGun)enemy).Damage);   
             }
         }
     }

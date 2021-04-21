@@ -12,7 +12,6 @@ namespace Space_Shooter
             _movePattern = new VerticalMovement(4, X, Y);
             XOffset = 45;
             YOffset = 45;
-            Damage = 4;
             ExplosionType = Explosion.Type.Fire;
             Bitmap = (SplashKit.Rnd(0, 2) == 0) ? SplashKit.LoadBitmap("asteroid1", "Asteroids/grayAsteroid.png") : SplashKit.LoadBitmap("asteroid2", "Asteroids/brownAsteroid.png");
         }
