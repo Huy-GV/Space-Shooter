@@ -45,13 +45,16 @@ namespace Space_Shooter
                     Menu.DrawPauseMenu();
                     break;
                 case Menu.GameScene.GameOver:
-                    Menu.DrawGameOver();
+                    Menu.DrawGameOver("Defeated");
                     break;
                 case Menu.GameScene.GameLevel:
                     Menu.DrawLevels();
                     break;
                 case Menu.GameScene.GamePlay:
                     game.Draw();
+                    break;
+                case Menu.GameScene.LevelCompleted:
+                    Menu.DrawGameOver("Level Passed");
                     break;
             }
             SplashKit.RefreshScreen(60);
@@ -76,6 +79,9 @@ namespace Space_Shooter
                         break;
                     case Menu.GameScene.GameLevel:
                         ProcessGameLevel(option);
+                        break;
+                    case Menu.GameScene.LevelCompleted:
+                        ProcessGameOver(option);
                         break;
                     default: break;
                 }
@@ -134,8 +140,18 @@ namespace Space_Shooter
             Background.PlayMusic();
             if (Menu.Scene == Menu.GameScene.GamePlay)
             {
-                if (game.State == SoloGame.GameStates.PlayerAlive) game.Update();
-                else Menu.ChangeScene(Menu.GameScene.GameOver); //TODO: FIX THIS TO DISPLAY APPROPRIATE MESSAGE
+                switch(game.State)
+                {
+                    case SoloGame.GameStates.PlayerAlive: 
+                        game.Update(); 
+                        break;
+                    case SoloGame.GameStates.LevelCompleted: 
+                        Menu.ChangeScene(Menu.GameScene.LevelCompleted); 
+                        break;
+                    case SoloGame.GameStates.PlayerDefeated: 
+                        Menu.ChangeScene(Menu.GameScene.GameOver); 
+                        break;
+                }
             }
         }
         static void UpdatePlayerChoice(){ spaceshipChoice = spaceshipChoice == 2 ? 0 :spaceshipChoice + 1; }

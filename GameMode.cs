@@ -87,6 +87,8 @@ namespace Space_Shooter
         }
         private void SetEnemyLimitsByLevel()
         {
+            if (_level < 1) _level = 1;
+            if (_level > 7) _level = 7;
             switch(_level)
             {
                 case 1:
@@ -94,6 +96,11 @@ namespace Space_Shooter
                     Limits[typeof(RedAlienship)] = 2;
                     Limits[typeof(Asteroid)] = 5;
                     Limits[typeof(Spacemine)] = 1;
+                    break;
+                case 2:
+                    Limits[typeof(PurpleAlienship)] = 6;
+                    Limits[typeof(Asteroid)] = 5;
+                    Limits[typeof(Spacemine)] = 2;
                     break;
                 case 3:
                     Limits[typeof(BlueAlienship)] = 3;
@@ -108,12 +115,6 @@ namespace Space_Shooter
                     Limits[typeof(KamikazeAlien)] = 3;
                     Limits[typeof(Asteroid)] = 5;
                     Limits[typeof(Spacemine)] = 3; 
-                    break;
-                default: //TODO: find a way to avoid default
-                //level 2
-                    Limits[typeof(PurpleAlienship)] = 6;
-                    Limits[typeof(Asteroid)] = 5;
-                    Limits[typeof(Spacemine)] = 2;
                     break;
             }
         }
@@ -170,8 +171,8 @@ namespace Space_Shooter
     {
         public MineFieldMode(int spawnRate) : base()
         {
-            Limits[typeof(Asteroid)] = 15;
-            Limits[typeof(Spacemine)] = 9;
+            Limits[typeof(Asteroid)] = 13;
+            Limits[typeof(Spacemine)] = 6;
             SpawnRate = spawnRate;
 
         }

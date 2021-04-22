@@ -16,7 +16,7 @@ namespace Space_Shooter
             GamePlay,
             GameLevel,
             GameOver,
-            LevelFinished,
+            LevelCompleted,
         }
         public static GameScene Scene = GameScene.MainMenu;
         public static void ChangeScene(GameScene newScene) => Scene = newScene;
@@ -38,10 +38,9 @@ namespace Space_Shooter
             SplashKit.DrawText("Resume", Color.Green, Global.MediumFont, 40, 150, 200);
             SplashKit.DrawText("Quit to Menu", Color.Red, Global.MediumFont, 40, 150, 300);
         }
-        public static void DrawGameOver()
+        public static void DrawGameOver(string message)
         {
-            SplashKit.DrawText("GAME OVER", Color.Yellow, Global.BigFont, 60, 150, 50);
-            //TODO: DRAW PLAYER SCORE HERE AND CHANGE THE MOUSE CLICK POSITION        
+            SplashKit.DrawText(message.ToUpper(), Color.Yellow, Global.BigFont, 60, 150, 50);      
             SplashKit.DrawText("Quit to Menu", Color.Red, Global.MediumFont, 40, 150, 200);
         }
         public static void DrawPauseButton(){ SplashKit.DrawText("Pause", Color.Red, Global.SmallFont, 24, 500, 40);}

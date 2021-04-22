@@ -8,7 +8,6 @@ namespace Space_Shooter
     {
         public PurpleAlienship(int lastEnemyX, int lastEnemyY) : base(lastEnemyX, lastEnemyY)
         {
-            Damage = 4;
             ExplosionType = Explosion.Type.Fire;
             SetAnimations();
             _gunSystem = new GunSystem(Bullet.Direction.Down, 3);

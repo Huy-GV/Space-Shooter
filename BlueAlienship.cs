@@ -8,7 +8,6 @@ namespace Space_Shooter
     {
         public BlueAlienship(int lastEnemyX, int lastEnemyY) : base(lastEnemyX, lastEnemyY)
         {
-            Damage = 5;
             ExplosionType = Explosion.Type.Fire;
             SetAnimations();
             _gunSystem = new GunSystem(Bullet.Direction.Down, 3);

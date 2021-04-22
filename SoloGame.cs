@@ -9,8 +9,8 @@ namespace Space_Shooter
         public enum GameStates
         {
             LevelCompleted,
-            PlayerDestroyed,
-            PlayerAlive
+            PlayerAlive,
+            PlayerDefeated
         }
         private int _level;
         private Player _player;
@@ -53,7 +53,7 @@ namespace Space_Shooter
             if (_player.Health <= 0)
             {
                 _enemies.Clear();
-                State = GameStates.PlayerDestroyed;
+                State = GameStates.PlayerDefeated;
             } 
 
         }
@@ -79,19 +79,41 @@ namespace Space_Shooter
             foreach(Enemy enemy in _enemies.ToArray())
             {
                 enemy.Update();
-                enemy.CheckPlayerBullets(_player.Bullets);
-                if (enemy.Y > Global.Height || enemy.IsDestroyed)
-                {
-                    if (enemy.IsDestroyed) Background.CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType);
-                    _enemies.Remove(enemy);
-                    _gameMode.UpdateEnemyAmount(enemy.GetType(), -1);                   
-                }
+                RemoveEnemy(enemy);
+                if (enemy is Boss)
+                    ((Boss)enemy).CheckPlayerBullets(_player.Bullets);
+                else 
+                    enemy.CheckPlayerBullets(_player.Bullets);
+
                 if (_player.CollideWith(enemy))
                 { 
                     enemy.GetDestroyed();
-                    _player.LoseHealth(10);
+                    _player.LoseHealth(enemy.CollisionDamage);
                 }
-                if (enemy is IHaveGun) _player.CheckEnemyBullets(((IHaveGun)enemy).Bullets, ((IHaveGun)enemy).Damage);   
+                if (enemy is IHaveGun) 
+                    _player.CheckEnemyBullets(((IHaveGun)enemy).Bullets);   
+            }
+        }
+
+        private void RemoveEnemy(Enemy enemy)
+        {
+            if (enemy.Y > Global.Height || enemy.IsDestroyed)
+            {
+                if (enemy is Boss)
+                {
+                    _enemies.Remove(enemy);
+                    State = GameStates.LevelCompleted;
+                    //TODO FIX THIS SO THAT THE LEVEL CAN END CORRECTLY
+                } else if (_player.Score >= 100)
+                {
+                    State = GameStates.LevelCompleted;
+                } else
+                {
+                    if (enemy.IsDestroyed) 
+                        Background.CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType);
+                    _enemies.Remove(enemy);
+                    _gameMode.UpdateEnemyAmount(enemy.GetType(), -1); 
+                }   
             }
         }
     }

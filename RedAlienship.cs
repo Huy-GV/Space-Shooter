@@ -8,11 +8,9 @@ namespace Space_Shooter
     {
         public RedAlienship(int lastEnemyX, int lastEnemyY) : base(lastEnemyX, lastEnemyY)
         {
-            Damage = 3;
             ExplosionType = Explosion.Type.RedLaser;
             SetAnimations();
             _gunSystem = new GunSystem(Bullet.Direction.Down, 2);
-            
             _movePattern = new ZigzagMovement(2,3, X, Y);
         }
         public RedAlienship() : this(Global.Width, Global.Height) { }

@@ -23,7 +23,7 @@ namespace Space_Shooter
                 if (bullet.HitTarget(this))
                 {
                     bullets.Remove(bullet);
-                    _health -= 10;
+                    _health -= bullet.Damage;
                 }
             }
         }

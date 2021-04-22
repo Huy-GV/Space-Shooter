@@ -17,6 +17,7 @@ namespace Space_Shooter
             Up = 1,
             Down = -1
         }
+        public int Damage{get; private set;}
         private int _direction;
         private int _speed;
         public Bullet(int x, int y, Direction direction, Type type, bool hasSound){
@@ -35,24 +36,28 @@ namespace Space_Shooter
                     YOffset = 146;
                     Bitmap = SplashKit.LoadBitmap("RedLaser", "Bullets/RedLaser.png");
                     _speed = 9;
+                    Damage = 15;
                     break;
                 case Type.BlueLaser:
                     XOffset = 21;
                     YOffset = 30;
                     Bitmap = SplashKit.LoadBitmap("BlueLaser", "Bullets/BlueLaser.png");
                     _speed = 7;
+                    Damage = 7;
                     break;
                 case Type.RedBeam:
                     XOffset = 21;
                     YOffset = 30;
                     Bitmap = SplashKit.LoadBitmap("RedBeam", "Bullets/RedBeam.png");
                     _speed = 8;
+                    Damage = 7;
                     break;  
                 case Type.TripleLaser:
                     XOffset = 63;
                     YOffset = 30;
                     Bitmap = SplashKit.LoadBitmap("TripleLaser", "Bullets/TripleLaser.png");
                     _speed = 7;
+                    Damage = 20;
                     break;             
             }
         }

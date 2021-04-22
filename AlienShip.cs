@@ -6,7 +6,6 @@ namespace Space_Shooter
 {
     public abstract class Alienship : Enemy, IHaveGun
     {
-        public int Damage{get; protected set;}
         protected GunSystem _gunSystem;
         public List<Bullet> Bullets{ get { return _gunSystem.Bullets; }}
         //alienships all have guns but their fire-rates can vary

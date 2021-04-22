@@ -86,10 +86,10 @@ namespace Space_Shooter
             DrawDamage();    
         }
         private void DrawDamage(){ if (_damageExplosion != null) _damageExplosion.Draw();}
-        public void MoveLeft() => X -= 4;
-        public void MoveRight() => X += 4;
-        public void MoveUp() => Y -= 4;
-        public void MoveDown() => Y += 4;
+        public void MoveLeft() => X -= _speed;
+        public void MoveRight() => X += _speed;
+        public void MoveUp() => Y -= _speed;
+        public void MoveDown() => Y += _speed;
         public void Shoot() 
         { 
             if (_gun.CoolDownEnded) _gun.OpenFire(X, Y);
@@ -101,14 +101,6 @@ namespace Space_Shooter
             _gun.Update();
         }
         public void GainScore(){ Score += 1/(double)60;}
-        private void UpdateBullets()
-        {
-            foreach(var bullet in Bullets.ToArray())
-            {
-                bullet.Update();
-                if (bullet.Y < -bullet.AdjustedY) Bullets.Remove(bullet);
-            }
-        }
         private void UpdateDamageExplosion()
         {
             if (_damageExplosion != null)
@@ -118,13 +110,13 @@ namespace Space_Shooter
             }
         }
         public void LoseHealth(int damage) => Health -= damage;
-        public void CheckEnemyBullets(List<Bullet> enemyBullets, int enemyDamage)
+        public void CheckEnemyBullets(List<Bullet> enemyBullets)
         {
             foreach(var bullet in enemyBullets.ToArray())
             {
                 if (bullet.HitTarget(this))
                 {
-                    Health -= enemyDamage;
+                    Health -= bullet.Damage;
                     _damageExplosion = new Explosion(X, Y, Explosion.Type.Fire);
                     enemyBullets.Remove(bullet);
                 }
