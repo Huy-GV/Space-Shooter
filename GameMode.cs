@@ -75,7 +75,7 @@ namespace Space_Shooter
         }
         public override void AddEnemies(int score, List<Enemy> enemies)
         {
-            if (score < 10 ) base.AddEnemies(score, enemies);
+            if (score < 80 ) base.AddEnemies(score, enemies);
             else if (!_bossSpawned)
             {
                 SpawnBoss(enemies);
