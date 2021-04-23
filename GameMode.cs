@@ -61,7 +61,7 @@ namespace Space_Shooter
         {
             if (player.Health <= 0) GameOver = true;
         }
-        public void UpdateEnemyAmount(Type type, int increment) => _enemyAmountByClass[type] += increment;
+        public void UpdateEnemyAmount(Type type, int increment)=> _enemyAmountByClass[type] += increment;
     }
     public class ByLevelMode : GameMode
     {
@@ -90,7 +90,6 @@ namespace Space_Shooter
         }
         private void SpawnBoss(List<Enemy> enemies)
         {
-            Console.WriteLine("Boss for this level is {0}", _level);
             switch(_level)
             {
                 case 3: enemies.Add(new Nightmare()); break;

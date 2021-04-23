@@ -34,8 +34,6 @@ namespace Space_Shooter
                 case 5: _gameMode = new MineFieldMode(10); break;
                 default: _gameMode = new ByLevelMode(_level); break;
             }
-            Console.WriteLine("mode is " + _gameMode);
-            Console.WriteLine("level is " + _level);
         }
         public void Update()
         {
@@ -47,13 +45,12 @@ namespace Space_Shooter
         private void UpdatePlayer()
         {
             _player.Update();
-            //TODO: modify this to make it appropriate for new modes
-            if (_player.Score < 100 && _level < 7) _player.GainScore();
-            else if (_level >= 7) _player.GainScore();
+            if (_player.Score < 100 && _level < 7)
+                _player.GainScore();
+            else if (_level >= 7) 
+                _player.GainScore();
             if (_gameMode.GameOver)
-            {
                 GameStatus = (_player.Health <= 0) ? States.PlayerDefeated : States.LevelCompleted;
-            } 
         }
         public void Draw()
         {
@@ -69,6 +66,7 @@ namespace Space_Shooter
             if (SplashKit.KeyDown(KeyCode.UpKey) && _player.Y > Global.Height / 2)   _player.MoveUp();
             if (SplashKit.KeyDown(KeyCode.DownKey) && _player.Y < Global.Height)  _player.MoveDown();
             if (SplashKit.KeyDown(KeyCode.SpaceKey) && _player.CoolDown == 0) _player.Shoot();
+            if (SplashKit.KeyDown(KeyCode.EscapeKey)) GameStatus = States.PlayerDefeated;
         }
         private void DrawEnemies() => _enemies.ForEach(enemy => enemy.Draw());
         private void UpdateEnemies()

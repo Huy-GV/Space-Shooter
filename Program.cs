@@ -8,7 +8,7 @@ namespace Space_Shooter
     class Program
     {
         static int spaceshipChoice = 0;
-        static Session game;
+        static Session gameSession;
         static int level = 0;
         static readonly int defaultLevel = 7;
         static Dictionary<Type, int> enemyAmountByClass = new Dictionary<Type, int>();
@@ -51,7 +51,7 @@ namespace Space_Shooter
                     Menu.DrawLevels();
                     break;
                 case Menu.GameScene.GamePlay:
-                    game.Draw();
+                    gameSession.Draw();
                     break;
                 case Menu.GameScene.LevelCompleted:
                     Menu.DrawGameOver("Level Passed");
@@ -61,11 +61,9 @@ namespace Space_Shooter
         }
         static void HandleInputs()
         {
-            //the game has different 'scenes' that can be accessed by buttons displayed on screen
             if (SplashKit.MouseClicked(MouseButton.LeftButton))
             {
                 var option = (int)Math.Floor((SplashKit.MouseY() / 100));
-                Console.WriteLine("option is {0}", option);
                 switch(Menu.Scene)
                 {
                     case Menu.GameScene.MainMenu:
@@ -93,7 +91,7 @@ namespace Space_Shooter
             {
                 case 2:
                     if (level == 0) level = defaultLevel;
-                    game = new Session( level, spaceshipChoice);
+                    gameSession = new Session( level, spaceshipChoice);
                     level = 0;
                     Menu.ChangeScene(Menu.GameScene.GamePlay);
                     break;
@@ -140,16 +138,18 @@ namespace Space_Shooter
             Background.PlayMusic();
             if (Menu.Scene == Menu.GameScene.GamePlay)
             {
-                switch(game.GameStatus)
+                switch(gameSession.GameStatus)
                 {
                     case Session.States.PlayerAlive: 
-                        game.Update(); 
+                        gameSession.Update(); 
                         break;
                     case Session.States.LevelCompleted: 
                         Menu.ChangeScene(Menu.GameScene.LevelCompleted); 
+                        gameSession = null;
                         break;
                     case Session.States.PlayerDefeated: 
                         Menu.ChangeScene(Menu.GameScene.GameOver); 
+                        gameSession = null;
                         break;
                 }
             }
