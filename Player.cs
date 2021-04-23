@@ -19,7 +19,6 @@ namespace Space_Shooter
         private Animation _animation;
         private DrawingOptions _option;
         private AnimationScript _flyScript;
-        private Explosion _damageExplosion;
         private int _speed;
         public double Score{get; private set;}
         private SoundEffect _laserSound = SplashKit.LoadSoundEffect("laserSound", "laser.mp3");
@@ -82,10 +81,8 @@ namespace Space_Shooter
         public override void Draw()
         { 
             SplashKit.DrawBitmap(Bitmap,AdjustedX,AdjustedY,_option );
-            _gun.DrawBullets();
-            DrawDamage();    
+            _gun.DrawBullets();   
         }
-        private void DrawDamage(){ if (_damageExplosion != null) _damageExplosion.Draw();}
         public void MoveLeft() => X -= _speed;
         public void MoveRight() => X += _speed;
         public void MoveUp() => Y -= _speed;
@@ -97,18 +94,9 @@ namespace Space_Shooter
         public override void Update()
         {
             _animation.Update();
-            UpdateDamageExplosion();
             _gun.Update();
         }
         public void GainScore(){ Score += 1/(double)60;}
-        private void UpdateDamageExplosion()
-        {
-            if (_damageExplosion != null)
-            { 
-                _damageExplosion.Update();
-                if (_damageExplosion.AnimationEnded()) _damageExplosion = null;
-            }
-        }
         public void LoseHealth(int damage) => Health -= damage;
         public void CheckEnemyBullets(List<Bullet> enemyBullets)
         {
@@ -117,7 +105,6 @@ namespace Space_Shooter
                 if (bullet.HitTarget(this))
                 {
                     Health -= bullet.Damage;
-                    _damageExplosion = new Explosion(X, Y, Explosion.Type.Fire);
                     enemyBullets.Remove(bullet);
                 }
             }

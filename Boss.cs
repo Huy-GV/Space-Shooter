@@ -24,6 +24,7 @@ namespace Space_Shooter
                 {
                     bullets.Remove(bullet);
                     _health -= bullet.Damage;
+                    if (_health <= 0) IsDestroyed = true;
                     Console.WriteLine("boss hit");
                 }
             }
@@ -40,7 +41,7 @@ namespace Space_Shooter
             Damage = 12;
             _gun = new GunSystem(Bullet.Direction.Down, 1.2, Bullet.Type.RedLaser, false);
             _speed = 5;
-            _health = 100;
+            _health = 1;
             SetAnimation();
             _movePattern = new ZigzagMovement(_speed, _speed - 2, X, Y, true);
         }
@@ -101,7 +102,7 @@ namespace Space_Shooter
             SetAnimation();
             _gun = new GunSystem(Bullet.Direction.Down, 1, Bullet.Type.TripleLaser, false);
             _speed = 4;
-            _health = 100;
+            _health = 1;
             _isInvisible = false;
             _invisibleDuration = 3;
             _movePattern = new ZigzagMovement(_speed, _speed, X, Y, true);

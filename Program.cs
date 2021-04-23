@@ -8,7 +8,7 @@ namespace Space_Shooter
     class Program
     {
         static int spaceshipChoice = 0;
-        static SoloGame game;
+        static Session game;
         static int level = 0;
         static readonly int defaultLevel = 7;
         static Dictionary<Type, int> enemyAmountByClass = new Dictionary<Type, int>();
@@ -93,7 +93,7 @@ namespace Space_Shooter
             {
                 case 2:
                     if (level == 0) level = defaultLevel;
-                    game = new SoloGame( level, spaceshipChoice);
+                    game = new Session( level, spaceshipChoice);
                     level = 0;
                     Menu.ChangeScene(Menu.GameScene.GamePlay);
                     break;
@@ -140,15 +140,15 @@ namespace Space_Shooter
             Background.PlayMusic();
             if (Menu.Scene == Menu.GameScene.GamePlay)
             {
-                switch(game.State)
+                switch(game.GameStatus)
                 {
-                    case SoloGame.GameStates.PlayerAlive: 
+                    case Session.States.PlayerAlive: 
                         game.Update(); 
                         break;
-                    case SoloGame.GameStates.LevelCompleted: 
+                    case Session.States.LevelCompleted: 
                         Menu.ChangeScene(Menu.GameScene.LevelCompleted); 
                         break;
-                    case SoloGame.GameStates.PlayerDefeated: 
+                    case Session.States.PlayerDefeated: 
                         Menu.ChangeScene(Menu.GameScene.GameOver); 
                         break;
                 }

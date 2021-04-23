@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Space_Shooter
 {
-    public class SoloGame
+    public class Session
     {
-        public enum GameStates
+        public enum States
         {
             LevelCompleted,
             PlayerAlive,
@@ -16,14 +16,14 @@ namespace Space_Shooter
         private Player _player;
         private List<Enemy> _enemies;
         private GameMode _gameMode;
-        public GameStates State{get; private set;}
-        public SoloGame(int level , int spaceshipChoice)
+        public States GameStatus{get; private set;}
+        public Session(int level , int spaceshipChoice)
         {
             _player = new Player(spaceshipChoice);
             _enemies = new List<Enemy>();
             _level = level;
             SetGameMode();
-            State = GameStates.PlayerAlive;
+            GameStatus = States.PlayerAlive;
         }
         private void SetGameMode()
         {
@@ -50,10 +50,9 @@ namespace Space_Shooter
             //TODO: modify this to make it appropriate for new modes
             if (_player.Score < 100 && _level < 7) _player.GainScore();
             else if (_level >= 7) _player.GainScore();
-            if (_player.Health <= 0)
+            if (_gameMode.GameOver)
             {
-                _enemies.Clear();
-                State = GameStates.PlayerDefeated;
+                GameStatus = (_player.Health <= 0) ? States.PlayerDefeated : States.LevelCompleted;
             } 
         }
         public void Draw()
@@ -74,10 +73,8 @@ namespace Space_Shooter
         private void DrawEnemies() => _enemies.ForEach(enemy => enemy.Draw());
         private void UpdateEnemies()
         {
+            _gameMode.CheckGameEnding(_player, _enemies);
             _gameMode.AddEnemies((int)_player.Score, _enemies);
-
-            //TODO: write a bool field for game mode that decides whether a new enemy is added or not
-
             foreach(Enemy enemy in _enemies.ToArray())
             {
                 enemy.Update();
@@ -85,9 +82,9 @@ namespace Space_Shooter
                 CheckEnemyStatus(enemy);
                 if (_player.CollideWith(enemy))
                 { 
+                    _player.LoseHealth(enemy.CollisionDamage);
                     if (!(enemy is Boss))
                         enemy.GetDestroyed();
-                    _player.LoseHealth(enemy.CollisionDamage);
                 }
                 if (enemy is IHaveGun) 
                     _player.CheckEnemyBullets(((IHaveGun)enemy).Bullets);   
@@ -98,21 +95,10 @@ namespace Space_Shooter
         {
             if (enemy.Y > Global.Height || enemy.IsDestroyed)
             {
-                if (enemy is Boss)
-                {
-                    _enemies.Remove(enemy);
-                    State = GameStates.LevelCompleted;
-                    //TODO FIX THIS SO THAT THE LEVEL CAN END CORRECTLY
-                } else if (_player.Score >= 100)
-                {
-                    State = GameStates.LevelCompleted;
-                } else
-                {
-                    if (enemy.IsDestroyed) 
-                        Background.CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType);
-                    _enemies.Remove(enemy);
-                    _gameMode.UpdateEnemyAmount(enemy.GetType(), -1); 
-                }   
+                if (enemy.IsDestroyed) 
+                    Background.CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType);
+                _enemies.Remove(enemy);
+                _gameMode.UpdateEnemyAmount(enemy.GetType(), -1);               
             }
         }
     }
