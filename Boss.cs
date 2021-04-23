@@ -24,6 +24,7 @@ namespace Space_Shooter
                 {
                     bullets.Remove(bullet);
                     _health -= bullet.Damage;
+                    Console.WriteLine("boss hit");
                 }
             }
         }

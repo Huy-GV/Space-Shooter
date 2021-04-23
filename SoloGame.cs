@@ -55,7 +55,6 @@ namespace Space_Shooter
                 _enemies.Clear();
                 State = GameStates.PlayerDefeated;
             } 
-
         }
         public void Draw()
         {
@@ -76,18 +75,18 @@ namespace Space_Shooter
         private void UpdateEnemies()
         {
             _gameMode.AddEnemies((int)_player.Score, _enemies);
+
+            //TODO: write a bool field for game mode that decides whether a new enemy is added or not
+
             foreach(Enemy enemy in _enemies.ToArray())
             {
                 enemy.Update();
-                RemoveEnemy(enemy);
-                if (enemy is Boss)
-                    ((Boss)enemy).CheckPlayerBullets(_player.Bullets);
-                else 
-                    enemy.CheckPlayerBullets(_player.Bullets);
-
+                enemy.CheckPlayerBullets(_player.Bullets);
+                CheckEnemyStatus(enemy);
                 if (_player.CollideWith(enemy))
                 { 
-                    enemy.GetDestroyed();
+                    if (!(enemy is Boss))
+                        enemy.GetDestroyed();
                     _player.LoseHealth(enemy.CollisionDamage);
                 }
                 if (enemy is IHaveGun) 
@@ -95,7 +94,7 @@ namespace Space_Shooter
             }
         }
 
-        private void RemoveEnemy(Enemy enemy)
+        private void CheckEnemyStatus(Enemy enemy)
         {
             if (enemy.Y > Global.Height || enemy.IsDestroyed)
             {

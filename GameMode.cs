@@ -8,6 +8,7 @@ namespace Space_Shooter
     {
         public Dictionary<Type, int> Limits;
         public int SpawnRate{get; protected set;}
+        public bool GameEnding{get; protected set;}
         protected Dictionary<Type, int> _enemyAmountByClass;
         public GameMode()
         {
@@ -30,11 +31,9 @@ namespace Space_Shooter
                 {typeof(Spacemine), 0}
             };
             SpawnRate = 70;
+            GameEnding = false;
         }
-        protected bool TimeToSpawn()
-        {
-            return SplashKit.Rnd(0, SpawnRate) == 0;
-        }
+        protected bool TimeToSpawn()=> SplashKit.Rnd(0, SpawnRate) == 0;
         public virtual void AddEnemies(int score, List<Enemy> enemies)
         {
             int enemyAmount;
@@ -53,6 +52,10 @@ namespace Space_Shooter
                     UpdateEnemyAmount(enemyType, 1);
                 }
             }
+        }
+        public void CheckEndOfLevel()
+        {
+            
         }
         public void UpdateEnemyAmount(Type type, int increment) => _enemyAmountByClass[type] += increment;
     }
@@ -174,7 +177,6 @@ namespace Space_Shooter
             Limits[typeof(Asteroid)] = 13;
             Limits[typeof(Spacemine)] = 6;
             SpawnRate = spawnRate;
-
         }
     }
     public class BossRunMode : GameMode
