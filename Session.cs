@@ -16,14 +16,14 @@ namespace Space_Shooter
         private Player _player;
         private List<Enemy> _enemies;
         private GameMode _gameMode;
-        public States GameStatus{get; private set;}
+        public States Status{get; private set;}
         public Session(int spaceshipChoice, int level)
         {
             _player = new Player(spaceshipChoice);
             _enemies = new List<Enemy>();
             _level = level;
             SetGameMode();
-            GameStatus = States.PlayerAlive;
+            Status = States.PlayerAlive;
         }
         private void SetGameMode()
         {
@@ -38,7 +38,6 @@ namespace Space_Shooter
         public void Update()
         {
             Background.UpdateExplosions();
-            HandleKeyboardInputs();
             UpdatePlayer();
             UpdateEnemies();
         }
@@ -50,23 +49,28 @@ namespace Space_Shooter
             else if (_level >= 7) 
                 _player.GainScore();
             if (_gameMode.GameOver)
-                GameStatus = (_player.Health <= 0) ? States.PlayerDefeated : States.LevelCompleted;
+                Status = (_player.Health <= 0) ? States.PlayerDefeated : States.LevelCompleted;
         }
         public void Draw()
         {
-            Menu.DrawGameInfo(_player.Health, _player.Score);
             Background.DrawExplosions();
             DrawEnemies();
+            DrawPlayerInfo();
             _player.Draw();
         }
-        private void HandleKeyboardInputs()
+        private void DrawPlayerInfo()
+        {
+            SplashKit.DrawText($"Health: {(int)_player.Health}", Color.Green, Global.SmallFont, 24, 20, 40);
+            SplashKit.DrawText($"Score: {(int)_player.Score}", Color.Yellow, Global.SmallFont, 24, 20, 70);
+        }
+        public void ProcessInput()
         {
             if (SplashKit.KeyDown(KeyCode.LeftKey) && _player.X > 0)   _player.MoveLeft();
             if (SplashKit.KeyDown(KeyCode.RightKey) && _player.X < Global.Width)  _player.MoveRight();
             if (SplashKit.KeyDown(KeyCode.UpKey) && _player.Y > Global.Height / 2)   _player.MoveUp();
             if (SplashKit.KeyDown(KeyCode.DownKey) && _player.Y < Global.Height)  _player.MoveDown();
             if (SplashKit.KeyDown(KeyCode.SpaceKey) && _player.CoolDown == 0) _player.Shoot();
-            if (SplashKit.KeyDown(KeyCode.EscapeKey)) GameStatus = States.PlayerDefeated;
+            if (SplashKit.KeyDown(KeyCode.EscapeKey)) Status = States.PlayerDefeated;
         }
         private void DrawEnemies() => _enemies.ForEach(enemy => enemy.Draw());
         private void UpdateEnemies()

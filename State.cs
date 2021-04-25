@@ -5,15 +5,10 @@ namespace Space_Shooter
 {
     public abstract class State
     {
-        //TODO: write a game class with a state field
         protected int option;
         protected Game _game;
         public abstract void Draw();
-        public virtual void ProcessInput()
-        {
-            if (SplashKit.MouseClicked(MouseButton.LeftButton))
-                option = (int)Math.Floor((SplashKit.MouseY() / 100));
-        }
+        public abstract void ProcessInput();
         public abstract void Update();
         public State(Game game)
         {
@@ -22,18 +17,14 @@ namespace Space_Shooter
     }
     public class MainMenu : State
     {
-        private int _spaceshipChoice = 0;
-        public MainMenu(Game game) : base(game)
-        {
-
-        }
+        public MainMenu(Game game) : base(game){}
         public override void Draw()
         {
             SplashKit.DrawText("SPACE SHOOTER", Color.Yellow, Global.BigFont, 60, 100, 50);
             SplashKit.DrawText("Play", Color.White, Global.MediumFont, 40, 150, 200);
             SplashKit.DrawText("Choose level" , Color.Orange, Global.MediumFont, 40, 150, 300);
             SplashKit.DrawText("Change Space Ship", Color.Blue, Global.MediumFont, 40, 150, 400);
-            DrawPlayerOption(_spaceshipChoice);
+            DrawPlayerOption(_game.SpaceshipChoice);
         }
         private void DrawPlayerOption(int option)
         {
@@ -54,20 +45,24 @@ namespace Space_Shooter
         }
         public override void ProcessInput()
         {
-            base.ProcessInput();
-            switch(option)
+            if (SplashKit.MouseClicked(MouseButton.LeftButton))
             {
-                case 2:
-                    _game.SetState(_game.PlayingState);
-                    break;
-                case 3:
-                    _game.SetState(_game.GameModeState);
-                    break;
-                case 4:
-                    _game.SpaceshipChoice++;
-                    break;
-                default: break;
+                option = (int)Math.Floor((SplashKit.MouseY() / 100));
+                switch(option)
+                {
+                    case 2:
+                        _game.SetState(_game.PlayingState);
+                        break;
+                    case 3:
+                        _game.SetState(_game.GameModeState);
+                        break;
+                    case 4:
+                        _game.SpaceshipChoice++;
+                        break;
+                    default: break;
+                }
             }
+
         }
         public override void Update()
         {
@@ -77,26 +72,42 @@ namespace Space_Shooter
     public class PlayingState : State
     {
         private Session _session;
-
+        private bool _sessionStarted;
         public PlayingState(Game game) : base(game)
         {
             _session = null;
+            _sessionStarted = false;
         }
         public override void Draw()
         {
-            throw new NotImplementedException();
+            if (_sessionStarted)
+                _session.Draw();
+        }
+        public override void ProcessInput()
+        {
+            if (_sessionStarted)
+                _session.ProcessInput();
         }
         public override void Update()
         {
-            throw new NotImplementedException();
+            if (!_sessionStarted)
+            {
+                _session = new Session(_game.SpaceshipChoice, _game.GameMode);
+                _sessionStarted = true;
+            } else
+            {
+                _session.Update();
+                if (_session.Status != Session.States.PlayerAlive)
+                {
+                    _game.SetState(_game.GameOverState);
+                    _sessionStarted = false;
+                }  
+            }             
         }
     }
     public class GameModeState : State
     {
-        public GameModeState(Game game) : base(game)
-        {
-
-        }
+        public GameModeState(Game game) : base(game){}
         public override void Draw()
         {
             for (int i = 1; i <= 4; i++)
@@ -111,8 +122,34 @@ namespace Space_Shooter
         }
         public override void ProcessInput()
         {
-            base.ProcessInput();
-            _game.GameMode = option;
+            if (SplashKit.MouseClicked(MouseButton.LeftButton))
+            {
+                option = (int)Math.Floor((SplashKit.MouseY() / 100));
+                _game.GameMode = option;
+                _game.SetState(_game.MainMenuState);
+            }
+        }
+    }
+    public class GameOverState : State
+    {
+        public GameOverState(Game game) : base(game){}
+        public override void Draw()
+        {
+            SplashKit.DrawText("Game Over", Color.Yellow, Global.BigFont, 60, 150, 50);
+            SplashKit.DrawText("Quit to Menu", Color.Red, Global.MediumFont, 40, 150, 200);
+        }
+        public override void Update()
+        {
+            return;
+        }
+        public override void ProcessInput()
+        {
+            if (SplashKit.MouseClicked(MouseButton.LeftButton))
+            {
+                option = (int)Math.Floor((SplashKit.MouseY() / 100));
+                if (option == 2)
+                    _game.SetState(_game.MainMenuState);
+            }
         }
     }
 }

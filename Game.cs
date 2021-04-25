@@ -6,12 +6,14 @@ namespace Space_Shooter
 {
     public class Game
     {
-        private State _currentState, _mainMenuState, _playingState, _gameModeState;
-        private readonly int _defaultLevel = 7;
+        private State _currentState;
+        private readonly int _defaultGameMode = 7;
+        private readonly int _defaultSpaceship = 0;
         private Window gameWindow = new Window("Space Shooter", Global.Width, Global.Height);
-        public State MainMenuState{ get{ return _mainMenuState;}}
-        public State PlayingState{ get{ return _playingState;}}
-        public State GameModeState{ get{ return _gameModeState;}}
+        public State MainMenuState{ get; private set;}
+        public State PlayingState{ get; private set;}
+        public State GameModeState{ get; private set;}
+        public State GameOverState{ get; private set;}
         private int _spaceshipChoice, _gameMode;
         public int GameMode
         { 
@@ -21,15 +23,15 @@ namespace Space_Shooter
                 if (value >= 1 && value <= 7) 
                     _gameMode = value;
                 else 
-                    _gameMode = 7;
+                    _gameMode = _defaultGameMode;
             }
         }
         public int SpaceshipChoice
         { 
-            get{ return _gameMode;}
+            get{ return _spaceshipChoice;}
             set
             {
-                if (_spaceshipChoice >= 0 && _spaceshipChoice <= 2) 
+                if (_spaceshipChoice < 2) 
                     _spaceshipChoice = value;
                 else 
                     _spaceshipChoice = 0;
@@ -37,28 +39,23 @@ namespace Space_Shooter
         }
         public Game()
         {
-            _gameMode = 7;
-            _spaceshipChoice = 0;
-            _mainMenuState = new MainMenu(this);
-            _playingState = new PlayingState(this);
-            _gameModeState = new GameModeState(this);
+            _gameMode = _defaultGameMode;
+            _spaceshipChoice = _defaultSpaceship;
+            MainMenuState = new MainMenu(this);
+            PlayingState = new PlayingState(this);
+            GameModeState = new GameModeState(this);
+            GameOverState = new GameOverState(this);
+            _currentState = MainMenuState;
         }
-        public void SetState(State newState) => _currentState = newState;
-        // public void SetState(State newState, int level)
-        // {
-        //     _currentState = newState;
-        //     _level = level;
-        // } 
-        // public void SetState(State newState, int level, int spaceshipChoice)
-        // {
-        //     _currentState = newState;
-        //     _spaceshipChoice = spaceshipChoice;
-        //     _level = level;
-        // } 
+        public void SetState(State newState) 
+        {
+            Console.WriteLine("state transition from: {0} to {1}", _currentState, newState);
+            _currentState = newState;
+        }
         public void Draw()
         {                
             Background.DrawBackground();
-            _currentState.Update();
+            _currentState.Draw();
             SplashKit.RefreshScreen(60);
         }
         public void ProcessInputs()
@@ -71,6 +68,5 @@ namespace Space_Shooter
             Background.PlayMusic();
             _currentState.Update();
         }
-        private void UpdatePlayerChoice(){ _spaceshipChoice = _spaceshipChoice == 2 ? 0 :_spaceshipChoice + 1; }
     }
 }
