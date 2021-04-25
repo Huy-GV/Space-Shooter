@@ -43,7 +43,6 @@ namespace Space_Shooter
             SplashKit.DrawText(message.ToUpper(), Color.Yellow, Global.BigFont, 60, 150, 50);      
             SplashKit.DrawText("Quit to Menu", Color.Red, Global.MediumFont, 40, 150, 200);
         }
-        public static void DrawPauseButton(){ SplashKit.DrawText("Pause", Color.Red, Global.SmallFont, 24, 500, 40);}
         public static void DrawGameInfo(int playerHealth, double score){
             SplashKit.DrawText($"Health: {(int)playerHealth}", Color.Green, Global.SmallFont, 24, 20, 40);
             SplashKit.DrawText($"Score: {(int)score}", Color.Yellow, Global.SmallFont, 24, 20, 70);

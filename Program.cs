@@ -5,155 +5,17 @@ using System.Collections.Generic;
 
 namespace Space_Shooter
 {
-    class Program
+    public class Program
     {
-        static int spaceshipChoice = 0;
-        static Session gameSession;
-        static int level = 0;
-        static readonly int defaultLevel = 7;
-        static Dictionary<Type, int> enemyAmountByClass = new Dictionary<Type, int>();
-        static Window gameWindow = new Window("Space Shooter", Global.Width, Global.Height);
         static void Main(string[] args)
         {
-            RegisterEnemies();
+            var SpaceShooter = new Game();
             while (!SplashKit.QuitRequested())
             {
-                Update();
-                Draw();
-                HandleInputs();
-            }
+                SpaceShooter.Update();
+                SpaceShooter.ProcessInputs();
+                SpaceShooter.Draw();
+            }  
         }
-        static void RegisterEnemies()
-        {
-            enemyAmountByClass[typeof(Asteroid)] = 0;
-            enemyAmountByClass[typeof(Spacemine)] = 0;
-            enemyAmountByClass[typeof(BlueAlienship)] = 0;
-            enemyAmountByClass[typeof(PurpleAlienship)] = 0;
-            enemyAmountByClass[typeof(RedAlienship)] = 0;
-            enemyAmountByClass[typeof(KamikazeAlien)] = 0;
-        }
-        static void Draw()
-        {                
-            Background.DrawBackground();
-            switch(Menu.Scene)
-            {
-                case Menu.GameScene.MainMenu:
-                    Menu.DrawMainMenu();
-                    Menu.DrawPlayerOption(spaceshipChoice);
-                    break;
-                case Menu.GameScene.PauseMenu:
-                    Menu.DrawPauseMenu();
-                    break;
-                case Menu.GameScene.GameOver:
-                    Menu.DrawGameOver("Defeated");
-                    break;
-                case Menu.GameScene.GameLevel:
-                    Menu.DrawLevels();
-                    break;
-                case Menu.GameScene.GamePlay:
-                    gameSession.Draw();
-                    break;
-                case Menu.GameScene.LevelCompleted:
-                    Menu.DrawGameOver("Level Passed");
-                    break;
-            }
-            SplashKit.RefreshScreen(60);
-        }
-        static void HandleInputs()
-        {
-            if (SplashKit.MouseClicked(MouseButton.LeftButton))
-            {
-                var option = (int)Math.Floor((SplashKit.MouseY() / 100));
-                switch(Menu.Scene)
-                {
-                    case Menu.GameScene.MainMenu:
-                        ProcessMainMenu(option);
-                        break;
-                    case Menu.GameScene.PauseMenu:
-                        ProcessPauseMenu(option);
-                        break;
-                    case Menu.GameScene.GameOver:
-                        ProcessGameOver(option);
-                        break;
-                    case Menu.GameScene.GameLevel:
-                        ProcessGameLevel(option);
-                        break;
-                    case Menu.GameScene.LevelCompleted:
-                        ProcessGameOver(option);
-                        break;
-                    default: break;
-                }
-            }
-        }
-        static void ProcessMainMenu(int option)
-        {
-            switch(option)
-            {
-                case 2:
-                    if (level == 0) level = defaultLevel;
-                    gameSession = new Session( level, spaceshipChoice);
-                    level = 0;
-                    Menu.ChangeScene(Menu.GameScene.GamePlay);
-                    break;
-                case 3:
-                    Menu.ChangeScene(Menu.GameScene.GameLevel);
-                    break;
-                case 4:
-                    UpdatePlayerChoice();
-                    break;
-                default: break;
-            }
-        }
-        static void ProcessPauseMenu(int option)
-        {
-            switch(option)
-            {
-                case 2:
-                    Menu.ChangeScene(Menu.GameScene.GamePlay);
-                    break;
-                case 3:
-                    Menu.ChangeScene(Menu.GameScene.MainMenu);
-                    break;
-                default: break;
-            }
-        }
-        static void ProcessGameLevel(int option)
-        {
-            level = option;
-            Menu.ChangeScene(Menu.GameScene.MainMenu);
-        }
-        static void ProcessGameOver(int option)
-        {
-            switch(option)
-            {
-                case 2:
-                    Menu.ChangeScene(Menu.GameScene.MainMenu);
-                    break;
-                default: break;
-            }
-        }
-        static void Update()
-        {
-            SplashKit.ProcessEvents();
-            Background.PlayMusic();
-            if (Menu.Scene == Menu.GameScene.GamePlay)
-            {
-                switch(gameSession.GameStatus)
-                {
-                    case Session.States.PlayerAlive: 
-                        gameSession.Update(); 
-                        break;
-                    case Session.States.LevelCompleted: 
-                        Menu.ChangeScene(Menu.GameScene.LevelCompleted); 
-                        gameSession = null;
-                        break;
-                    case Session.States.PlayerDefeated: 
-                        Menu.ChangeScene(Menu.GameScene.GameOver); 
-                        gameSession = null;
-                        break;
-                }
-            }
-        }
-        static void UpdatePlayerChoice(){ spaceshipChoice = spaceshipChoice == 2 ? 0 :spaceshipChoice + 1; }
     }
 }

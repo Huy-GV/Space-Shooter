@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Space_Shooter
 {
-    public class Session
+    public class Session 
     {
         public enum States
         {
@@ -17,7 +17,7 @@ namespace Space_Shooter
         private List<Enemy> _enemies;
         private GameMode _gameMode;
         public States GameStatus{get; private set;}
-        public Session(int level , int spaceshipChoice)
+        public Session(int spaceshipChoice, int level)
         {
             _player = new Player(spaceshipChoice);
             _enemies = new List<Enemy>();
@@ -88,7 +88,6 @@ namespace Space_Shooter
                     _player.CheckEnemyBullets(((IHaveGun)enemy).Bullets);   
             }
         }
-
         private void CheckEnemyStatus(Enemy enemy)
         {
             if (enemy.Y > Global.Height || enemy.IsDestroyed)
