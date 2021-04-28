@@ -53,6 +53,7 @@ namespace Space_Shooter
 
     public class ZigzagMovement : MovePattern
     {
+        //TODO: BUG STILL EXISTS
         private int _heightLimit, _verticalDirection, _horizontalDirection;
         private bool _firstCrossing;
         private bool _random;
@@ -62,6 +63,7 @@ namespace Space_Shooter
             _verticalDirection = 1;
             _horizontalDirection = 1;
             _heightLimit = Global.Width / 2;
+            if (HorizontalSpeed == VerticalSpeed) horizontalSpeed++;
             //if it enters the game window for the first time, it wont reverse its vertical direction
             _firstCrossing = _position.Y <= 0 ? true : false;
             _random = random;
@@ -71,16 +73,31 @@ namespace Space_Shooter
             _position.Y += VerticalSpeed * _verticalDirection;
             _position.X += HorizontalSpeed * _horizontalDirection;
             RandomizeSpeed();
-            if (_position.X >= Global.Width - 5 || _position.X <= 5) _horizontalDirection *= -1;
+            UpdateHorizontalComponent();
+            UpdateVerticalComponent();
+        }   
+        private void UpdateHorizontalComponent()
+        {
+            if (_position.X >= Global.Width - 5 || _position.X <= 5) 
+                _horizontalDirection *= -1;
+        }
+        private void UpdateVerticalComponent()
+        {
             if (_position.Y > _heightLimit)
             {
                 if (_firstCrossing) _firstCrossing = false;
                 _verticalDirection *= -1;
-            } else if (_position.Y <= 0 && !_firstCrossing) _verticalDirection *= -1;
-        }   
+                Console.WriteLine("reverse because over height limit");
+            } else if (_position.Y <= 0 && !_firstCrossing)
+            {
+                Console.WriteLine("reverse because under height limit");
+                _verticalDirection *= -1;
+            } 
+        }
+        private bool RandomInstance() => SplashKit.Rnd(0,70) == 0;
         private void RandomizeSpeed()
         {
-            if(_random && SplashKit.Rnd(0,70) == 0) 
+            if(_random && RandomInstance()) 
             {
                 var temp = HorizontalSpeed;
                 HorizontalSpeed = VerticalSpeed;
@@ -88,8 +105,6 @@ namespace Space_Shooter
             }
         }
     }
-
-
     public class ChargingMovement : MovePattern
     {
         private Vector2D _pathVector;

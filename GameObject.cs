@@ -6,6 +6,7 @@ namespace Space_Shooter
     {
         public int X{get;  protected set;}
         public int Y{get;  protected set;}
+        //TODO: WRITE A separte class for drawable objects, including Draw, offsets, adjusted?
         protected double XOffset{get; set;}
         protected double YOffset{get; set;}
         public double AdjustedX => X - XOffset;

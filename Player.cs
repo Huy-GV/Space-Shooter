@@ -34,14 +34,14 @@ namespace Space_Shooter
         {
             switch(type)
             {
-                case ShipType.Versatile:
-                    SetVersatileShip();
+                case ShipType.Armoured:
+                    SetArmouredShip();
                     break;
                 case ShipType.Agile:
                     SetAgileShip();
                     break;
                 default:
-                    SetArmouredShip();
+                    SetVersatileShip();
                     break;
             }
         }
@@ -104,6 +104,7 @@ namespace Space_Shooter
             {
                 if (bullet.HitTarget(this))
                 {
+                    //TODO: write a separate methods that tell each object what to do after getting shot?
                     Health -= bullet.Damage;
                     enemyBullets.Remove(bullet);
                 }
