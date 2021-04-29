@@ -50,10 +50,8 @@ namespace Space_Shooter
             _position.Y += VerticalSpeed;
         }
     }
-
     public class ZigzagMovement : MovePattern
     {
-        //TODO: BUG STILL EXISTS
         private int _heightLimit, _verticalDirection, _horizontalDirection;
         private bool _firstCrossing;
         private bool _random;
@@ -89,9 +87,7 @@ namespace Space_Shooter
                     _firstCrossing = false;
                 _verticalDirection *= -1;
             } else if (_position.Y <= 0 && !_firstCrossing && _verticalDirection != 1)
-            {
                 _verticalDirection *= -1;
-            } 
         }
         private bool RandomInstance() => SplashKit.Rnd(0,70) == 0;
         private void RandomizeSpeed()
