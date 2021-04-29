@@ -83,14 +83,13 @@ namespace Space_Shooter
         }
         private void UpdateVerticalComponent()
         {
-            if (_position.Y > _heightLimit)
+            if (_position.Y > _heightLimit && _verticalDirection != -1)
             {
-                if (_firstCrossing) _firstCrossing = false;
+                if (_firstCrossing) 
+                    _firstCrossing = false;
                 _verticalDirection *= -1;
-                Console.WriteLine("reverse because over height limit");
-            } else if (_position.Y <= 0 && !_firstCrossing)
+            } else if (_position.Y <= 0 && !_firstCrossing && _verticalDirection != 1)
             {
-                Console.WriteLine("reverse because under height limit");
                 _verticalDirection *= -1;
             } 
         }
