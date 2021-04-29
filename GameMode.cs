@@ -9,6 +9,7 @@ namespace Space_Shooter
         protected Dictionary<Type, int> _limits;
         public int SpawnRate{get; protected set;}
         public bool GameOver{get; protected set;}
+        public List<Enemy> Enemies{get; protected set;}
         protected Dictionary<Type, int> _enemyAmountByClass;
         public GameMode()
         {
@@ -34,11 +35,12 @@ namespace Space_Shooter
                 {typeof(Nightmare), 1},
                 {typeof(Phantom), 1}
             };
+            Enemies = new List<Enemy>();
             SpawnRate = 70;
             GameOver = false;
         }
         protected bool TimeToSpawn()=> SplashKit.Rnd(0, SpawnRate) == 0;
-        public virtual void AddEnemies(int score, List<Enemy> enemies)
+        public virtual void AddEnemies(int score)
         {
             int enemyAmount;
             foreach (var enemyType in _enemyAmountByClass.Keys)
@@ -46,20 +48,25 @@ namespace Space_Shooter
                 enemyAmount = _enemyAmountByClass[enemyType];
                 if (TimeToSpawn() && enemyAmount < _limits[enemyType])
                 {
-                    if (enemyAmount == 0) enemies.Add((Enemy)Activator.CreateInstance(enemyType));
+                    if (enemyAmount == 0) Enemies.Add((Enemy)Activator.CreateInstance(enemyType));
                     else
                     {
-                        var lastEnemy = enemies[enemies.Count - 1];
+                        var lastEnemy = Enemies[Enemies.Count - 1];
                         Object[] parameters = {lastEnemy.X, lastEnemy.Y};
-                        enemies.Add((Enemy)Activator.CreateInstance(enemyType, parameters));
+                        Enemies.Add((Enemy)Activator.CreateInstance(enemyType, parameters));
                     }
                     UpdateEnemyAmount(enemyType, 1);
                 }
             }
         }
-        public virtual void CheckGameEnding(Player player, List<Enemy> enemies)
+        public virtual void CheckGameEnding(Player player)
         {
             if (player.Health <= 0) GameOver = true;
+        }
+        public void RemoveEnemy(Enemy enemy)
+        {
+            UpdateEnemyAmount(enemy.GetType(), -1);
+            Enemies.Remove(enemy);
         }
         public void UpdateEnemyAmount(Type type, int increment)=> _enemyAmountByClass[type] += increment;
     }
@@ -73,27 +80,27 @@ namespace Space_Shooter
             _bossSpawned = false;
             SetEnemyLimitsByLevel();
         }
-        public override void AddEnemies(int score, List<Enemy> enemies)
+        public override void AddEnemies(int score)
         {
-            if (score < 80 ) base.AddEnemies(score, enemies);
+            if (score < 80 ) base.AddEnemies(score);
             else if (!_bossSpawned)
             {
-                SpawnBoss(enemies);
+                SpawnBoss();
                 _bossSpawned = true;
             }
         }
-        public override void CheckGameEnding(Player player,List<Enemy> enemies)
+        public override void CheckGameEnding(Player player)
         {
-            base.CheckGameEnding(player, enemies);
-            if (enemies.Count == 0 && ((_level < 3 && player.Score >= 100) || (_level >= 3 && _bossSpawned)))
+            base.CheckGameEnding(player);
+            if (Enemies.Count == 0 && ((_level < 3 && player.Score >= 100) || (_level >= 3 && _bossSpawned)))
                 GameOver = true;
         }
-        private void SpawnBoss(List<Enemy> enemies)
+        private void SpawnBoss()
         {
             switch(_level)
             {
-                case 3: enemies.Add(new Nightmare()); break;
-                case 4: enemies.Add(new Phantom()); break;
+                case 3: Enemies.Add(new Nightmare()); break;
+                case 4: Enemies.Add(new Phantom()); break;
                 default: break;
             }
         }
@@ -174,11 +181,11 @@ namespace Space_Shooter
                     break;
             }
         }      
-        public override void AddEnemies(int score, List<Enemy> enemies)
+        public override void AddEnemies(int score)
         {
             if (score > 10 && _stage == 0) _stage++;
             else if (score > 15 && _stage == 1) _stage++;
-            base.AddEnemies(score, enemies);
+            base.AddEnemies(score);
         } 
     }
     public class MineFieldMode : GameMode
@@ -201,28 +208,28 @@ namespace Space_Shooter
             _enemyAmountByClass[typeof(Phantom)] = 0; 
             _enemyAmountByClass[typeof(Nightmare)] = 0;
         }
-        public override void CheckGameEnding(Player player, List<Enemy> enemies)
+        public override void CheckGameEnding(Player player)
         {
-            base.CheckGameEnding(player, enemies);
-            if (_stage == _stageAmount && enemies.Count == 0) GameOver = true;
+            base.CheckGameEnding(player);
+            if (_stage == _stageAmount && Enemies.Count == 0) GameOver = true;
         }
-        public override void AddEnemies(int score, List<Enemy> enemies)
+        public override void AddEnemies(int score)
         {
-            if (enemies.Count == 0)
+            if (Enemies.Count == 0)
             {
                 switch(_stage)
                 {
                     case 0:
-                        enemies.Add(new Nightmare());   
+                        Enemies.Add(new Nightmare());   
                         _stage++;
                         break;
                     case 1:
-                        enemies.Add(new Phantom());
+                        Enemies.Add(new Phantom());
                         _stage++;
                         break;
                     case 2:
-                        enemies.Add(new Phantom());
-                        enemies.Add(new Nightmare());
+                        Enemies.Add(new Phantom());
+                        Enemies.Add(new Nightmare());
                         _stage++;
                         break;
                 }

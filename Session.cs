@@ -12,27 +12,25 @@ namespace Space_Shooter
             PlayerAlive,
             PlayerDefeated
         }
-        private int _level;
+        private int _gameModeIndex;
         private Player _player;
-        private List<Enemy> _enemies;
         private GameMode _gameMode;
         public States Status{get; private set;}
-        public Session(int spaceshipChoice, int level)
+        public Session(int spaceshipChoice, int gameModeIndex)
         {
             _player = new Player(spaceshipChoice);
-            _enemies = new List<Enemy>();
-            _level = level;
+            _gameModeIndex = gameModeIndex;
             SetGameMode();
             Status = States.PlayerAlive;
         }
         private void SetGameMode()
         {
-            switch(_level)
+            switch(_gameModeIndex)
             {
                 case 7: _gameMode = new SurvivalMode(); break;
                 case 6: _gameMode = new BossRunMode(); break;
                 case 5: _gameMode = new MineFieldMode(10); break;
-                default: _gameMode = new ByLevelMode(_level); break;
+                default: _gameMode = new ByLevelMode(_gameModeIndex); break;
             }
         }
         public void Update()
@@ -44,9 +42,7 @@ namespace Space_Shooter
         private void UpdatePlayer()
         {
             _player.Update();
-            if (_player.Score < 100 && _level < 7)
-                _player.GainScore();
-            else if (_level >= 7) 
+            if ((_player.Score < 100 && _gameModeIndex < 7) || _gameModeIndex >= 7)
                 _player.GainScore();
             if (_gameMode.GameOver)
                 Status = (_player.Health <= 0) ? States.PlayerDefeated : States.LevelCompleted;
@@ -72,12 +68,12 @@ namespace Space_Shooter
             if (SplashKit.KeyDown(KeyCode.SpaceKey) && _player.CoolDown == 0) _player.Shoot();
             if (SplashKit.KeyDown(KeyCode.EscapeKey)) Status = States.PlayerDefeated;
         }
-        private void DrawEnemies() => _enemies.ForEach(enemy => enemy.Draw());
+        private void DrawEnemies() => _gameMode.Enemies.ForEach(enemy => enemy.Draw());
         private void UpdateEnemies()
         {
-            _gameMode.CheckGameEnding(_player, _enemies);
-            _gameMode.AddEnemies((int)_player.Score, _enemies);
-            foreach(Enemy enemy in _enemies.ToArray())
+            _gameMode.CheckGameEnding(_player);
+            _gameMode.AddEnemies((int)_player.Score);
+            foreach(Enemy enemy in _gameMode.Enemies.ToArray())
             {
                 enemy.Update();
                 enemy.CheckPlayerBullets(_player.Bullets);
@@ -97,9 +93,8 @@ namespace Space_Shooter
             if (enemy.Y > Global.Height || enemy.IsDestroyed)
             {
                 if (enemy.IsDestroyed) 
-                    Background.CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType);
-                _enemies.Remove(enemy);
-                _gameMode.UpdateEnemyAmount(enemy.GetType(), -1);               
+                    Background.CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType); 
+                _gameMode.RemoveEnemy(enemy);            
             }
         }
     }
