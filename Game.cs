@@ -14,6 +14,7 @@ namespace Space_Shooter
         public State PlayingState{ get; private set;}
         public State GameModeState{ get; private set;}
         public State GameOverState{ get; private set;}
+        public State PausedGameState{ get; private set;}
         private int _spaceshipChoice, _gameMode;
         public int GameMode
         { 
@@ -45,6 +46,7 @@ namespace Space_Shooter
             PlayingState = new PlayingState(this);
             GameModeState = new GameModeState(this);
             GameOverState = new GameOverState(this);
+            PausedGameState = new PausedGame(this);
             _currentState = MainMenuState;
         }
         public void SetState(State newState) 

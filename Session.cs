@@ -6,22 +6,23 @@ namespace Space_Shooter
 {
     public class Session 
     {
-        public enum States
+        public enum Status
         {
-            LevelCompleted,
-            PlayerAlive,
-            PlayerDefeated
+            Running,
+            Paused,
+            Over
         }
+        private static List<Explosion> _explosions = new List<Explosion>();
         private int _gameModeIndex;
         private Player _player;
         private GameMode _gameMode;
-        public States Status{get; private set;}
+        public Status CurrentStatus{get; private set;}
         public Session(int spaceshipChoice, int gameModeIndex)
         {
             _player = new Player(spaceshipChoice);
             _gameModeIndex = gameModeIndex;
             SetGameMode();
-            Status = States.PlayerAlive;
+            CurrentStatus = Status.Running;
         }
         private void SetGameMode()
         {
@@ -35,7 +36,7 @@ namespace Space_Shooter
         }
         public void Update()
         {
-            Background.UpdateExplosions();
+            UpdateExplosions();
             UpdatePlayer();
             UpdateEnemies();
         }
@@ -44,12 +45,11 @@ namespace Space_Shooter
             _player.Update();
             if ((_player.Score < 100 && _gameModeIndex < 7) || _gameModeIndex >= 7)
                 _player.GainScore();
-            if (_gameMode.GameOver)
-                Status = (_player.Health <= 0) ? States.PlayerDefeated : States.LevelCompleted;
+            if (_gameMode.GameOver) CurrentStatus = Status.Over;
         }
         public void Draw()
         {
-            Background.DrawExplosions();
+            DrawExplosions();
             DrawEnemies();
             DrawPlayerInfo();
             _player.Draw();
@@ -66,9 +66,10 @@ namespace Space_Shooter
             if (SplashKit.KeyDown(KeyCode.UpKey) && _player.Y > Global.Height / 2)   _player.MoveUp();
             if (SplashKit.KeyDown(KeyCode.DownKey) && _player.Y < Global.Height)  _player.MoveDown();
             if (SplashKit.KeyDown(KeyCode.SpaceKey) && _player.CoolDown == 0) _player.Shoot();
-            if (SplashKit.KeyDown(KeyCode.EscapeKey)) Status = States.PlayerDefeated;
+            if (SplashKit.KeyDown(KeyCode.EscapeKey)) CurrentStatus = Status.Paused;
         }
         private void DrawEnemies() => _gameMode.Enemies.ForEach(enemy => enemy.Draw());
+        private void DrawExplosions() => _explosions.ForEach(explosion => explosion.Update());
         private void UpdateEnemies()
         {
             _gameMode.CheckGameEnding(_player);
@@ -93,8 +94,17 @@ namespace Space_Shooter
             if (enemy.Y > Global.Height || enemy.IsDestroyed)
             {
                 if (enemy.IsDestroyed) 
-                    Background.CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType); 
+                    CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType); 
                 _gameMode.RemoveEnemy(enemy);            
+            }
+        }
+        private void CreateExplosion(int x, int y, Explosion.Type type) => _explosions.Add(new Explosion(x, y, type));
+        private void UpdateExplosions()
+        {
+            foreach (var explosion in _explosions.ToArray())
+            {
+                explosion.Update();
+                if (explosion.AnimationEnded()) _explosions.Remove(explosion);
             }
         }
     }

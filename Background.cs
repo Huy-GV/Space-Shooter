@@ -13,27 +13,19 @@ namespace Space_Shooter
     }
     public static class Background
     {
+        private static bool _musicOn = true;
         private static SoundEffect _music = SplashKit.LoadSoundEffect("arcade", "arcade.mp3");
         private static Bitmap _background = SplashKit.LoadBitmap("space", "space.png");
-        private static List<Explosion> _explosions = new List<Explosion>();
         public static void DrawBackground()
         { 
             SplashKit.ClearScreen(Color.Black);
             SplashKit.DrawBitmap(_background, 0, 0);
         }
-        public static void UpdateExplosions()
+        public static void PlayMusic()
         {
-            foreach (var explosion in _explosions.ToArray())
-            {
-                explosion.Update();
-                if (explosion.AnimationEnded()) _explosions.Remove(explosion);
-            }
+            if (!SplashKit.SoundEffectPlaying("arcade") && _musicOn) 
+                SplashKit.PlaySoundEffect("arcade", (float)0.1); 
         }
-        public static void DrawExplosions()
-        {
-            foreach (var explosion in _explosions.ToArray()) explosion.Draw();
-        }
-        public static void PlayMusic(){if (!SplashKit.SoundEffectPlaying("arcade")) SplashKit.PlaySoundEffect("arcade", (float)0.1); }
-        public static void CreateExplosion(int x, int y, Explosion.Type type) => _explosions.Add(new Explosion(x, y, type));
+        public static void ToggleMusic() => _musicOn = !_musicOn;
     }
 }

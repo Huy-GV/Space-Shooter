@@ -9,10 +9,40 @@ namespace Space_Shooter
         protected Game _game;
         public abstract void Draw();
         public abstract void ProcessInput();
-        public abstract void Update();
+        public virtual void Update(){ return;}
         public State(Game game)
         {
             _game = game;
+        }
+    }
+    public class PausedGame : State
+    {
+        public PausedGame(Game game) : base(game){}
+        public override void Draw()
+        {
+            SplashKit.DrawText("Game Paused", Color.Yellow, Global.BigFont, 60, 150, 50);
+            SplashKit.DrawText("Resume", Color.Green, Global.MediumFont, 40, 150, 200);
+            SplashKit.DrawText("Toggle music", Color.Blue, Global.MediumFont, 40, 150, 300);
+            SplashKit.DrawText("Quit to Menu", Color.Red, Global.MediumFont, 40, 150, 400);
+        }
+        //TODO: bug: quitting to menu from paused game does not reset the session
+        public override void ProcessInput()
+        {
+            if (SplashKit.MouseClicked(MouseButton.LeftButton))
+            {
+                option = (int)Math.Floor((SplashKit.MouseY() / 100));
+                switch(option)
+                {
+                    case 2: _game.SetState(_game.PlayingState); break;
+                    case 3: Background.ToggleMusic(); break;
+                    case 4: 
+                    {
+                        PlayingState.DeleteSession();
+                        _game.SetState(_game.MainMenuState); break;
+                    }
+                    default: break;
+                } 
+            }
         }
     }
     public class MainMenu : State
@@ -64,15 +94,11 @@ namespace Space_Shooter
             }
 
         }
-        public override void Update()
-        {
-            return;
-        }
     }
     public class PlayingState : State
     {
         private Session _session;
-        private bool _sessionStarted;
+        private static bool _sessionStarted;
         public PlayingState(Game game) : base(game)
         {
             _session = null;
@@ -97,12 +123,17 @@ namespace Space_Shooter
             } else
             {
                 _session.Update();
-                if (_session.Status != Session.States.PlayerAlive)
+                if (_session.CurrentStatus == Session.Status.Over)
                 {
                     _game.SetState(_game.GameOverState);
                     _sessionStarted = false;
-                }  
+                } else if (_session.CurrentStatus == Session.Status.Paused)
+                    _game.SetState(_game.PausedGameState);
             }             
+        }
+        public static void DeleteSession()
+        {
+            _sessionStarted = false;
         }
     }
     public class GameModeState : State
@@ -137,10 +168,6 @@ namespace Space_Shooter
         {
             SplashKit.DrawText("Game Over", Color.Yellow, Global.BigFont, 60, 150, 50);
             SplashKit.DrawText("Quit to Menu", Color.Red, Global.MediumFont, 40, 150, 200);
-        }
-        public override void Update()
-        {
-            return;
         }
         public override void ProcessInput()
         {
