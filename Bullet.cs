@@ -5,7 +5,6 @@ namespace Space_Shooter
 {
     public class Bullet : GameObject
     {
-        //TODO: add a angle parameter here
         private MovePattern _movePattern;
         public enum Type
         {

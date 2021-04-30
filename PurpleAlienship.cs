@@ -11,7 +11,7 @@ namespace Space_Shooter
             ExplosionType = Explosion.Type.Fire;
             Angle = 90;
             Bitmap = SplashKit.LoadBitmap("PurpleAlienship", "Alienships/PurpleAlienship.png");
-            _gunSystem = new GunSystem(Bullet.Direction.Down, 3);
+            _gunSystem = new GunSystem( 3);
             _movePattern = new HorizontalMovement(2, 3, X, Y);
         }
         public PurpleAlienship() : this(Global.Width, Global.Height) { }

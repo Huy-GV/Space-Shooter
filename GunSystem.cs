@@ -12,16 +12,15 @@ namespace Space_Shooter
         private double _coolDownLimit;
         private Bullet.Type _type;
         private bool _hasSound;
-        public GunSystem(Bullet.Direction direction, double coolDownLimit, Bullet.Type type, bool hasSound)
+        public GunSystem(double coolDownLimit, Bullet.Type type, bool hasSound)
         {
             Bullets = new List<Bullet>();
-            _direction = direction;
             _coolDownLimit = coolDownLimit;
             _type = type;
             _hasSound = hasSound;
         }
-        public GunSystem() : this (Bullet.Direction.Down, 2.5, Bullet.Type.BlueLaser, false) { }
-        public GunSystem(Bullet.Direction direction, double coolDownLimit) : this( direction, coolDownLimit, Bullet.Type.BlueLaser, false){ }
+        public GunSystem() : this ( 2.5, Bullet.Type.BlueLaser, false) { }
+        public GunSystem(double coolDownLimit) : this(coolDownLimit, Bullet.Type.BlueLaser, false){ }
         public bool CoolDownEnded{ get{ return _coolDownTime == 0;}}
         public void OpenFire(int x, int y, int angle)
         {

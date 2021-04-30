@@ -51,7 +51,7 @@ namespace Space_Shooter
             _flyScript = SplashKit.LoadAnimationScript("FlyingScript1", "spaceship1Script.txt");
             _animation = _flyScript.CreateAnimation("flying");
             _option = SplashKit.OptionWithAnimation(_animation);
-            _gun = new GunSystem(Bullet.Direction.Up, 1.25, Bullet.Type.RedBeam, true);
+            _gun = new GunSystem(1.25, Bullet.Type.RedBeam, true);
             _speed = 4;
         }
         private void SetAgileShip()
@@ -62,7 +62,7 @@ namespace Space_Shooter
             _flyScript = SplashKit.LoadAnimationScript("FlyingScript2", "spaceship2Script.txt");
             _animation = _flyScript.CreateAnimation("flying");
             _option = SplashKit.OptionWithAnimation(_animation);
-            _gun = new GunSystem(Bullet.Direction.Up, 1, Bullet.Type.RedBeam, true);
+            _gun = new GunSystem(1, Bullet.Type.RedBeam, true);
             _speed = 5;
         }
         private void SetArmouredShip()
@@ -73,7 +73,7 @@ namespace Space_Shooter
             _flyScript = SplashKit.LoadAnimationScript("FlyingScript3", "spaceship3Script.txt");
             _animation = _flyScript.CreateAnimation("flying");
             _option = SplashKit.OptionWithAnimation(_animation);
-            _gun = new GunSystem(Bullet.Direction.Up, 1.5, Bullet.Type.RedBeam, true);
+            _gun = new GunSystem(1.5, Bullet.Type.RedBeam, true);
             _speed = 3;
         }
         public override void Draw()

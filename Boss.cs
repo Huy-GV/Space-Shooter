@@ -35,7 +35,7 @@ namespace Space_Shooter
         {
             X = Global.Width / 2;
             Y = -20;
-            _gun = new GunSystem(Bullet.Direction.Down, 1.2, Bullet.Type.RedLaser, false);
+            _gun = new GunSystem(1.2, Bullet.Type.RedLaser, false);
             _speed = 5;
             Bitmap = SplashKit.LoadBitmap("Nightmare", "Bosses/Nightmare.png");
             _movePattern = new ZigzagMovement(_speed, _speed - 2, X, Y, true);
@@ -87,7 +87,7 @@ namespace Space_Shooter
         public Phantom()
         {
             SetAnimation();
-            _gun = new GunSystem(Bullet.Direction.Down, 1, Bullet.Type.TripleLaser, false);
+            _gun = new GunSystem(1, Bullet.Type.TripleLaser, false);
             _speed = 4;
             _isInvisible = false;
             _invisibleDuration = 3;
