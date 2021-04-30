@@ -25,7 +25,6 @@ namespace Space_Shooter
             SplashKit.DrawText("Toggle music", Color.Blue, Global.MediumFont, 40, 150, 300);
             SplashKit.DrawText("Quit to Menu", Color.Red, Global.MediumFont, 40, 150, 400);
         }
-        //TODO: bug: quitting to menu from paused game does not reset the session
         public override void ProcessInput()
         {
             if (SplashKit.MouseClicked(MouseButton.LeftButton))
