@@ -87,7 +87,7 @@ namespace Space_Shooter
         public void MoveDown() => Y += _speed;
         public void Shoot() 
         { 
-            if (_gun.CoolDownEnded) _gun.OpenFire(X, Y);
+            if (_gun.CoolDownEnded) _gun.OpenFire(X, Y, -90);
         }
         public override void Update()
         {

@@ -50,7 +50,7 @@ namespace Space_Shooter
         }
         private void UpdateGuns()
         {
-            _gun.AutoFire(X, Y);
+            _gun.AutoFire(X, Y, Angle);
             _gun.Update();
         }
         public override void Draw()
@@ -104,7 +104,7 @@ namespace Space_Shooter
         public override void Update()
         {
             _movePattern.Update();
-            _gun.AutoFire(X, Y);
+            _gun.AutoFire(X, Y, Angle);
             _gun.Update();
             _animation.Update();
             X = _movePattern.UpdatedX;

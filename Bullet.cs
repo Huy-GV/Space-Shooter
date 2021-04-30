@@ -5,6 +5,7 @@ namespace Space_Shooter
 {
     public class Bullet : GameObject
     {
+        //TODO: add a angle parameter here
         private MovePattern _movePattern;
         public enum Type
         {
@@ -18,16 +19,18 @@ namespace Space_Shooter
             Up = -1,
             Down = +1
         }
+        private double _angle;
         public int Damage{get; private set;}
         private int _direction;
         private int _speed;
-        public Bullet(int x, int y, Direction direction, Type type, bool hasSound){
+        public Bullet(int x, int y, Direction direction, Type type, bool hasSound, int angle){
             if (hasSound) SplashKit.LoadSoundEffect("laserSound", "laser.mp3").Play();
             X = x;
             Y = y;
             _direction = (int)direction;
             SetType(type);
-            _movePattern = new StraightMovement(_speed, X, Y, 90 * _direction);
+            _angle = angle;
+            _movePattern = new StraightMovement(_speed, X, Y, angle);
         }
         private void SetType(Type type)
         {

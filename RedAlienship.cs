@@ -21,7 +21,7 @@ namespace Space_Shooter
         }
         public override void Update()
         {
-            if (Y >= 0) _gunSystem.AutoFire(X, Y);
+            if (Y >= 0) _gunSystem.AutoFire(X, Y, Angle);
             _gunSystem.Update();
             _movePattern.Update();
             Y = _movePattern.UpdatedY;
