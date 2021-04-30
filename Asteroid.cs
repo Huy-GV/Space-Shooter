@@ -11,8 +11,8 @@ namespace Space_Shooter
             SetCoordinates(lastAsteroidX, lastAsteroidY);
             SetAnimation();
             _movePattern = new VerticalMovement(4, X, Y);
-            XOffset = 45;
-            YOffset = 45;
+            XOffset = 50;
+            YOffset = 50;
             ExplosionType = Explosion.Type.Fire;
         }
         private void SetAnimation()
@@ -32,6 +32,11 @@ namespace Space_Shooter
         {
             _movePattern.Update();
             Y = (int)_movePattern.UpdatedY;
+
+            // Console.WriteLine("X is " + X);
+            // Console.WriteLine("offset is " + XOffset);
+            // Console.WriteLine("X from bitmap is " + Bitmap.CellCenter.X);
         } 
+        
     }
 }

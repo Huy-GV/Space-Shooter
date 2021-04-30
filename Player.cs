@@ -93,6 +93,7 @@ namespace Space_Shooter
         }
         public override void Update()
         {
+            Console.WriteLine("player x is " + X);
             _animation.Update();
             _gun.Update();
         }

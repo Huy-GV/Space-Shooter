@@ -62,7 +62,15 @@ namespace Space_Shooter
             }
         }
         private void Move() => Y -= _speed * _direction; 
-        public override void Update() => Move(); 
+        public override void Update() {            
+            Console.WriteLine("X is " + X);
+            // Console.WriteLine("offset is " + XOffset);
+            // Console.WriteLine("X from bitmap is " + Bitmap.CellCenter.X); 
+            
+            Move();
+        
+        } 
+
         public bool HitTarget(GameObject gameObject)
         {
             return (SplashKit.BitmapCollision(
