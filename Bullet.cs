@@ -27,7 +27,7 @@ namespace Space_Shooter
             Y = y;
             _direction = (int)direction;
             SetType(type);
-            _movePattern = new VerticalMovement(_speed, X, Y, _direction);
+            _movePattern = new StraightMovement(_speed, X, Y, 90 * _direction);
         }
         private void SetType(Type type)
         {

@@ -5,23 +5,23 @@ namespace Space_Shooter{
         protected MovePattern _movePattern;
         public Explosion.Type ExplosionType{get; protected set;}  
         public int CollisionDamage{get; protected set;}
-        public bool IsDestroyed{get; protected set;}
-        public void GetDestroyed() => IsDestroyed = true;
+        public int Health{get; protected set;}
+        public Enemy()
+        {
+            Health = 1;
+            CollisionDamage = 10;
+        }
+        public void LoseHealth(int damage) => Health -= damage;
         public virtual void CheckPlayerBullets(List<Bullet> bullets)
         {
             foreach(var bullet in bullets.ToArray())
             {
                 if (bullet.HitTarget(this))
                 {
-                    GetDestroyed();
+                    Health -= bullet.Damage;
                     bullets.Remove(bullet);
                 }
             }
-        }
-        public Enemy()
-        {
-            IsDestroyed = false;
-            CollisionDamage = 10;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Space_Shooter
             ExplosionType = Explosion.Type.Fire;
             Bitmap = SplashKit.LoadBitmap("BlueAlienship", "Alienships/BlueAlienship.png");
             _gunSystem = new GunSystem(Bullet.Direction.Down, 3);
-            _movePattern = new VerticalMovement(3, X, Y);
+            _movePattern = new StraightMovement(3, X, Y, 90);
         }
         public BlueAlienship() : this(Global.Width, Global.Height) { }
         public override void Draw()

@@ -107,19 +107,16 @@ namespace Space_Shooter
             }
         }
     }
-    public class ChargingMovement : MovePattern
+    public class StraightMovement : MovePattern
     {
         private Vector2D _pathVector;
-        public ChargingMovement(int speed, int x, int y) : base(speed, speed,x , y)
+        private int _targetAngle;
+        public StraightMovement(int speed, int x, int y, int angle) : base(speed, speed,x , y)
         {
-            var randomX = SplashKit.Rnd(0, 6);
-            var targetX = (2 * randomX + 1) * 50; 
-            var targetY = Global.Height - 10;
-
-            _pathVector = new Vector2D();
-            _pathVector.X = targetX - x;
-            _pathVector.Y = targetY - y;
-            _pathVector = SplashKit.UnitVector(_pathVector);
+            _targetAngle = angle;
+            _pathVector = SplashKit.VectorFromAngle(_targetAngle, 1);
+            Console.WriteLine("angle is " + _targetAngle);
+            Console.WriteLine("vector is " + _pathVector.X +" "+ _pathVector.Y);
         }
         public override void Update()
         {
@@ -128,10 +125,29 @@ namespace Space_Shooter
         }
         public double GetAngle(int x)
         {
-            var yAxis = new Vector2D();
-            yAxis.X = 0;
-            yAxis.Y = -1;
-            var angle = SplashKit.AngleBetween(yAxis, _pathVector) - 90;
+            var angle = _targetAngle - 90;
+            return angle;
+        }
+    }
+    public class ChargingMovement : MovePattern
+    {
+        private Vector2D _pathVector;
+        private double _targetAngle;
+        public ChargingMovement(int speed, int x, int y) : base(speed, speed,x , y)
+        {
+            _targetAngle = (SplashKit.Rnd(0, 42) + 69);
+            _pathVector = SplashKit.VectorFromAngle(_targetAngle, 1);
+            Console.WriteLine("angle is " + _targetAngle);
+            Console.WriteLine("vector is " + _pathVector.X +" "+ _pathVector.Y);
+        }
+        public override void Update()
+        {
+            _position.X += _pathVector.X * VerticalSpeed;
+            _position.Y += _pathVector.Y * VerticalSpeed;
+        }
+        public double GetAngle(int x)
+        {
+            var angle =  _targetAngle - 90;
             return angle;
         }
     }

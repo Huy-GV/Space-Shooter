@@ -10,7 +10,7 @@ namespace Space_Shooter
         {
             SetCoordinates(lastAsteroidX, lastAsteroidY);
             SetAnimation();
-            _movePattern = new VerticalMovement(4, X, Y);
+            _movePattern = new StraightMovement(4, X, Y, 90);
             ExplosionType = Explosion.Type.Fire;
         }
         private void SetAnimation()

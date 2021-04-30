@@ -8,13 +8,12 @@ namespace Space_Shooter
     {
         public List<Bullet> Bullets{get{ return _gun.Bullets;}}
         protected GunSystem _gun;   
-        public int Damage{get; protected set;}
-        protected int _health;
         protected int _speed;
         public Boss()
         {
             X = Global.Width / 2;
             Y = -21;
+            Health = 80;
         }
         public override void CheckPlayerBullets(List<Bullet> bullets)
         {
@@ -23,9 +22,7 @@ namespace Space_Shooter
                 if (bullet.HitTarget(this))
                 {
                     bullets.Remove(bullet);
-                    _health -= bullet.Damage;
-                    if (_health <= 0) IsDestroyed = true;
-                    Console.WriteLine("boss hit");
+                    Health -= bullet.Damage;
                 }
             }
         }
@@ -38,11 +35,8 @@ namespace Space_Shooter
         {
             X = Global.Width / 2;
             Y = -20;
-            Damage = 12;
             _gun = new GunSystem(Bullet.Direction.Down, 1.2, Bullet.Type.RedLaser, false);
             _speed = 5;
-            _health = 70;
-            Damage = 10;
             Bitmap = SplashKit.LoadBitmap("Nightmare", "Bosses/Nightmare.png");
             _movePattern = new ZigzagMovement(_speed, _speed - 2, X, Y, true);
         }
@@ -92,11 +86,9 @@ namespace Space_Shooter
         private AnimationScript _flyScript;
         public Phantom()
         {
-            Damage = 15;
             SetAnimation();
             _gun = new GunSystem(Bullet.Direction.Down, 1, Bullet.Type.TripleLaser, false);
             _speed = 4;
-            _health = 80;
             _isInvisible = false;
             _invisibleDuration = 3;
             _movePattern = new ZigzagMovement(_speed, _speed, X, Y, true);

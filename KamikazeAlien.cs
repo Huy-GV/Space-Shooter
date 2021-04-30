@@ -9,7 +9,7 @@ namespace Space_Shooter
         private DrawingOptions _option;
         public KamikazeAlien(int lastEnemyX, int lastEnemyY) : base()
         {
-            X = (2 * SplashKit.Rnd(0, 6) + 1) * 50; 
+            X = Global.Width / 2;
             Y = -50;
             CollisionDamage = 13;
             ExplosionType = Explosion.Type.Fire;
