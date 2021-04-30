@@ -70,7 +70,7 @@ namespace Space_Shooter
             if (SplashKit.KeyDown(KeyCode.EscapeKey)) CurrentStatus = Status.Paused;
         }
         private void DrawEnemies() => _gameMode.Enemies.ForEach(enemy => enemy.Draw());
-        private void DrawExplosions() => _explosions.ForEach(explosion => explosion.Update());
+        private void DrawExplosions() => _explosions.ForEach(explosion => explosion.Draw());
         private void UpdateEnemies()
         {
             _gameMode.CheckGameEnding(_player);
