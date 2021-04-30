@@ -80,11 +80,10 @@ namespace Space_Shooter
                 enemy.Update();
                 enemy.CheckPlayerBullets(_player.Bullets);
                 CheckEnemyStatus(enemy);
-                if (_player.CollideWith(enemy))
+                if (_player.CollideWith(enemy) && !(enemy is Boss))
                 { 
                     _player.LoseHealth(enemy.CollisionDamage);
-                    if (!(enemy is Boss))
-                        enemy.GetDestroyed();
+                    enemy.GetDestroyed();
                 }
                 if (enemy is IHaveGun) 
                     _player.CheckEnemyBullets(((IHaveGun)enemy).Bullets);   
