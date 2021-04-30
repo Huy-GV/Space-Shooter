@@ -32,7 +32,11 @@ namespace Space_Shooter
                 option = (int)Math.Floor((SplashKit.MouseY() / 100));
                 switch(option)
                 {
-                    case 2: _game.SetState(_game.PlayingState); break;
+                    case 2:
+                    {
+                        PlayingState.ContinueSession();
+                        _game.SetState(_game.PlayingState); break;
+                    } 
                     case 3: Background.ToggleMusic(); break;
                     case 4: 
                     {
@@ -96,7 +100,7 @@ namespace Space_Shooter
     }
     public class PlayingState : State
     {
-        private Session _session;
+        private static Session _session;
         private static bool _sessionStarted;
         public PlayingState(Game game) : base(game)
         {
@@ -110,7 +114,7 @@ namespace Space_Shooter
         }
         public override void ProcessInput()
         {
-            if (_sessionStarted)
+            if (_sessionStarted && _session.CurrentStatus != Session.Status.Paused)
                 _session.ProcessInput();
         }
         public override void Update()
@@ -130,10 +134,9 @@ namespace Space_Shooter
                     _game.SetState(_game.PausedGameState);
             }             
         }
-        public static void DeleteSession()
-        {
-            _sessionStarted = false;
-        }
+        public static void DeleteSession()=> _sessionStarted = false;
+        public static void ContinueSession()=> _session.CurrentStatus = Session.Status.Running;
+         
     }
     public class GameModeState : State
     {

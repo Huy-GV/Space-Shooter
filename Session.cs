@@ -16,7 +16,7 @@ namespace Space_Shooter
         private int _gameModeIndex;
         private Player _player;
         private GameMode _gameMode;
-        public Status CurrentStatus{get; private set;}
+        public Status CurrentStatus{get; set;}
         public Session(int spaceshipChoice, int gameModeIndex)
         {
             _player = new Player(spaceshipChoice);
@@ -83,7 +83,7 @@ namespace Space_Shooter
                 if (_player.CollideWith(enemy) && !(enemy is Boss))
                 { 
                     _player.LoseHealth(enemy.CollisionDamage);
-                    enemy.GetDestroyed();
+                    enemy.LoseHealth(100);
                 }
                 if (enemy is IHaveGun) 
                     _player.CheckEnemyBullets(((IHaveGun)enemy).Bullets);   
@@ -91,9 +91,9 @@ namespace Space_Shooter
         }
         private void CheckEnemyStatus(Enemy enemy)
         {
-            if (enemy.Y > Global.Height || enemy.IsDestroyed)
+            if (enemy.Y > Global.Height || enemy.Health <= 0)
             {
-                if (enemy.IsDestroyed) 
+                if (enemy.Health <= 0) 
                     CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType); 
                 _gameMode.RemoveEnemy(enemy);            
             }
