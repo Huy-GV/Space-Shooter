@@ -45,7 +45,8 @@ namespace Space_Shooter
             _player.Update();
             if ((_player.Score < 100 && _gameModeIndex < 7) || _gameModeIndex >= 7)
                 _player.GainScore();
-            if (_gameMode.GameOver) CurrentStatus = Status.Over;
+            if (_gameMode.GameOver) 
+                CurrentStatus = Status.Over;
         }
         public void Draw()
         {

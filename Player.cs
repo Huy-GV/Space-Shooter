@@ -104,7 +104,6 @@ namespace Space_Shooter
             {
                 if (bullet.HitTarget(this))
                 {
-                    //TODO: write a separate methods that tell each object what to do after getting shot?
                     Health -= bullet.Damage;
                     enemyBullets.Remove(bullet);
                 }
