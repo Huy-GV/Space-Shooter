@@ -46,7 +46,5 @@ namespace Space_Shooter
             _movePattern.Update();
             Y = _movePattern.UpdatedY;
         }
-        private void Move() => Y += 3;
-        
     }
 }
