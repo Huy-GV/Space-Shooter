@@ -7,7 +7,6 @@ namespace Space_Shooter
     public class GunSystem
     {
         public List<Bullet> Bullets{get; private set;}
-        private Bullet.Direction _direction;
         private double _coolDownTime = 0;
         private double _coolDownLimit;
         private Bullet.Type _type;
@@ -24,14 +23,14 @@ namespace Space_Shooter
         public bool CoolDownEnded{ get{ return _coolDownTime == 0;}}
         public void OpenFire(int x, int y, int angle)
         {
-            Bullets.Add(new Bullet(x, y, _direction, _type, _hasSound, angle));
+            Bullets.Add(new Bullet(x, y, _type, _hasSound, angle));
             SetCoolDown();
         }
         public void AutoFire(int x, int y, int angle)
         {
             if (CoolDownEnded)
             {
-                Bullets.Add(new Bullet(x, y, _direction, _type, _hasSound, angle));
+                Bullets.Add(new Bullet(x, y, _type, _hasSound, angle));
                 SetCoolDown();
             }
         }

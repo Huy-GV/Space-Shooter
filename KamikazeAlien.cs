@@ -13,15 +13,15 @@ namespace Space_Shooter
             Y = -50;
             CollisionDamage = 13;
             ExplosionType = Explosion.Type.Fire;
-            _movePattern = new ChargingMovement(9, X, Y);
+            Angle = (SplashKit.Rnd(0, 42) + 69);
+            _movePattern = new StraightMovement(9, X, Y, Angle);
             SetAnimations();
         }
         public KamikazeAlien() : this(Global.Width, Global.Height) { }
         private void SetAnimations()
         {
             Bitmap = SplashKit.LoadBitmap("KamikazeAlien", "Alienships/KamikazeAlien.png");
-            var angle = (_movePattern as ChargingMovement).GetAngle(X);
-            _option = SplashKit.OptionRotateBmp(angle);
+            _option = SplashKit.OptionRotateBmp(Angle - 90);
         }
         public override void Draw()
         { 

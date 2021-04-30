@@ -13,20 +13,13 @@ namespace Space_Shooter
             RedBeam,
             TripleLaser
         }
-        public enum Direction
-        {
-            Up = -1,
-            Down = +1
-        }
-        private double _angle;
+        private int _angle;
         public int Damage{get; private set;}
-        private int _direction;
         private int _speed;
-        public Bullet(int x, int y, Direction direction, Type type, bool hasSound, int angle){
+        public Bullet(int x, int y, Type type, bool hasSound, int angle){
             if (hasSound) SplashKit.LoadSoundEffect("laserSound", "laser.mp3").Play();
             X = x;
             Y = y;
-            _direction = (int)direction;
             SetType(type);
             _angle = angle;
             _movePattern = new StraightMovement(_speed, X, Y, angle);
