@@ -5,6 +5,7 @@ namespace Space_Shooter
 {
     public class Bullet : GameObject
     {
+        private MovePattern _movePattern;
         public enum Type
         {
             RedLaser,
@@ -14,8 +15,8 @@ namespace Space_Shooter
         }
         public enum Direction
         {
-            Up = 1,
-            Down = -1
+            Up = -1,
+            Down = +1
         }
         public int Damage{get; private set;}
         private int _direction;
@@ -26,6 +27,7 @@ namespace Space_Shooter
             Y = y;
             _direction = (int)direction;
             SetType(type);
+            _movePattern = new VerticalMovement(_speed, X, Y, _direction);
         }
         private void SetType(Type type)
         {
@@ -53,9 +55,11 @@ namespace Space_Shooter
                     break;             
             }
         }
-        private void Move() => Y -= _speed * _direction; 
-        public override void Update() {            
-            Move();
+        public override void Update() 
+        {            
+            _movePattern.Update();
+            Y = _movePattern.UpdatedY;
+            X = _movePattern.UpdatedX;
         } 
 
         public bool HitTarget(GameObject gameObj)

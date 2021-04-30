@@ -44,10 +44,17 @@ namespace Space_Shooter
     }
     public class VerticalMovement : MovePattern
     {
-        public VerticalMovement(int verticalSpeed, double x, double y) : base(0, verticalSpeed, x, y) {}
+        public VerticalMovement(int verticalSpeed, double x, double y) : base(0, verticalSpeed, x, y)
+        {
+            _direction = 1;
+        }
+        public VerticalMovement(int verticalSpeed, double x, double y, int direction) : base(0, verticalSpeed, x, y) 
+        {
+            _direction = direction;
+        }
         public override void Update()
         {
-            _position.Y += VerticalSpeed;
+            _position.Y += VerticalSpeed * _direction;
         }
     }
     public class ZigzagMovement : MovePattern
