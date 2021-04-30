@@ -32,29 +32,21 @@ namespace Space_Shooter
             switch(type)
             {
                 case Type.RedLaser:
-                    XOffset = 100;
-                    YOffset = 146;
                     Bitmap = SplashKit.LoadBitmap("RedLaser", "Bullets/RedLaser.png");
                     _speed = 9;
                     Damage = 15;
                     break;
                 case Type.BlueLaser:
-                    XOffset = 21;
-                    YOffset = 30;
                     Bitmap = SplashKit.LoadBitmap("BlueLaser", "Bullets/BlueLaser.png");
                     _speed = 7;
                     Damage = 7;
                     break;
                 case Type.RedBeam:
-                    XOffset = 21;
-                    YOffset = 30;
                     Bitmap = SplashKit.LoadBitmap("RedBeam", "Bullets/RedBeam.png");
                     _speed = 8;
                     Damage = 7;
                     break;  
                 case Type.TripleLaser:
-                    XOffset = 63;
-                    YOffset = 30;
                     Bitmap = SplashKit.LoadBitmap("TripleLaser", "Bullets/TripleLaser.png");
                     _speed = 7;
                     Damage = 20;
@@ -63,19 +55,14 @@ namespace Space_Shooter
         }
         private void Move() => Y -= _speed * _direction; 
         public override void Update() {            
-            Console.WriteLine("X is " + X);
-            // Console.WriteLine("offset is " + XOffset);
-            // Console.WriteLine("X from bitmap is " + Bitmap.CellCenter.X); 
-            
             Move();
-        
         } 
 
-        public bool HitTarget(GameObject gameObject)
+        public bool HitTarget(GameObject gameObj)
         {
             return (SplashKit.BitmapCollision(
-                Bitmap, AdjustedX, AdjustedY,
-                gameObject.Bitmap, gameObject.AdjustedX, gameObject.AdjustedY));
+                Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y,
+                gameObj.Bitmap, gameObj.X - gameObj.Bitmap.CellCenter.X,  gameObj.Y - gameObj.Bitmap.CellCenter.Y));
         }
     }
 }

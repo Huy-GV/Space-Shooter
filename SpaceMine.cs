@@ -11,8 +11,6 @@ namespace Space_Shooter
         private AnimationScript _flyScript;
         public Spacemine(int lastSpacemineX, int lastSpacemineY): base()
         {
-            XOffset = 60;
-            YOffset = 60;
             ExplosionType = Explosion.Type.Default;
             CollisionDamage = 16;
             SetAnimations();
@@ -41,7 +39,7 @@ namespace Space_Shooter
             _option = SplashKit.OptionWithAnimation(_animation);
         }
         public Spacemine() : this(Global.Width, Global.Height){}
-        public override void Draw()=> SplashKit.DrawBitmap(Bitmap, AdjustedX, AdjustedY, _option); 
+        public override void Draw()=> SplashKit.DrawBitmap(Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y, _option); 
         public override void Update()
         { 
             _animation.Update();

@@ -24,9 +24,7 @@ namespace Space_Shooter
         private SoundEffect _laserSound = SplashKit.LoadSoundEffect("laserSound", "laser.mp3");
         public Player(int option){
             X = Global.Width / 2;
-            Y = Global.Height * 4 / 5;
-            XOffset = 45;
-            YOffset = 45;       
+            Y = Global.Height * 4 / 5;      
             Score = 0;
             SetAnimation((ShipType)option);
         }
@@ -80,7 +78,7 @@ namespace Space_Shooter
         }
         public override void Draw()
         { 
-            SplashKit.DrawBitmap(Bitmap,AdjustedX,AdjustedY,_option );
+            SplashKit.DrawBitmap(Bitmap,X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y,_option );
             _gun.DrawBullets();   
         }
         public void MoveLeft() => X -= _speed;
@@ -93,7 +91,6 @@ namespace Space_Shooter
         }
         public override void Update()
         {
-            Console.WriteLine("player x is " + X);
             _animation.Update();
             _gun.Update();
         }
@@ -110,11 +107,11 @@ namespace Space_Shooter
                 }
             }
         }
-        public bool CollideWith(GameObject gameObject)
+        public bool CollideWith(GameObject gameObj)
         {
             return (SplashKit.BitmapCollision(
-                Bitmap, AdjustedX, AdjustedY,
-                gameObject.Bitmap, gameObject.AdjustedX, gameObject.AdjustedY));
+                Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y,
+                gameObj.Bitmap, gameObj.X - gameObj.Bitmap.CellCenter.X,  gameObj.Y - gameObj.Bitmap.CellCenter.Y));
         }
     }
 }

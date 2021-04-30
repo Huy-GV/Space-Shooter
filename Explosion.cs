@@ -43,8 +43,6 @@ namespace Space_Shooter
         }
         private void SetLaserExplosion()
         {
-            XOffset = 90;
-            YOffset = 90;
             Bitmap = SplashKit.LoadBitmap("laserExplosion", "Explosions/laserExplosion.png"); 
             Bitmap.SetCellDetails(180, 180, 17, 1, 17);
             _explosionScript = SplashKit.LoadAnimationScript("laserExplosion", "laserExplosion.txt");
@@ -53,8 +51,6 @@ namespace Space_Shooter
         }
         private void SetBlueLaserExplosion()
         {
-            XOffset = 60;
-            YOffset = 60;
             Bitmap = SplashKit.LoadBitmap("blueExplosion", "Explosions/blueExplosion.png"); 
             Bitmap.SetCellDetails(120, 120, 17, 1, 17);
             _explosionScript = SplashKit.LoadAnimationScript("blueLaserExplosion", "blueLaserExplosion.txt");
@@ -63,8 +59,6 @@ namespace Space_Shooter
         }
         private void SetFireExplosion()
         {
-            XOffset = 50;
-            YOffset = 50;
             Bitmap = SplashKit.LoadBitmap("fireExplosion", "Explosions/fireExplosion.png"); 
             Bitmap.SetCellDetails(100, 100, 15, 1, 15);
             _explosionScript = SplashKit.LoadAnimationScript("fireExplosion", "fireExplosion.txt");
@@ -73,15 +67,13 @@ namespace Space_Shooter
         }
         private void SetDefaultExplosion()
         {
-            XOffset = 90;
-            YOffset = 90;
             Bitmap = SplashKit.LoadBitmap("defaultExplosion", "Explosions/defaultExplosion.png"); 
             Bitmap.SetCellDetails(180, 180, 20, 1, 20);
             _explosionScript = SplashKit.LoadAnimationScript("defaultExplosion", "defaultExplosion.txt");
             _animation = _explosionScript.CreateAnimation("defaultExplosion");
             _option = SplashKit.OptionWithAnimation(_animation);
         }
-        public override void Draw() => SplashKit.DrawBitmap( Bitmap,  AdjustedX, AdjustedY,  _option); 
+        public override void Draw() => SplashKit.DrawBitmap(Bitmap,X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y,_option ); 
         public override void Update()
         {
             _animation.Update();

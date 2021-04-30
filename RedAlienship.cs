@@ -9,20 +9,14 @@ namespace Space_Shooter
         public RedAlienship(int lastEnemyX, int lastEnemyY) : base(lastEnemyX, lastEnemyY)
         {
             ExplosionType = Explosion.Type.RedLaser;
-            SetAnimations();
+            Bitmap = SplashKit.LoadBitmap("RedAlienship", "Alienships/RedAlienship.png");
             _gunSystem = new GunSystem(Bullet.Direction.Down, 2);
             _movePattern = new ZigzagMovement(2,3, X, Y);
         }
         public RedAlienship() : this(Global.Width, Global.Height) { }
-        private void SetAnimations()
-        {
-            XOffset = 55;
-            YOffset = 53;
-            Bitmap = SplashKit.LoadBitmap("RedAlienship", "Alienships/RedAlienship.png");
-        }
         public override void Draw()
         { 
-            SplashKit.DrawBitmap(Bitmap, AdjustedX, AdjustedY); 
+            SplashKit.DrawBitmap(Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y); 
             _gunSystem.DrawBullets();
         }
         public override void Update()

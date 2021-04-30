@@ -19,15 +19,13 @@ namespace Space_Shooter
         public KamikazeAlien() : this(Global.Width, Global.Height) { }
         private void SetAnimations()
         {
-            XOffset = 40;
-            YOffset = 55;
             Bitmap = SplashKit.LoadBitmap("KamikazeAlien", "Alienships/KamikazeAlien.png");
             var angle = (_movePattern as ChargingMovement).GetAngle(X);
             _option = SplashKit.OptionRotateBmp(angle);
         }
         public override void Draw()
         { 
-            SplashKit.DrawBitmap(Bitmap, AdjustedX, AdjustedY, _option); 
+            SplashKit.DrawBitmap(Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y, _option); 
         }
         public override void Update()
         {

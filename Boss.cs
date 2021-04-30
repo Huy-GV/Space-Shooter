@@ -42,15 +42,9 @@ namespace Space_Shooter
             _gun = new GunSystem(Bullet.Direction.Down, 1.2, Bullet.Type.RedLaser, false);
             _speed = 5;
             _health = 70;
-            SetAnimation();
-            _movePattern = new ZigzagMovement(_speed, _speed - 2, X, Y, true);
-        }
-        private void SetAnimation()
-        {
-            XOffset = 75;
-            YOffset = 50;
             Damage = 10;
             Bitmap = SplashKit.LoadBitmap("Nightmare", "Bosses/Nightmare.png");
+            _movePattern = new ZigzagMovement(_speed, _speed - 2, X, Y, true);
         }
         public override void Update()
         {
@@ -67,7 +61,7 @@ namespace Space_Shooter
         }
         public override void Draw()
         { 
-            SplashKit.DrawBitmap(Bitmap, AdjustedX, AdjustedY); 
+            SplashKit.DrawBitmap(Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y); 
             _gun.DrawBullets();
         }
         private void ChangeMovePattern()
@@ -111,8 +105,6 @@ namespace Space_Shooter
         {
             Bitmap = SplashKit.LoadBitmap("Phantom", "Bosses/Phantom.png");
             Bitmap.SetCellDetails(300/2, 130, 2, 1, 2);
-            XOffset = 300 / 4;
-            YOffset = 130 / 2;
             _flyScript = SplashKit.LoadAnimationScript("Flickering", "flickerScript.txt");
             _animation = _flyScript.CreateAnimation("flickering");
             _option = SplashKit.OptionWithAnimation(_animation);
@@ -139,7 +131,7 @@ namespace Space_Shooter
         }
         public override void Draw()
         { 
-            if (!_isInvisible) SplashKit.DrawBitmap(Bitmap, AdjustedX, AdjustedY, _option); 
+            if (!_isInvisible) SplashKit.DrawBitmap(Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y, _option); 
             _gun.DrawBullets();
         }
     }
