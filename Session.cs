@@ -16,7 +16,7 @@ namespace Space_Shooter
         private int _gameModeIndex;
         private Player _player;
         private GameMode _gameMode;
-        public Status CurrentStatus{get; set;}
+        public Status CurrentStatus{get; private set;}
         public Session(int spaceshipChoice, int gameModeIndex)
         {
             _player = new Player(spaceshipChoice);
@@ -55,6 +55,7 @@ namespace Space_Shooter
             DrawPlayerInfo();
             _player.Draw();
         }
+        public void Continue() => CurrentStatus = Status.Running;
         private void DrawPlayerInfo()
         {
             SplashKit.DrawText($"Health: {(int)_player.Health}", Color.Green, Global.SmallFont, 24, 20, 40);

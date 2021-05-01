@@ -135,7 +135,7 @@ namespace Space_Shooter
             }             
         }
         public static void DeleteSession()=> _sessionStarted = false;
-        public static void ContinueSession()=> _session.CurrentStatus = Session.Status.Running;
+        public static void ContinueSession()=> _session.Continue();
          
     }
     public class GameModeState : State
