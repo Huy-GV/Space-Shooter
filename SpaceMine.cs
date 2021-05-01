@@ -32,17 +32,24 @@ namespace Space_Shooter
         }
         private void SetAnimations()
         {
-            Bitmap = SplashKit.LoadBitmap("spaceMine", "spaceMine.png");
-            Bitmap.SetCellDetails(120, 120, 2, 1, 2);
-            _flyScript = SplashKit.LoadAnimationScript("FloatingScript", "spacemineScript.txt");
-            _animation = _flyScript.CreateAnimation("floating");
-            _option = SplashKit.OptionWithAnimation(_animation);
+            var bitmap = SplashKit.LoadBitmap("spaceMine", "spaceMine.png");
+            // Bitmap.SetCellDetails(120, 120, 2, 1, 2);
+            var cellDetails = new int[]{120, 120, 2, 1, 2};
+            // _flyScript = SplashKit.LoadAnimationScript("FloatingScript", "spacemineScript.txt");
+            // _animation = _flyScript.CreateAnimation("floating");
+            // _option = SplashKit.OptionWithAnimation(_animation);
+
+            _image = new AnimatedImage("spacemineScript", "floating", bitmap, cellDetails);
         }
         public Spacemine() : this(Global.Width, Global.Height){}
-        public override void Draw()=> SplashKit.DrawBitmap(Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y, _option); 
+        public override void Draw()
+        {
+            // SplashKit.DrawBitmap(Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y, _option); 
+            _image.Draw(X, Y);
+        } 
         public override void Update()
         { 
-            _animation.Update();
+            // _animation.Update();
             Move();
         }
     }

@@ -35,8 +35,14 @@ namespace Space_Shooter
         {
             _script = SplashKit.LoadAnimationScript(animationScript, animationScript + ".txt");
             _animation = _script.CreateAnimation(animationName);
-            _option = SplashKit.OptionWithAnimation(_animation);
+            Option = SplashKit.OptionWithAnimation(_animation);
+            Bitmap = bitmap;
             Bitmap.SetCellDetails(cellDetails[0], cellDetails[1], cellDetails[2], cellDetails[3] ,cellDetails[4]);
+        }
+        public override void Draw(int x, int y)
+        {
+            base.Draw(x, y);
+            _animation.Update();
         }
     }
 }

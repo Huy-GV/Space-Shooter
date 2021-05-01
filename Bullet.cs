@@ -5,6 +5,8 @@ namespace Space_Shooter
 {
     public class Bullet : GameObject
     {
+        //TODO: rotate all bullets to one angle and use code angle to rotate it again
+        DrawableObject _image;
         private MovePattern _movePattern;
         public enum Type
         {
@@ -26,42 +28,48 @@ namespace Space_Shooter
         }
         private void SetType(Type type)
         {
+            Bitmap bitmap;
             switch(type)
             {
                 case Type.RedLaser:
-                    Bitmap = SplashKit.LoadBitmap("RedLaser", "Bullets/RedLaser.png");
+                    bitmap = SplashKit.LoadBitmap("RedLaser", "Bullets/RedLaser.png");
                     _speed = 9;
                     Damage = 15;
                     break;
                 case Type.BlueLaser:
-                    Bitmap = SplashKit.LoadBitmap("BlueLaser", "Bullets/BlueLaser.png");
+                    bitmap = SplashKit.LoadBitmap("BlueLaser", "Bullets/BlueLaser.png");
                     _speed = 7;
                     Damage = 7;
                     break;
                 case Type.RedBeam:
-                    Bitmap = SplashKit.LoadBitmap("RedBeam", "Bullets/RedBeam.png");
+                    bitmap = SplashKit.LoadBitmap("RedBeam", "Bullets/RedBeam.png");
                     _speed = 8;
                     Damage = 7;
                     break;  
-                case Type.TripleLaser:
-                    Bitmap = SplashKit.LoadBitmap("TripleLaser", "Bullets/TripleLaser.png");
+                default:
+                    bitmap = SplashKit.LoadBitmap("TripleLaser", "Bullets/TripleLaser.png");
                     _speed = 7;
                     Damage = 20;
                     break;             
             }
+            _image = new StaticImage(bitmap);
         }
         public override void Update() 
         {            
             _movePattern.Update();
             Y = _movePattern.UpdatedY;
             X = _movePattern.UpdatedX;
-        } 
+        }
+        public override void Draw()
+        {
+            _image.Draw(X, Y);
+        }
 
-        public bool HitTarget(GameObject gameObj)
+        public bool HitTarget(DrawableObject image, int x, int y)
         {
             return (SplashKit.BitmapCollision(
-                Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y,
-                gameObj.Bitmap, gameObj.X - gameObj.Bitmap.CellCenter.X,  gameObj.Y - gameObj.Bitmap.CellCenter.Y));
+                image.Bitmap, image.AdjustedX(x),  image.AdjustedY(y),
+                _image.Bitmap, image.AdjustedX(X),  image.AdjustedY(Y)));
         }
     }
 }

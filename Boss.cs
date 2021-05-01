@@ -26,18 +26,21 @@ namespace Space_Shooter
             Y = -20;
             _gun = new Gun(1.2, Bullet.Type.RedLaser, false);
             _speed = 5;
-            Bitmap = SplashKit.LoadBitmap("Nightmare", "Bosses/Nightmare.png");
+            var bitmap = SplashKit.LoadBitmap("Nightmare", "Bosses/Nightmare.png");
+            _image = new StaticImage(bitmap);
             _movePattern = new ZigzagPattern(_speed, _speed - 2, X, Y, true);
         }
         public override void Update()
         {
             _gun.AutoFire(X, Y, Angle);
             _gun.Update();
+            Move();
             ChangeMovePattern();
         }
         public override void Draw()
         { 
-            SplashKit.DrawBitmap(Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y); 
+            // SplashKit.DrawBitmap(Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y); 
+            _image.Draw(X, Y);
             _gun.DrawBullets();
         }
         private void ChangeMovePattern()
@@ -77,17 +80,20 @@ namespace Space_Shooter
         }
         private void SetAnimation()
         {
-            Bitmap = SplashKit.LoadBitmap("Phantom", "Bosses/Phantom.png");
-            Bitmap.SetCellDetails(300/2, 130, 2, 1, 2);
-            _flyScript = SplashKit.LoadAnimationScript("Flickering", "flickerScript.txt");
-            _animation = _flyScript.CreateAnimation("flickering");
-            _option = SplashKit.OptionWithAnimation(_animation);
+            var bitmap = SplashKit.LoadBitmap("Phantom", "Bosses/Phantom.png");
+            // Bitmap.SetCellDetails(300/2, 130, 2, 1, 2);
+            var cellDetails = new int[]{300/2, 130, 2, 1, 2};
+            // _flyScript = SplashKit.LoadAnimationScript("Flickering", "flickerScript.txt");
+            // _animation = _flyScript.CreateAnimation("flickering");
+            // _option = SplashKit.OptionWithAnimation(_animation);
+            _image = new AnimatedImage("flickerScript", "flickering", bitmap, cellDetails);
         }
         public override void Update()
         {
             _gun.AutoFire(X, Y, Angle);
             _gun.Update();
-            _animation.Update();
+            Move();
+            // _animation.Update();
             UpdateVisibility();
         }
         private void UpdateVisibility()
@@ -102,7 +108,7 @@ namespace Space_Shooter
         }
         public override void Draw()
         { 
-            if (!_isInvisible) SplashKit.DrawBitmap(Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y, _option); 
+            if (!_isInvisible) _image.Draw(X, Y); 
             _gun.DrawBullets();
         }
     }

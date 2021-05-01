@@ -15,10 +15,13 @@ namespace Space_Shooter
         }
         private void SetAnimation()
         {
+            Bitmap bitmap;
             if (SplashKit.Rnd(0, 2) == 0) 
-                Bitmap = SplashKit.LoadBitmap("asteroid1", "Asteroids/grayAsteroid.png");
+                bitmap = SplashKit.LoadBitmap("asteroid1", "Asteroids/grayAsteroid.png");
             else
-                Bitmap = SplashKit.LoadBitmap("asteroid2", "Asteroids/brownAsteroid.png");
+                bitmap = SplashKit.LoadBitmap("asteroid2", "Asteroids/brownAsteroid.png");
+
+            _image = new StaticImage(bitmap);
         }
         public Asteroid() : this(Global.Width, Global.Height){}
         public void SetCoordinates(int lastAsteroidX, int lastAsteroidY)
@@ -29,7 +32,12 @@ namespace Space_Shooter
         public override void Update()
         {
             Move();
-        } 
+        }
+        public override void Draw()
+        {
+            _image.Draw(X, Y);
+        }
+
         
     }
 }

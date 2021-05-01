@@ -6,7 +6,7 @@ namespace Space_Shooter
 {
     public class KamikazeAlien : Enemy
     {
-        private DrawingOptions _option;
+        // private DrawingOptions _option;
         public KamikazeAlien(int lastEnemyX, int lastEnemyY) : base()
         {
             X = Global.Width / 2;
@@ -20,12 +20,14 @@ namespace Space_Shooter
         public KamikazeAlien() : this(Global.Width, Global.Height) { }
         private void SetAnimations()
         {
-            Bitmap = SplashKit.LoadBitmap("KamikazeAlien", "Alienships/KamikazeAlien.png");
-            _option = SplashKit.OptionRotateBmp(Angle - 90);
+            var bitmap = SplashKit.LoadBitmap("KamikazeAlien", "Alienships/KamikazeAlien.png");
+            var option = SplashKit.OptionRotateBmp(Angle - 90);
+            _image = new StaticImage(bitmap, option);
         }
         public override void Draw()
         { 
-            SplashKit.DrawBitmap(Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y, _option); 
+            // SplashKit.DrawBitmap(Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y, _option); 
+            _image.Draw(X, Y);
         }
         public override void Update()
         {
