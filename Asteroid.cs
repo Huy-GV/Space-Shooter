@@ -24,7 +24,7 @@ namespace Space_Shooter
         public void SetCoordinates(int lastAsteroidX, int lastAsteroidY)
         {
             X = (2 * SplashKit.Rnd(0, 6) + 1) * 50;
-            Y = (lastAsteroidY > 50) ? -10 : -90;
+            Y = (lastAsteroidY > 50) ? -10 : lastAsteroidY - 60;
         }
         public override void Update()
         {

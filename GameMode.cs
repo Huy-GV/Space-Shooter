@@ -48,6 +48,7 @@ namespace Space_Shooter
                 enemyAmount = _enemyAmountByClass[enemyType];
                 if (TimeToSpawn() && enemyAmount < _limits[enemyType])
                 {
+                    //TODO: apply the factory pattern here?
                     if (enemyAmount == 0) Enemies.Add((Enemy)Activator.CreateInstance(enemyType));
                     else
                     {
@@ -68,7 +69,7 @@ namespace Space_Shooter
             UpdateEnemyAmount(enemy.GetType(), -1);
             Enemies.Remove(enemy);
         }
-        public void UpdateEnemyAmount(Type type, int increment)=> _enemyAmountByClass[type] += increment;
+        private void UpdateEnemyAmount(Type type, int increment)=> _enemyAmountByClass[type] += increment;
     }
     public class ByLevelMode : GameMode
     {
@@ -192,7 +193,7 @@ namespace Space_Shooter
     {
         public MineFieldMode(int spawnRate) : base()
         {
-            _limits[typeof(Asteroid)] = 13;
+            _limits[typeof(Asteroid)] = 10;
             _limits[typeof(Spacemine)] = 6;
             SpawnRate = spawnRate;
         }

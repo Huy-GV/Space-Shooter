@@ -26,6 +26,10 @@ namespace Space_Shooter
             if (!SplashKit.SoundEffectPlaying("arcade") && _musicOn) 
                 SplashKit.PlaySoundEffect("arcade", (float)0.1); 
         }
-        public static void ToggleMusic() => _musicOn = !_musicOn;
+        public static void ToggleMusic()
+        {
+            _musicOn = !_musicOn;   
+            SplashKit.StopSoundEffect("arcade");
+        } 
     }
 }
