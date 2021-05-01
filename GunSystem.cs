@@ -4,22 +4,22 @@ using System.Collections.Generic;
 
 namespace Space_Shooter
 {
-    public class GunSystem
+    public class Gun
     {
         public List<Bullet> Bullets{get; private set;}
         private double _coolDownTime = 0;
         private double _coolDownLimit;
         private Bullet.Type _type;
         private bool _hasSound;
-        public GunSystem(double coolDownLimit, Bullet.Type type, bool hasSound)
+        public Gun(double coolDownLimit, Bullet.Type type, bool hasSound)
         {
             Bullets = new List<Bullet>();
             _coolDownLimit = coolDownLimit;
             _type = type;
             _hasSound = hasSound;
         }
-        public GunSystem() : this ( 2.5, Bullet.Type.BlueLaser, false) { }
-        public GunSystem(double coolDownLimit) : this(coolDownLimit, Bullet.Type.BlueLaser, false){ }
+        public Gun() : this ( 2.5, Bullet.Type.BlueLaser, false) { }
+        public Gun(double coolDownLimit) : this(coolDownLimit, Bullet.Type.BlueLaser, false){ }
         public bool CoolDownEnded{ get{ return _coolDownTime == 0;}}
         public void OpenFire(int x, int y, int angle)
         {
