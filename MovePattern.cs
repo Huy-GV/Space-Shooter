@@ -7,7 +7,6 @@ namespace Space_Shooter
 
     public abstract class MovePattern
     {
-        protected int _direction;
         protected Point2D _position;
         public int UpdatedX { get{ return (int)_position.X;}}
         public int UpdatedY { get{ return (int)_position.Y;}}
@@ -20,17 +19,19 @@ namespace Space_Shooter
             _position = new Point2D();
             _position.Y = y;
             _position.X = x;
-            //direction is either 1 or -1
-            _direction = SplashKit.Rnd(2) * 2 - 1;
+            
         }
         public abstract void Update();
     }
-    public class HorizontalMovement : MovePattern
+    public class HorizontalPattern : MovePattern
     {
         private int _verticalLimit;
-        public HorizontalMovement(int horizontalSpeed, int verticalSpeed, double x, double y) : base(horizontalSpeed, verticalSpeed, x ,y) 
+        private int _direction;
+        public HorizontalPattern(int horizontalSpeed, int verticalSpeed, double x, double y) : base(horizontalSpeed, verticalSpeed, x ,y) 
         { 
             _verticalLimit = (Global.Width / 2) / (SplashKit.Rnd(4) + 1);
+            //direction is either 1 or -1
+            _direction = SplashKit.Rnd(2) * 2 - 1;
         }
         public override void Update()
         {
@@ -42,13 +43,13 @@ namespace Space_Shooter
             }
         }
     }
-    public class ZigzagMovement : MovePattern
+    public class ZigzagPattern : MovePattern
     {
         private int _heightLimit, _verticalDirection, _horizontalDirection;
         private bool _firstCrossing;
         private bool _random;
-        public ZigzagMovement(int horizontalSpeed, int verticalSpeed, double x, double y) : this(horizontalSpeed,  verticalSpeed, x ,y, false) {}
-        public ZigzagMovement(int horizontalSpeed, int verticalSpeed, double x, double y, bool random): base(horizontalSpeed,  verticalSpeed, x, y)
+        public ZigzagPattern(int horizontalSpeed, int verticalSpeed, double x, double y) : this(horizontalSpeed,  verticalSpeed, x ,y, false) {}
+        public ZigzagPattern(int horizontalSpeed, int verticalSpeed, double x, double y, bool random): base(horizontalSpeed,  verticalSpeed, x, y)
         {
             _verticalDirection = 1;
             _horizontalDirection = 1;
@@ -92,18 +93,18 @@ namespace Space_Shooter
             }
         }
     }
-    public class StraightMovement : MovePattern
+    public class StraightLinePattern : MovePattern
     {
         private Vector2D _pathVector;
         private int _targetAngle;
-        public StraightMovement(int speed, int x, int y, int angle) : base(speed, speed, x ,y)
+        public StraightLinePattern(int speed, int x, int y, int angle) : base(speed, speed, x ,y)
         {
             _targetAngle = angle;
             _pathVector = SplashKit.VectorFromAngle(_targetAngle, 1);
             Console.WriteLine("angle is " + _targetAngle);
             Console.WriteLine("vector is " + _pathVector.X +" "+ _pathVector.Y);
         }
-        public StraightMovement(int speed, int x, int y) : base(speed, speed, x ,y)
+        public StraightLinePattern(int speed, int x, int y) : base(speed, speed, x ,y)
         {
             _targetAngle = (SplashKit.Rnd(0, 42) + 69);
             _pathVector = SplashKit.VectorFromAngle(_targetAngle, 1);
@@ -112,11 +113,6 @@ namespace Space_Shooter
         {
             _position.X += _pathVector.X * VerticalSpeed;
             _position.Y += _pathVector.Y * VerticalSpeed;
-        }
-        public double RotationAngle()
-        {
-            var angle = _targetAngle - 90;
-            return angle;
         }
     }
 }

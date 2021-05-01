@@ -12,7 +12,7 @@ namespace Space_Shooter
             Angle = 90;
             Bitmap = SplashKit.LoadBitmap("PurpleAlienship", "Alienships/PurpleAlienship.png");
             _gun = new Gun( 3);
-            _movePattern = new HorizontalMovement(2, 3, X, Y);
+            _movePattern = new HorizontalPattern(2, 3, X, Y);
         }
         public PurpleAlienship() : this(Global.Width, Global.Height) { }
         public override void Draw()

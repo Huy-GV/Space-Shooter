@@ -14,7 +14,7 @@ namespace Space_Shooter
             CollisionDamage = 13;
             ExplosionType = Explosion.Type.Fire;
             Angle = (SplashKit.Rnd(0, 42) + 69);
-            _movePattern = new StraightMovement(9, X, Y, Angle);
+            _movePattern = new StraightLinePattern(9, X, Y, Angle);
             SetAnimations();
         }
         public KamikazeAlien() : this(Global.Width, Global.Height) { }

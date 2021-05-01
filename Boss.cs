@@ -15,17 +15,6 @@ namespace Space_Shooter
             Y = -21;
             Health = 80;
         }
-        public override void CheckPlayerBullets(List<Bullet> bullets)
-        {
-            foreach(var bullet in bullets.ToArray())
-            {
-                if (bullet.HitTarget(this))
-                {
-                    bullets.Remove(bullet);
-                    Health -= bullet.Damage;
-                }
-            }
-        }
     }
     public class Nightmare : Boss
     { 
@@ -38,20 +27,13 @@ namespace Space_Shooter
             _gun = new Gun(1.2, Bullet.Type.RedLaser, false);
             _speed = 5;
             Bitmap = SplashKit.LoadBitmap("Nightmare", "Bosses/Nightmare.png");
-            _movePattern = new ZigzagMovement(_speed, _speed - 2, X, Y, true);
+            _movePattern = new ZigzagPattern(_speed, _speed - 2, X, Y, true);
         }
         public override void Update()
         {
-            UpdateGuns();
-            ChangeMovePattern();
-            _movePattern.Update();
-            X = _movePattern.UpdatedX;
-            Y = _movePattern.UpdatedY;
-        }
-        private void UpdateGuns()
-        {
             _gun.AutoFire(X, Y, Angle);
             _gun.Update();
+            ChangeMovePattern();
         }
         public override void Draw()
         { 
@@ -65,12 +47,12 @@ namespace Space_Shooter
             {
                 _time = 0;
                 _movePatternDuration = 4;
-                if (_movePattern.GetType() == typeof(HorizontalMovement))
+                if (_movePattern.GetType() == typeof(HorizontalPattern))
                 {
-                    _movePattern = new ZigzagMovement(_speed - 1, _speed - 2, X, Y);
+                    _movePattern = new ZigzagPattern(_speed - 1, _speed - 2, X, Y);
                 } else if (Y < Global.Height / 2)
                 {
-                    _movePattern = new HorizontalMovement(_speed - 2, _speed - 3, X, Y);
+                    _movePattern = new HorizontalPattern(_speed - 2, _speed - 3, X, Y);
                 }
             }
         }
@@ -91,7 +73,7 @@ namespace Space_Shooter
             _speed = 4;
             _isInvisible = false;
             _invisibleDuration = 3;
-            _movePattern = new ZigzagMovement(_speed, _speed, X, Y, true);
+            _movePattern = new ZigzagPattern(_speed, _speed, X, Y, true);
         }
         private void SetAnimation()
         {
@@ -103,12 +85,9 @@ namespace Space_Shooter
         }
         public override void Update()
         {
-            _movePattern.Update();
             _gun.AutoFire(X, Y, Angle);
             _gun.Update();
             _animation.Update();
-            X = _movePattern.UpdatedX;
-            Y = _movePattern.UpdatedY;
             UpdateVisibility();
         }
         private void UpdateVisibility()

@@ -15,7 +15,7 @@ namespace Space_Shooter
             CollisionDamage = 16;
             SetAnimations();
             SetCoordinates(lastSpacemineX, lastSpacemineY);
-            _movePattern = new StraightMovement(3, X, Y, 90);
+            _movePattern = new StraightLinePattern(3, X, Y, 90);
         }
         private void SetCoordinates(int lastSpacemineX, int lastSpacemineY)
         {

@@ -21,7 +21,7 @@ namespace Space_Shooter
                 Y = lastEnemyY - 100;
             } 
         }
-        protected virtual void UpdateGun() 
+        protected void UpdateGun()
         { 
             _gun.Update();
             if (Y >= 0 && Y <= Global.Height / 2) 

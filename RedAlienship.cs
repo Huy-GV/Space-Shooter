@@ -11,7 +11,7 @@ namespace Space_Shooter
             ExplosionType = Explosion.Type.RedLaser;
             Bitmap = SplashKit.LoadBitmap("RedAlienship", "Alienships/RedAlienship.png");
             _gun = new Gun(2);
-            _movePattern = new ZigzagMovement(2,3, X, Y);
+            _movePattern = new ZigzagPattern(2,3, X, Y);
         }
         public RedAlienship() : this(Global.Width, Global.Height) { }
         public override void Draw()

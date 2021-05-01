@@ -22,7 +22,7 @@ namespace Space_Shooter
             Y = y;
             SetType(type);
             _angle = angle;
-            _movePattern = new StraightMovement(_speed, X, Y, angle);
+            _movePattern = new StraightLinePattern(_speed, X, Y, angle);
         }
         private void SetType(Type type)
         {
