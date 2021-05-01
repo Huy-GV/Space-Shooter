@@ -4,7 +4,7 @@ namespace Space_Shooter
 {
     public class Explosion : GameObject
     {
-        private DrawableObject _image;
+        private AnimatedImage _image;
         public enum Type{
             RedLaser,
             BlueLaser,
@@ -14,7 +14,7 @@ namespace Space_Shooter
         private Animation _animation;
         private AnimationScript _explosionScript;
         private DrawingOptions _option;
-        public bool AnimationEnded(){return (_animation.Ended);}
+        public bool AnimationEnded(){return _image.AnimationEnded;}
         public Explosion(int x, int y, Type type)
         {
             var explosionSound = SplashKit.LoadSoundEffect("explosionSound", "explosion.mp3");
@@ -87,7 +87,7 @@ namespace Space_Shooter
         } 
         public override void Update()
         {
-            _animation.Update();
+            // _animation.Update();
             Y += 2;
         }
     }

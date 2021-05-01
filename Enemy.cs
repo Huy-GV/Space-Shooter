@@ -20,11 +20,11 @@ namespace Space_Shooter{
         {
             foreach(var bullet in bullets.ToArray())
             {
-                // if (bullet.HitTarget(this))
-                // {
-                //     Health -= bullet.Damage;
-                //     bullets.Remove(bullet);
-                // }
+                if (bullet.HitTarget(Image, X, Y))
+                {
+                    Health -= bullet.Damage;
+                    bullets.Remove(bullet);
+                }
             }
         }
         protected void Move()
