@@ -25,6 +25,12 @@ namespace Space_Shooter{
                 }
             }
         }
+        protected void Move()
+        {
+            _movePattern.Update();
+            Y = _movePattern.UpdatedY;
+            X = _movePattern.UpdatedX;
+        }
     }
 }
 

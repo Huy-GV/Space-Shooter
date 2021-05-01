@@ -43,8 +43,7 @@ namespace Space_Shooter
         public override void Update()
         { 
             _animation.Update();
-            _movePattern.Update();
-            Y = _movePattern.UpdatedY;
+            Move();
         }
     }
 }

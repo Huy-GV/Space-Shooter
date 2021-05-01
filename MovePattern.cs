@@ -107,8 +107,6 @@ namespace Space_Shooter
         {
             _targetAngle = (SplashKit.Rnd(0, 42) + 69);
             _pathVector = SplashKit.VectorFromAngle(_targetAngle, 1);
-            Console.WriteLine("angle is " + _targetAngle);
-            Console.WriteLine("vector is " + _pathVector.X +" "+ _pathVector.Y);
         }
         public override void Update()
         {

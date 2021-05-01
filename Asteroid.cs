@@ -28,8 +28,7 @@ namespace Space_Shooter
         }
         public override void Update()
         {
-            _movePattern.Update();
-            Y = (int)_movePattern.UpdatedY;
+            Move();
         } 
         
     }

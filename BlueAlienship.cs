@@ -24,9 +24,7 @@ namespace Space_Shooter
         {
             if (Y >= 0 && Y <= Global.Height / 2) _gunSystem.AutoFire(X, Y, Angle);
             _gunSystem.Update();
-            _movePattern.Update();
-            Y = _movePattern.UpdatedY;
-            X = _movePattern.UpdatedX;
+            Move();
         }
     }
 }

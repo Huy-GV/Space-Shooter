@@ -48,7 +48,6 @@ namespace Space_Shooter
                 enemyAmount = _enemyAmountByClass[enemyType];
                 if (TimeToSpawn() && enemyAmount < _limits[enemyType])
                 {
-                    //TODO: apply the factory pattern here?
                     if (enemyAmount == 0) Enemies.Add((Enemy)Activator.CreateInstance(enemyType));
                     else
                     {
