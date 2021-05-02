@@ -39,7 +39,6 @@ namespace Space_Shooter
         }
         public override void Draw()
         { 
-            // SplashKit.DrawBitmap(Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y); 
             _image.Draw(X, Y);
             _gun.DrawBullets();
         }
@@ -66,9 +65,6 @@ namespace Space_Shooter
         private double _invisibleDuration;
         private double _time;
         private bool _isInvisible;
-        private Animation _animation;
-        private DrawingOptions _option;
-        private AnimationScript _flyScript;
         public Phantom()
         {
             SetAnimation();
@@ -81,11 +77,7 @@ namespace Space_Shooter
         private void SetAnimation()
         {
             var bitmap = SplashKit.LoadBitmap("Phantom", "Bosses/Phantom.png");
-            // Bitmap.SetCellDetails(300/2, 130, 2, 1, 2);
             var cellDetails = new int[]{300/2, 130, 2, 1, 2};
-            // _flyScript = SplashKit.LoadAnimationScript("Flickering", "flickerScript.txt");
-            // _animation = _flyScript.CreateAnimation("flickering");
-            // _option = SplashKit.OptionWithAnimation(_animation);
             _image = new AnimatedImage("flickerScript", "flickering", bitmap, cellDetails);
         }
         public override void Update()
@@ -93,7 +85,6 @@ namespace Space_Shooter
             _gun.AutoFire(X, Y, Angle);
             _gun.Update();
             Move();
-            // _animation.Update();
             UpdateVisibility();
         }
         private void UpdateVisibility()

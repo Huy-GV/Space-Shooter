@@ -18,7 +18,6 @@ namespace Space_Shooter
         public BlueAlienship() : this(Global.Width, Global.Height) { }
         public override void Draw()
         { 
-            // SplashKit.DrawBitmap(Bitmap, X - Bitmap.CellCenter.X,  Y - Bitmap.CellCenter.Y
             _image.Draw(X, Y);
             _gun.DrawBullets();
         }

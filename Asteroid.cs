@@ -36,8 +36,6 @@ namespace Space_Shooter
         public override void Draw()
         {
             _image.Draw(X, Y);
-        }
-
-        
+        } 
     }
 }

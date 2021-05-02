@@ -28,7 +28,6 @@ namespace Space_Shooter
     public class AnimatedImage: DrawableObject
     {
         private Animation _animation;
-        private DrawingOptions _option;
         private AnimationScript _script;
         public bool AnimationEnded => _animation.Ended;
         public AnimatedImage(string animationScript, string animationName, Bitmap bitmap, int[] cellDetails)

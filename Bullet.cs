@@ -64,12 +64,11 @@ namespace Space_Shooter
         {
             _image.Draw(X, Y);
         }
-
         public bool HitTarget(DrawableObject image, int x, int y)
         {
             return (SplashKit.BitmapCollision(
                 image.Bitmap, image.AdjustedX(x),  image.AdjustedY(y),
-                _image.Bitmap, image.AdjustedX(X),  image.AdjustedY(Y)));
+                _image.Bitmap, _image.AdjustedX(X),  _image.AdjustedY(Y)));
         }
     }
 }

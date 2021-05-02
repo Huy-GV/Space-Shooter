@@ -105,7 +105,7 @@ namespace Space_Shooter
             foreach (var explosion in _explosions.ToArray())
             {
                 explosion.Update();
-                if (explosion.AnimationEnded()) _explosions.Remove(explosion);
+                if (explosion.AnimationEnded) _explosions.Remove(explosion);
             }
         }
     }
