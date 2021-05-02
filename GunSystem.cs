@@ -21,16 +21,16 @@ namespace Space_Shooter
         public Gun() : this ( 2.5, Bullet.Type.BlueLaser, false) { }
         public Gun(double coolDownLimit) : this(coolDownLimit, Bullet.Type.BlueLaser, false){ }
         public bool CoolDownEnded{ get{ return _coolDownTime == 0;}}
-        public void OpenFire(int x, int y, int angle)
+        public void OpenFire(int x, int y, int moveAngle, int imageAngle)
         {
-            Bullets.Add(new Bullet(x, y, _type, _hasSound, angle));
+            Bullets.Add(new Bullet(x, y, _type, _hasSound, moveAngle, imageAngle));
             SetCoolDown();
         }
-        public void AutoFire(int x, int y, int angle)
+        public void AutoFire(int x, int y, int moveAngle, int imageAngle)
         {
             if (CoolDownEnded)
             {
-                Bullets.Add(new Bullet(x, y, _type, _hasSound, angle));
+                Bullets.Add(new Bullet(x, y, _type, _hasSound, moveAngle, imageAngle));
                 SetCoolDown();
             }
         }

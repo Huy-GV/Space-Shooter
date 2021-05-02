@@ -10,7 +10,7 @@ namespace Space_Shooter
         public Bitmap Bitmap{ get; protected set;}
         public virtual void Draw(int x, int y)
         {
-            SplashKit.DrawBitmap(Bitmap,AdjustedX(x) , AdjustedY(y), Option);
+            SplashKit.DrawBitmap(Bitmap, AdjustedX(x) , AdjustedY(y), Option);
         }
         public double AdjustedX(int x) => x - Bitmap.CellWidth / 2;
         public double AdjustedY(int y) => y - Bitmap.CellHeight / 2;

@@ -32,7 +32,7 @@ namespace Space_Shooter
         }
         public override void Update()
         {
-            _gun.AutoFire(X, Y, Angle);
+            _gun.AutoFire(X, Y, Angle, 0);
             _gun.Update();
             Move();
             ChangeMovePattern();
@@ -82,7 +82,7 @@ namespace Space_Shooter
         }
         public override void Update()
         {
-            _gun.AutoFire(X, Y, Angle);
+            _gun.AutoFire(X, Y, Angle, 0);
             _gun.Update();
             Move();
             UpdateVisibility();

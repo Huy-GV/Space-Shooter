@@ -15,18 +15,18 @@ namespace Space_Shooter
             RedBeam,
             TripleLaser
         }
-        private int _angle;
+        private int _moveAngle;
         public int Damage{get; private set;}
         private int _speed;
-        public Bullet(int x, int y, Type type, bool hasSound, int angle){
+        public Bullet(int x, int y, Type type, bool hasSound, int moveAngle, int imageAngle){
             if (hasSound) SplashKit.LoadSoundEffect("laserSound", "laser.mp3").Play();
             X = x;
             Y = y;
-            SetType(type);
-            _angle = angle;
-            _movePattern = new StraightLinePattern(_speed, X, Y, angle);
+            SetType(type, imageAngle);
+            _moveAngle = moveAngle;
+            _movePattern = new StraightLinePattern(_speed, X, Y, _moveAngle);
         }
-        private void SetType(Type type)
+        private void SetType(Type type, int imageAngle)
         {
             Bitmap bitmap;
             switch(type)
@@ -52,7 +52,8 @@ namespace Space_Shooter
                     Damage = 20;
                     break;             
             }
-            _image = new StaticImage(bitmap);
+            var option = SplashKit.OptionRotateBmp(imageAngle);
+            _image = new StaticImage(bitmap, option);
         }
         public override void Update() 
         {            
