@@ -5,7 +5,6 @@ namespace Space_Shooter
 {
     public class Bullet : GameObject
     {
-        //TODO: rotate all bullets to one angle and use code angle to rotate it again
         DrawableObject _image;
         private MovePattern _movePattern;
         public enum Type

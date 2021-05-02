@@ -29,7 +29,7 @@ namespace Space_Shooter
         }
         private void SetAnimations()
         {
-            var bitmap = SplashKit.LoadBitmap("spaceMine", "spaceMine.png");
+            var bitmap = SplashKit.LoadBitmap("blueSpacemine", "Spacemines/blueSpacemine.png");
             var cellDetails = new int[]{120, 120, 2, 1, 2};
             _image = new AnimatedImage("spacemineScript", "floating", bitmap, cellDetails);
         }
