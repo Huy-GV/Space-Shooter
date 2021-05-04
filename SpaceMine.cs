@@ -10,7 +10,7 @@ namespace Space_Shooter
         {
             ExplosionType = Explosion.Type.Default;
             CollisionDamage = 16;
-            SetAnimations();
+            Image = SetAnimations();
             SetCoordinates(lastSpacemineX, lastSpacemineY);
             _movePattern = new StraightLinePattern(3, X, Y, 90);
         }
@@ -27,11 +27,11 @@ namespace Space_Shooter
                 Y = lastSpacemineY - 240;
             }
         }
-        private void SetAnimations()
+        private Image SetAnimations()
         {
             var bitmap = SplashKit.LoadBitmap("blueSpacemine", "Spacemines/blueSpacemine.png");
             var cellDetails = new int[]{120, 120, 2, 1, 2};
-            Image = new AnimatedImage("spacemineScript", "floating", bitmap, cellDetails);
+            return new AnimatedImage("spacemineScript", "floating", bitmap, cellDetails);
         }
         public Spacemine() : this(Global.Width, Global.Height){}
         public override void Draw()

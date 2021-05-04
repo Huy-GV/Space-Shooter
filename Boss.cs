@@ -67,18 +67,18 @@ namespace Space_Shooter
         private bool _isInvisible;
         public Phantom()
         {
-            SetAnimation();
+            Image = SetAnimation();
             _gun = new Gun(1, Bullet.Type.TripleLaser, false);
             _speed = 4;
             _isInvisible = false;
             _invisibleDuration = 3;
             _movePattern = new ZigzagPattern(_speed, _speed, X, Y, true);
         }
-        private void SetAnimation()
+        private Image SetAnimation()
         {
             var bitmap = SplashKit.LoadBitmap("Phantom", "Bosses/Phantom.png");
             var cellDetails = new int[]{300/2, 130, 2, 1, 2};
-            Image = new AnimatedImage("flickerScript", "flickering", bitmap, cellDetails);
+            return new AnimatedImage("flickerScript", "flickering", bitmap, cellDetails);
         }
         public override void Update()
         {

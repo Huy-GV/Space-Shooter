@@ -4,7 +4,7 @@ using SplashKitSDK;
 
 namespace Space_Shooter
 {
-    public abstract class DrawableObject
+    public abstract class Image
     {
         public DrawingOptions Option{ get; set;}
         public Bitmap Bitmap{ get; protected set;}
@@ -15,7 +15,7 @@ namespace Space_Shooter
         public double AdjustedX(int x) => x - Bitmap.CellWidth / 2;
         public double AdjustedY(int y) => y - Bitmap.CellHeight / 2;
     }
-    public class StaticImage : DrawableObject
+    public class StaticImage : Image
     {
         public StaticImage(Bitmap bitmap, DrawingOptions option)
         {
@@ -25,7 +25,7 @@ namespace Space_Shooter
         public StaticImage(Bitmap bitmap) : this (bitmap, SplashKit.OptionDefaults()){}
     }
 
-    public class AnimatedImage: DrawableObject
+    public class AnimatedImage: Image
     {
         private Animation _animation;
         private AnimationScript _script;

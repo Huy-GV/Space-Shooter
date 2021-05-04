@@ -20,22 +20,18 @@ namespace Space_Shooter
         }
         public Gun() : this ( 2.5, Bullet.Type.BlueLaser, false) { }
         public Gun(double coolDownLimit) : this(coolDownLimit, Bullet.Type.BlueLaser, false){ }
-        public bool CoolDownEnded{ get{ return _coolDownTime == 0;}}
+        public bool CoolDownEnded => _coolDownTime == 0;
         public void OpenFire(int x, int y, int moveAngle, int imageAngle)
         {
             Bullets.Add(new Bullet(x, y, _type, _hasSound, moveAngle, imageAngle));
-            SetCoolDown();
+            _coolDownTime = _coolDownLimit;
         }
         public void AutoFire(int x, int y, int moveAngle, int imageAngle)
         {
             if (CoolDownEnded)
-            {
-                Bullets.Add(new Bullet(x, y, _type, _hasSound, moveAngle, imageAngle));
-                SetCoolDown();
-            }
+                OpenFire(x, y, moveAngle, imageAngle);
         }
-        private void SetCoolDown()=>_coolDownTime = _coolDownLimit;
-        private void UpdateCoolDown()=> _coolDownTime = (_coolDownTime > 0 ? _coolDownTime - 1/(double)60 : 0);
+        private double UpdateCoolDown()=>  (_coolDownTime > 0 ? _coolDownTime - 1/(double)60 : 0);
         public void DrawBullets() => Bullets.ForEach(bullet => bullet.Draw());
         public void Update()
         {
@@ -44,7 +40,7 @@ namespace Space_Shooter
                 bullet.Update();
                 if (bullet.Y < 0 || bullet.Y > Global.Height) Bullets.Remove(bullet);
             } 
-            UpdateCoolDown();
+            _coolDownTime = UpdateCoolDown();
         }
     }
 }

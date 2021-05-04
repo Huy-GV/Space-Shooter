@@ -9,7 +9,7 @@ namespace Space_Shooter
         protected Dictionary<Type, int> _limits;
         public int SpawnRate{get; protected set;}
         public bool GameOver{get; protected set;}
-        public List<Enemy> Enemies{get; protected set;}
+        public List<Enemy> Enemies{get; protected init;}
         protected Dictionary<Type, int> _enemyAmountByClass;
         public GameMode()
         {
@@ -85,7 +85,7 @@ namespace Space_Shooter
             if (score < 80 ) base.AddEnemies(score);
             else if (!_bossSpawned)
             {
-                SpawnBoss();
+                Enemies.Add(SpawnBoss());
                 _bossSpawned = true;
             }
         }
@@ -95,13 +95,13 @@ namespace Space_Shooter
             if (Enemies.Count == 0 && ((_level < 3 && player.Score >= 100) || (_level >= 3 && _bossSpawned)))
                 GameOver = true;
         }
-        private void SpawnBoss()
+        private Boss SpawnBoss()
         {
             switch(_level)
             {
-                case 3: Enemies.Add(new Nightmare()); break;
-                case 4: Enemies.Add(new Phantom()); break;
-                default: break;
+                case 3: return new Nightmare(); 
+                case 4: return new Phantom(); 
+                default: return new Nightmare();
             }
         }
         private void SetEnemyLimitsByLevel()

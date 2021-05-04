@@ -97,7 +97,7 @@ namespace Space_Shooter
                 }
             }
         }
-        public bool CollideWith(DrawableObject image, int x, int y)
+        public bool CollideWith(Image image, int x, int y)
         {
             return (SplashKit.BitmapCollision(
                 image.Bitmap, image.AdjustedX(x),  image.AdjustedY(y),

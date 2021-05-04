@@ -5,7 +5,7 @@ namespace Space_Shooter
 {
     public class Bullet : GameObject
     {
-        DrawableObject _image;
+        Image _image;
         private MovePattern _movePattern;
         public enum Type
         {
@@ -64,7 +64,7 @@ namespace Space_Shooter
         {
             _image.Draw(X, Y);
         }
-        public bool HitTarget(DrawableObject image, int x, int y)
+        public bool HitTarget(Image image, int x, int y)
         {
             return (SplashKit.BitmapCollision(
                 image.Bitmap, image.AdjustedX(x),  image.AdjustedY(y),

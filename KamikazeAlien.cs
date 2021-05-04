@@ -14,14 +14,14 @@ namespace Space_Shooter
             ExplosionType = Explosion.Type.Fire;
             Angle = (SplashKit.Rnd(0, 42) + 69);
             _movePattern = new StraightLinePattern(9, X, Y, Angle);
-            SetAnimations();
+            Image = SetAnimation();
         }
         public KamikazeAlien() : this(Global.Width, Global.Height) { }
-        private void SetAnimations()
+        private Image SetAnimation()
         {
             var bitmap = SplashKit.LoadBitmap("KamikazeAlien", "Alienships/KamikazeAlien.png");
             var option = SplashKit.OptionRotateBmp(Angle - 90);
-            Image = new StaticImage(bitmap, option);
+            return new StaticImage(bitmap, option);
         }
         public override void Draw()
         { 
