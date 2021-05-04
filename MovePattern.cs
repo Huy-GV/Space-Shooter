@@ -7,19 +7,18 @@ namespace Space_Shooter
 
     public abstract class MovePattern
     {
-        protected Point2D _position;
-        public int UpdatedX { get{ return (int)_position.X;}}
-        public int UpdatedY { get{ return (int)_position.Y;}}
+        protected Point2D _updatedPosition;
+        public int UpdatedX { get{ return (int)_updatedPosition.X;}}
+        public int UpdatedY { get{ return (int)_updatedPosition.Y;}}
         public double HorizontalSpeed{get; protected set;}
         public double VerticalSpeed{get; protected set;}
         public MovePattern(double horizontalSpeed, double verticalSpeed, double x, double y)
         {
             HorizontalSpeed = horizontalSpeed;
             VerticalSpeed = verticalSpeed ;
-            _position = new Point2D();
-            _position.Y = y;
-            _position.X = x;
-            
+            _updatedPosition = new Point2D();
+            _updatedPosition.Y = y;
+            _updatedPosition.X = x;
         }
         public abstract void Update();
     }
@@ -30,16 +29,15 @@ namespace Space_Shooter
         public HorizontalPattern(int horizontalSpeed, int verticalSpeed, double x, double y) : base(horizontalSpeed, verticalSpeed, x ,y) 
         { 
             _verticalLimit = (Global.Width / 2) / (SplashKit.Rnd(4) + 1);
-            //direction is either 1 or -1
             _direction = SplashKit.Rnd(2) * 2 - 1;
         }
         public override void Update()
         {
-            if (_position.Y < _verticalLimit) _position.Y += VerticalSpeed;
+            if (_updatedPosition.Y < _verticalLimit) _updatedPosition.Y += VerticalSpeed;
             else
             {
-                _position.X += _direction * HorizontalSpeed;
-                if (_position.X >= Global.Width - 5 || _position.X <= 5) _direction *= -1;
+                _updatedPosition.X += _direction * HorizontalSpeed;
+                if (_updatedPosition.X >= Global.Width - 5 || _updatedPosition.X <= 5) _direction *= -1;
             }
         }
     }
@@ -56,30 +54,30 @@ namespace Space_Shooter
             _heightLimit = Global.Width / 2;
             if (HorizontalSpeed == VerticalSpeed) horizontalSpeed++;
             //if it enters the game window for the first time, it wont reverse its vertical direction
-            _firstCrossing = _position.Y <= 0 ? true : false;
+            _firstCrossing = _updatedPosition.Y <= 0 ? true : false;
             _random = random;
         }
         public override void Update()
         {
-            _position.Y += VerticalSpeed * _verticalDirection;
-            _position.X += HorizontalSpeed * _horizontalDirection;
+            _updatedPosition.Y += VerticalSpeed * _verticalDirection;
+            _updatedPosition.X += HorizontalSpeed * _horizontalDirection;
             RandomizeSpeed();
             UpdateHorizontalComponent();
             UpdateVerticalComponent();
         }   
         private void UpdateHorizontalComponent()
         {
-            if (_position.X >= Global.Width - 5 || _position.X <= 5) 
+            if (_updatedPosition.X >= Global.Width - 5 || _updatedPosition.X <= 5) 
                 _horizontalDirection *= -1;
         }
         private void UpdateVerticalComponent()
         {
-            if (_position.Y > _heightLimit && _verticalDirection != -1)
+            if (_updatedPosition.Y > _heightLimit && _verticalDirection != -1)
             {
                 if (_firstCrossing) 
                     _firstCrossing = false;
                 _verticalDirection *= -1;
-            } else if (_position.Y <= 0 && !_firstCrossing && _verticalDirection != 1)
+            } else if (_updatedPosition.Y <= 0 && !_firstCrossing && _verticalDirection != 1)
                 _verticalDirection *= -1;
         }
         private bool RandomInstance() => SplashKit.Rnd(0,70) == 0;
@@ -111,8 +109,8 @@ namespace Space_Shooter
         }
         public override void Update()
         {
-            _position.X += _pathVector.X * VerticalSpeed;
-            _position.Y += _pathVector.Y * VerticalSpeed;
+            _updatedPosition.X += _pathVector.X * VerticalSpeed;
+            _updatedPosition.Y += _pathVector.Y * VerticalSpeed;
         }
     }
 }

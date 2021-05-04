@@ -27,7 +27,7 @@ namespace Space_Shooter
             _gun = new Gun(1.2, Bullet.Type.RedLaser, false);
             _speed = 5;
             var bitmap = SplashKit.LoadBitmap("Nightmare", "Bosses/Nightmare.png");
-            _image = new StaticImage(bitmap);
+            Image = new StaticImage(bitmap);
             _movePattern = new ZigzagPattern(_speed, _speed - 2, X, Y, true);
         }
         public override void Update()
@@ -39,7 +39,7 @@ namespace Space_Shooter
         }
         public override void Draw()
         { 
-            _image.Draw(X, Y);
+            Image.Draw(X, Y);
             _gun.DrawBullets();
         }
         private void ChangeMovePattern()
@@ -78,7 +78,7 @@ namespace Space_Shooter
         {
             var bitmap = SplashKit.LoadBitmap("Phantom", "Bosses/Phantom.png");
             var cellDetails = new int[]{300/2, 130, 2, 1, 2};
-            _image = new AnimatedImage("flickerScript", "flickering", bitmap, cellDetails);
+            Image = new AnimatedImage("flickerScript", "flickering", bitmap, cellDetails);
         }
         public override void Update()
         {
@@ -99,7 +99,7 @@ namespace Space_Shooter
         }
         public override void Draw()
         { 
-            if (!_isInvisible) _image.Draw(X, Y); 
+            if (!_isInvisible)  Image.Draw(X, Y); 
             _gun.DrawBullets();
         }
     }

@@ -19,7 +19,6 @@ namespace Space_Shooter
         public AnimatedImage _image;
         private int _speed;
         public double Score{get; private set;}
-        private SoundEffect _laserSound = SplashKit.LoadSoundEffect("laserSound", "laser.mp3");
         public Player(int option){
             X = Global.Width / 2;
             Y = Global.Height * 4 / 5;      

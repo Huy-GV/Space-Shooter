@@ -10,14 +10,14 @@ namespace Space_Shooter
         {
             ExplosionType = Explosion.Type.RedLaser;
             var bitmap = SplashKit.LoadBitmap("RedAlienship", "Alienships/RedAlienship.png");
-            _image = new StaticImage(bitmap);
+            Image = new StaticImage(bitmap);
             _gun = new Gun(2);
             _movePattern = new ZigzagPattern(2,3, X, Y);
         }
         public RedAlienship() : this(Global.Width, Global.Height) { }
         public override void Draw()
         { 
-            _image.Draw(X, Y);
+            Image.Draw(X, Y);
             _gun.DrawBullets();
         }
         public override void Update()

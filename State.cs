@@ -149,10 +149,6 @@ namespace Space_Shooter
             SplashKit.DrawText("Boss Run", Color.Orange, Global.MediumFont, 40, 150, 600);
             SplashKit.DrawText("Survival", Color.Red, Global.MediumFont, 40, 150, 700);
         }
-        public override void Update()
-        {
-            return;
-        }
         public override void ProcessInput()
         {
             if (SplashKit.MouseClicked(MouseButton.LeftButton))

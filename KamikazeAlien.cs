@@ -21,11 +21,11 @@ namespace Space_Shooter
         {
             var bitmap = SplashKit.LoadBitmap("KamikazeAlien", "Alienships/KamikazeAlien.png");
             var option = SplashKit.OptionRotateBmp(Angle - 90);
-            _image = new StaticImage(bitmap, option);
+            Image = new StaticImage(bitmap, option);
         }
         public override void Draw()
         { 
-            _image.Draw(X, Y);
+            Image.Draw(X, Y);
         }
         public override void Update()
         {

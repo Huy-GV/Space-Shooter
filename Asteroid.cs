@@ -21,7 +21,7 @@ namespace Space_Shooter
             else
                 bitmap = SplashKit.LoadBitmap("asteroid2", "Asteroids/brownAsteroid.png");
 
-            _image = new StaticImage(bitmap);
+            Image = new StaticImage(bitmap);
         }
         public Asteroid() : this(Global.Width, Global.Height){}
         public void SetCoordinates(int lastAsteroidX, int lastAsteroidY)
@@ -35,7 +35,7 @@ namespace Space_Shooter
         }
         public override void Draw()
         {
-            _image.Draw(X, Y);
+            Image.Draw(X, Y);
         } 
     }
 }

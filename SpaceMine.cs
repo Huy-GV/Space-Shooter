@@ -31,12 +31,12 @@ namespace Space_Shooter
         {
             var bitmap = SplashKit.LoadBitmap("blueSpacemine", "Spacemines/blueSpacemine.png");
             var cellDetails = new int[]{120, 120, 2, 1, 2};
-            _image = new AnimatedImage("spacemineScript", "floating", bitmap, cellDetails);
+            Image = new AnimatedImage("spacemineScript", "floating", bitmap, cellDetails);
         }
         public Spacemine() : this(Global.Width, Global.Height){}
         public override void Draw()
         {
-            _image.Draw(X, Y);
+            Image.Draw(X, Y);
         } 
         public override void Update()
         { 

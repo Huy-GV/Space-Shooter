@@ -6,8 +6,7 @@ namespace Space_Shooter{
         public Explosion.Type ExplosionType{get; protected set;}  
         public int CollisionDamage{get; protected set;}
         public int Health{get; protected set;}
-        protected DrawableObject _image{get; set;}
-        public DrawableObject Image{ get{ return _image;}}
+        public DrawableObject Image{ get; protected set;}
         protected int Angle{get; set;}
         public Enemy()
         {
