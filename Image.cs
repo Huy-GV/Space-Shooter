@@ -6,7 +6,7 @@ namespace Space_Shooter
 {
     public abstract class Image
     {
-        public DrawingOptions Option{ get; set;}
+        protected DrawingOptions Option{ get; set;}
         public Bitmap Bitmap{ get; protected set;}
         public virtual void Draw(int x, int y)
         {
