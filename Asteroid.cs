@@ -26,15 +26,6 @@ namespace Space_Shooter
             return new StaticImage(bitmap);
         }
         public Asteroid() : this(Global.Width, Global.Height){}
-        public void SetCoordinates(int lastAsteroidX, int lastAsteroidY)
-        {
-            // X = ;
-            // Y = ;
-        }
-        public override void Update()
-        {
-            Move();
-        }
         public override void Draw()
         {
             Image.Draw(_movePattern.X, _movePattern.Y);

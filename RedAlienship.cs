@@ -20,10 +20,5 @@ namespace Space_Shooter
             Image.Draw(_movePattern.X, _movePattern.Y);
             _gun.DrawBullets();
         }
-        public override void Update()
-        {
-            UpdateGun();
-            Move();
-        }
     }
 }

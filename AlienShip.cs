@@ -22,6 +22,11 @@ namespace Space_Shooter
                 _y = lastEnemyY - 100;
             } 
         }
+        public override void Update()
+        {
+            base.Update();
+            UpdateGun();
+        }
         protected void UpdateGun()
         { 
             _gun.Update();

@@ -28,7 +28,7 @@ namespace Space_Shooter{
                 }
             }
         }
-        protected void Move()
+        public override void Update()
         {
             _movePattern.Update();
         }
