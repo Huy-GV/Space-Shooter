@@ -8,9 +8,12 @@ namespace Space_Shooter
     {
         public Asteroid(int lastAsteroidX, int lastAsteroidY) : base()
         {
-            SetCoordinates(lastAsteroidX, lastAsteroidY);
+            // SetCoordinates(lastAsteroidX, lastAsteroidY);
             Image = SetAnimation();
-            _movePattern = new StraightLinePattern(4, X, Y, 90);
+            var x = (2 * SplashKit.Rnd(0, 6) + 1) * 50;
+            var y = (lastAsteroidY > 50) ? -10 : lastAsteroidY - 60;
+
+            _movePattern = new StraightLinePattern(4, x, y, 90);
             ExplosionType = Explosion.Type.Fire;
         }
         private Image SetAnimation()
@@ -25,8 +28,8 @@ namespace Space_Shooter
         public Asteroid() : this(Global.Width, Global.Height){}
         public void SetCoordinates(int lastAsteroidX, int lastAsteroidY)
         {
-            X = (2 * SplashKit.Rnd(0, 6) + 1) * 50;
-            Y = (lastAsteroidY > 50) ? -10 : lastAsteroidY - 60;
+            // X = ;
+            // Y = ;
         }
         public override void Update()
         {
@@ -34,7 +37,7 @@ namespace Space_Shooter
         }
         public override void Draw()
         {
-            Image.Draw(X, Y);
+            Image.Draw(_movePattern.X, _movePattern.Y);
         } 
     }
 }

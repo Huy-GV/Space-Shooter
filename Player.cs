@@ -6,6 +6,8 @@ namespace Space_Shooter
 {
     public class Player : GameObject
     {
+        public int X{get; private set;}
+        public int Y{get; private set;}
         public enum ShipType
         {
             Versatile,

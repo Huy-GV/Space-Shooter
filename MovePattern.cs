@@ -8,8 +8,8 @@ namespace Space_Shooter
     public abstract class MovePattern
     {
         protected Point2D _updatedPosition;
-        public int UpdatedX { get{ return (int)_updatedPosition.X;}}
-        public int UpdatedY { get{ return (int)_updatedPosition.Y;}}
+        public int X { get{ return (int)_updatedPosition.X;}}
+        public int Y { get{ return (int)_updatedPosition.Y;}}
         public double HorizontalSpeed{get; protected set;}
         public double VerticalSpeed{get; protected set;}
         public MovePattern(double horizontalSpeed, double verticalSpeed, double x, double y)

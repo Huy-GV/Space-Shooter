@@ -6,26 +6,27 @@ namespace Space_Shooter
 {
     public class Spacemine : Enemy
     {
-        public Spacemine(int lastSpacemineX, int lastSpacemineY): base()
+        public Spacemine(int lastEnemyX, int lastEnemyY): base()
         {
             ExplosionType = Explosion.Type.Default;
             CollisionDamage = 16;
             Image = SetAnimations();
-            SetCoordinates(lastSpacemineX, lastSpacemineY);
-            _movePattern = new StraightLinePattern(3, X, Y, 90);
+            int random = SplashKit.Rnd(0,3);
+            _movePattern = new StraightLinePattern(3, SetX(lastEnemyX, random), SetY(lastEnemyX, random), 90);
         }
-        private void SetCoordinates(int lastSpacemineX, int lastSpacemineY)
+        private int SetX(int lastEnemyX, int random)
         {
-            int randomX = SplashKit.Rnd(0,3);
-            if (lastSpacemineY >= 120)
-            {
-                X = (2 * randomX + 1) * 100; 
-                Y = -140;
-            } else
-            {
-                X = (2 * SplashKit.Rnd(0,3) + 1) * 100;
-                Y = lastSpacemineY - 240;
-            }
+            if (lastEnemyX >= 120)
+                return (2 * random + 1) * 100; 
+            else
+                return (2 * SplashKit.Rnd(0,3) + 1) * 100;
+        }
+        private int SetY(int lastEnemyY, int random)
+        {
+            if (lastEnemyY >= 120)
+                return -140;
+            else
+                return lastEnemyY - 240;
         }
         private Image SetAnimations()
         {
@@ -36,7 +37,7 @@ namespace Space_Shooter
         public Spacemine() : this(Global.Width, Global.Height){}
         public override void Draw()
         {
-            Image.Draw(X, Y);
+            Image.Draw(_movePattern.X, _movePattern.Y);
         } 
         public override void Update()
         { 

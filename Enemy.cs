@@ -3,6 +3,8 @@ namespace Space_Shooter{
     public abstract class Enemy : GameObject
     {
         protected MovePattern _movePattern;
+        public int X => _movePattern.X;
+        public int Y => _movePattern.Y;
         public Explosion.Type ExplosionType{get; protected set;}  
         public int CollisionDamage{get; protected set;}
         public int Health{get; protected set;}
@@ -29,8 +31,6 @@ namespace Space_Shooter{
         protected void Move()
         {
             _movePattern.Update();
-            Y = _movePattern.UpdatedY;
-            X = _movePattern.UpdatedX;
         }
     }
 }

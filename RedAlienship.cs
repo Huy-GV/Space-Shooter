@@ -12,12 +12,12 @@ namespace Space_Shooter
             var bitmap = SplashKit.LoadBitmap("RedAlienship", "Alienships/RedAlienship.png");
             Image = new StaticImage(bitmap);
             _gun = new Gun(2);
-            _movePattern = new ZigzagPattern(2,3, X, Y);
+            _movePattern = new ZigzagPattern(2, 3, _x, _y);
         }
         public RedAlienship() : this(Global.Width, Global.Height) { }
         public override void Draw()
         { 
-            Image.Draw(X, Y);
+            Image.Draw(_movePattern.X, _movePattern.Y);
             _gun.DrawBullets();
         }
         public override void Update()

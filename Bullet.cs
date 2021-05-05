@@ -7,6 +7,8 @@ namespace Space_Shooter
     {
         Image _image;
         private MovePattern _movePattern;
+        public int X => _movePattern.X;
+        public int Y => _movePattern.Y;
         public enum Type
         {
             RedLaser,
@@ -19,11 +21,9 @@ namespace Space_Shooter
         private int _speed;
         public Bullet(int x, int y, Type type, bool hasSound, int moveAngle, int imageAngle){
             if (hasSound) SplashKit.LoadSoundEffect("laserSound", "laser.mp3").Play();
-            X = x;
-            Y = y;
             SetType(type, imageAngle);
             _moveAngle = moveAngle;
-            _movePattern = new StraightLinePattern(_speed, X, Y, _moveAngle);
+            _movePattern = new StraightLinePattern(_speed, x, y, _moveAngle);
         }
         private void SetType(Type type, int imageAngle)
         {
@@ -57,12 +57,11 @@ namespace Space_Shooter
         public override void Update() 
         {            
             _movePattern.Update();
-            Y = _movePattern.UpdatedY;
-            X = _movePattern.UpdatedX;
+
         }
         public override void Draw()
         {
-            _image.Draw(X, Y);
+            _image.Draw(_movePattern.X, _movePattern.Y);
         }
         public bool HitTarget(Image image, int x, int y)
         {

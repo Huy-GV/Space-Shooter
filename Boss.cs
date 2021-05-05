@@ -11,8 +11,6 @@ namespace Space_Shooter
         protected int _speed;
         public Boss()
         {
-            X = Global.Width / 2;
-            Y = -21;
             Health = 80;
         }
     }
@@ -22,13 +20,11 @@ namespace Space_Shooter
         private double _movePatternDuration;
         public Nightmare()
         {
-            X = Global.Width / 2;
-            Y = -20;
             _gun = new Gun(1.2, Bullet.Type.RedLaser, false);
             _speed = 5;
             var bitmap = SplashKit.LoadBitmap("Nightmare", "Bosses/Nightmare.png");
             Image = new StaticImage(bitmap);
-            _movePattern = new ZigzagPattern(_speed, _speed - 2, X, Y, true);
+            _movePattern = new ZigzagPattern(_speed, _speed - 2, Global.Width/2 , -20, true);
         }
         public override void Update()
         {
@@ -72,7 +68,7 @@ namespace Space_Shooter
             _speed = 4;
             _isInvisible = false;
             _invisibleDuration = 3;
-            _movePattern = new ZigzagPattern(_speed, _speed, X, Y, true);
+            _movePattern = new ZigzagPattern(_speed, _speed, Global.Width/2 , -20, true);
         }
         private Image SetAnimation()
         {

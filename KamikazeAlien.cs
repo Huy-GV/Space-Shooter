@@ -8,12 +8,12 @@ namespace Space_Shooter
     {
         public KamikazeAlien(int lastEnemyX, int lastEnemyY) : base()
         {
-            X = Global.Width / 2;
-            Y = -50;
+            var x = Global.Width / 2;
+            var y = -50;
             CollisionDamage = 13;
             ExplosionType = Explosion.Type.Fire;
             Angle = (SplashKit.Rnd(0, 42) + 69);
-            _movePattern = new StraightLinePattern(9, X, Y, Angle);
+            _movePattern = new StraightLinePattern(9, x, y, Angle);
             Image = SetAnimation();
         }
         public KamikazeAlien() : this(Global.Width, Global.Height) { }
@@ -25,7 +25,7 @@ namespace Space_Shooter
         }
         public override void Draw()
         { 
-            Image.Draw(X, Y);
+            Image.Draw(_movePattern.X, _movePattern.Y);
         }
         public override void Update()
         {
