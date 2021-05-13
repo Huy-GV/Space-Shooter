@@ -6,6 +6,9 @@ namespace Space_Shooter
 {
     public class Session 
     {
+
+        public 
+
         public enum Status
         {
             Running,
