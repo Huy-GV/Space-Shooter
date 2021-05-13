@@ -35,9 +35,5 @@ namespace SpaceShooter
             return new AnimatedImage("spacemineScript", "floating", bitmap, cellDetails);
         }
         public Spacemine() : this(Global.Width, Global.Height){}
-        public override void Draw()
-        {
-            Image.Draw(_movePattern.X, _movePattern.Y);
-        } 
     }
 }

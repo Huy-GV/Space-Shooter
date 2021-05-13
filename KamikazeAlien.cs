@@ -23,9 +23,5 @@ namespace SpaceShooter
             var option = SplashKit.OptionRotateBmp(Angle - 90);
             return new StaticImage(bitmap, option);
         }
-        public override void Draw()
-        { 
-            Image.Draw(_movePattern.X, _movePattern.Y);
-        }
     }
 }

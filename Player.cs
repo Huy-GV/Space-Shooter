@@ -71,7 +71,6 @@ namespace SpaceShooter
         public override void Draw()
         { 
             _image.Draw(X, Y);
-            _gun.DrawBullets();   
         }
         public void MoveLeft() => X -= _speed;
         public void MoveRight() => X += _speed;

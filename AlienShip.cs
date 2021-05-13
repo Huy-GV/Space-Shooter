@@ -8,7 +8,6 @@ namespace SpaceShooter
     {
         protected Gun _gun;
         protected int _x, _y;
-        public List<Bullet> Bullets{ get { return _gun.Bullets; }}
         public bool CoolDownEnded{get => _gun.CoolDownEnded;}
         public Alienship(int lastEnemyX, int lastEnemyY) : base()
         {

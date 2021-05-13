@@ -16,10 +16,5 @@ namespace SpaceShooter
             _movePattern = new StraightLinePattern(3, _x, _y, 90);
         }
         public BlueAlienship() : this(Global.Width, Global.Height) { }
-        public override void Draw()
-        { 
-            Image.Draw(_movePattern.X, _movePattern.Y);
-            _gun.DrawBullets();
-        }
     }
 }

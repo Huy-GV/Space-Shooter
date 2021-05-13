@@ -32,6 +32,10 @@ namespace SpaceShooter{
         {
             _movePattern.Update();
         }
+        public override void Draw()
+        {
+            Image.Draw(X, Y);
+        }
     }
 }
 

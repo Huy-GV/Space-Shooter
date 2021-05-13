@@ -26,9 +26,5 @@ namespace SpaceShooter
             return new StaticImage(bitmap);
         }
         public Asteroid() : this(Global.Width, Global.Height){}
-        public override void Draw()
-        {
-            Image.Draw(_movePattern.X, _movePattern.Y);
-        } 
     }
 }

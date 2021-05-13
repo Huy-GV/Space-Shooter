@@ -6,14 +6,14 @@ namespace SpaceShooter
 {
     public class Gun
     {
-        public List<Bullet> Bullets{get; private set;}
+
         private double _coolDownTime = 0;
         private double _coolDownLimit;
         private Bullet.Type _type;
         private bool _hasSound;
         public Gun(double coolDownLimit, Bullet.Type type, bool hasSound)
         {
-            Bullets = new List<Bullet>();
+
             _coolDownLimit = coolDownLimit;
             _type = type;
             _hasSound = hasSound;
@@ -26,16 +26,9 @@ namespace SpaceShooter
             _coolDownTime = _coolDownLimit;
             return new Bullet(x, y, _type, _hasSound, moveAngle, imageAngle);
         }
-        private double UpdateCoolDown()=>  (_coolDownTime > 0 ? _coolDownTime - 1/(double)60 : 0);
-        public void DrawBullets() => Bullets.ForEach(bullet => bullet.Draw());
         public void Update()
         {
-            foreach(var bullet in Bullets.ToArray())
-            {
-                bullet.Update();
-                if (bullet.Y < 0 || bullet.Y > Global.Height) Bullets.Remove(bullet);
-            } 
-            _coolDownTime = UpdateCoolDown();
+            _coolDownTime = (_coolDownTime > 0 ? _coolDownTime - 1/(double)60 : 0);
         }
     }
 }

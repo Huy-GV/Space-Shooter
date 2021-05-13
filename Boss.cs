@@ -6,7 +6,6 @@ namespace SpaceShooter
 {
     public abstract class Boss : Enemy, IHaveGun
     {
-        public List<Bullet> Bullets{get{ return _gun.Bullets;}}
         public bool CoolDownEnded{get => _gun.CoolDownEnded;}
         protected Gun _gun;   
         protected int _speed;
@@ -31,14 +30,12 @@ namespace SpaceShooter
         public override void Update()
         {
             base.Update();
-            
             _gun.Update();
             ChangeMovePattern();
         }
         public override void Draw()
         { 
             Image.Draw(X, Y);
-            _gun.DrawBullets();
         }
         private void ChangeMovePattern()
         {
@@ -97,7 +94,6 @@ namespace SpaceShooter
         public override void Draw()
         { 
             if (!_isInvisible)  Image.Draw(X, Y); 
-            _gun.DrawBullets();
         }
     }
 }
