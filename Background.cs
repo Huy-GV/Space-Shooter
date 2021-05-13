@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using SplashKitSDK;
 using System;
 
-namespace Space_Shooter
+namespace SpaceShooter
 {
     public static class Global
     {

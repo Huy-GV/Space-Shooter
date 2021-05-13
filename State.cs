@@ -1,7 +1,7 @@
 using SplashKitSDK;
 using System;
 
-namespace Space_Shooter
+namespace SpaceShooter
 {
     public abstract class State
     {

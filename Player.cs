@@ -1,7 +1,7 @@
 using System;
 using SplashKitSDK;
 using System.Collections.Generic;
-namespace Space_Shooter
+namespace SpaceShooter
 
 {
     public class Player : GameObject

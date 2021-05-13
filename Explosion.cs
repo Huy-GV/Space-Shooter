@@ -1,6 +1,6 @@
 using SplashKitSDK;
 
-namespace Space_Shooter
+namespace SpaceShooter
 {
     public class Explosion : GameObject
     {

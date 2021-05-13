@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using SplashKitSDK;
 using System.Linq;
-namespace Space_Shooter
+namespace SpaceShooter
 {
     public abstract class Boss : Enemy, IHaveGun
     {

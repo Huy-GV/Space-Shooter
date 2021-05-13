@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using SplashKitSDK;
 
-namespace Space_Shooter
+namespace SpaceShooter
 {
     public class Game
     {

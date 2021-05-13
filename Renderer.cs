@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
-using SplashkitSDK;
+using SplashKitSDK;
+
 
 namespace SpaceShooter
 {
@@ -15,49 +16,13 @@ namespace SpaceShooter
         public void Draw()
         {
             _session.Player.Draw();
-            _session.Enemies.Foreach(enemy => enemy.Draw());
-            _session.Explosion.Foreach(explosion => explosion.Draw());
+            _session.Enemies.ForEach(enemy => enemy.Draw());
+            _session.Explosions.ForEach(explosion => explosion.Draw());
         }
-    }
-
-    public class LogicProcessor
-    {
-        private Session _session;
-        private GameMode _gameMode;
-        public LogicProcessor(Session session, GameMode gameMode)
+        private void DrawPlayerInfo()
         {
-            _session = session;
-            _gameMode = gameMode;
-        }
-        public void Update()
-        {
-            _session.Player.Update();
-            _session.Enemies.Foreach(enemy => enemy.Update());
-            _session.Explosion.Foreach(explosion => explosion.Update());
-            _gameMode.CheckGameEnding(_player);
-            _gameMode.AddEnemies((int)_player.Score);
-            foreach(Enemy enemy in _gameMode.Enemies.ToArray())
-            {
-                enemy.Update();
-                enemy.CheckPlayerBullets(_player.Bullets);
-                CheckEnemyStatus(enemy);
-                if (_player.CollideWith(enemy.Image, enemy.X, enemy.Y) && !(enemy is Boss))
-                { 
-                    _player.LoseHealth(enemy.CollisionDamage);
-                    enemy.LoseHealth(100);
-                }
-                if (enemy is IHaveGun Gunner) 
-                    _player.CheckEnemyBullets(Gunner.Bullets);   
-            }
-        }
-        private void CheckEnemyStatus(Enemy enemy)
-        {
-            if (enemy.Y > Global.Height || enemy.Health <= 0)
-            {
-                if (enemy.Health <= 0) 
-                    CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType); 
-                _gameMode.RemoveEnemy(enemy);            
-            }
+            SplashKit.DrawText($"Health: {(int)_session.Player.Health}", Color.Green, Global.SmallFont, 24, 20, 40);
+            SplashKit.DrawText($"Score: {(int)_session.Player.Score}", Color.Yellow, Global.SmallFont, 24, 20, 70);
         }
     }
 }

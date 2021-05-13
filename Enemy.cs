@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-namespace Space_Shooter{
+namespace SpaceShooter{
     public abstract class Enemy : GameObject
     {
         protected MovePattern _movePattern;

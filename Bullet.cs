@@ -1,7 +1,7 @@
 using System;
 using SplashKitSDK;
 
-namespace Space_Shooter
+namespace SpaceShooter
 {
     public class Bullet : GameObject
     {

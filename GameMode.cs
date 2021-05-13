@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using SplashKitSDK;
 
-namespace Space_Shooter
+namespace SpaceShooter
 {
     public abstract class GameMode
     {
         protected Dictionary<Type, int> _limits;
         public int SpawnRate{get; protected set;}
-        public bool GameOver{get; protected set;}
+        public bool GameEnded{get; protected set;}
         public List<Enemy> Enemies{get; protected init;}
         protected Dictionary<Type, int> _enemyAmountByClass;
         public GameMode()
@@ -37,7 +37,7 @@ namespace Space_Shooter
             };
             Enemies = new List<Enemy>();
             SpawnRate = 70;
-            GameOver = false;
+            GameEnded = false;
         }
         protected bool TimeToSpawn()=> SplashKit.Rnd(0, SpawnRate) == 0;
         public virtual void AddEnemies(int score)
@@ -61,7 +61,7 @@ namespace Space_Shooter
         }
         public virtual void CheckGameEnding(Player player)
         {
-            if (player.Health <= 0) GameOver = true;
+            if (player.Health <= 0) GameEnded = true;
         }
         public void RemoveEnemy(Enemy enemy)
         {
@@ -93,7 +93,7 @@ namespace Space_Shooter
         {
             base.CheckGameEnding(player);
             if (Enemies.Count == 0 && ((_level < 3 && player.Score >= 100) || (_level >= 3 && _bossSpawned)))
-                GameOver = true;
+                GameEnded = true;
         }
         private Boss SpawnBoss()
         {
@@ -211,7 +211,7 @@ namespace Space_Shooter
         public override void CheckGameEnding(Player player)
         {
             base.CheckGameEnding(player);
-            if (_stage == _stageAmount && Enemies.Count == 0) GameOver = true;
+            if (_stage == _stageAmount && Enemies.Count == 0) GameEnded = true;
         }
         public override void AddEnemies(int score)
         {

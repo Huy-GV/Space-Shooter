@@ -2,114 +2,64 @@ using System;
 using SplashKitSDK;
 using System.Collections.Generic;
 
-namespace Space_Shooter
+namespace SpaceShooter
 {
     public class Session 
     {
 
-        public 
-
+        public Player Player{get; init;}
+        public List<Explosion> Explosions{get; init;}
+        public int GameModeIndex{get; init;}
+        public List<Enemy> Enemies{ get => _gameMode.Enemies;}
+        private Renderer _renderer;
+        private EventProcessor _eventProcessor;
         public enum Status
         {
             Running,
             Paused,
             Over
         }
-        private static List<Explosion> _explosions = new List<Explosion>();
-        private int _gameModeIndex;
-        private Player _player;
         private GameMode _gameMode;
         public Status CurrentStatus{get; private set;}
         public Session(int spaceshipChoice, int gameModeIndex)
         {
-            _player = new Player(spaceshipChoice);
-            _gameModeIndex = gameModeIndex;
-            SetGameMode();
+            Player = new Player(spaceshipChoice);
+            Explosions = new List<Explosion>();
+            _renderer = new Renderer(this);
+            _eventProcessor = new EventProcessor(this, _gameMode);
+            GameModeIndex = gameModeIndex;
+            SetGameMode(GameModeIndex);
             CurrentStatus = Status.Running;
+            
         }
-        private void SetGameMode()
+        public void Continue() => CurrentStatus = Status.Running;
+        public void End() => CurrentStatus = Status.Over;
+        private void SetGameMode(int gameModeIndex)
         {
-            switch(_gameModeIndex)
+            switch(gameModeIndex)
             {
                 case 7: _gameMode = new SurvivalMode(); break;
                 case 6: _gameMode = new BossRunMode(); break;
                 case 5: _gameMode = new MineFieldMode(10); break;
-                default: _gameMode = new ByLevelMode(_gameModeIndex); break;
+                default: _gameMode = new ByLevelMode(gameModeIndex); break;
             }
         }
         public void Update()
         {
-            UpdateExplosions();
-            UpdatePlayer();
-            UpdateEnemies();
-        }
-        private void UpdatePlayer()
-        {
-            _player.Update();
-            if ((_player.Score < 100 && _gameModeIndex < 7) || _gameModeIndex >= 7)
-                _player.GainScore();
-            if (_gameMode.GameOver) 
-                CurrentStatus = Status.Over;
+            _eventProcessor.Update();
         }
         public void Draw()
         {
-            DrawExplosions();
-            DrawEnemies();
-            DrawPlayerInfo();
-            _player.Draw();
-        }
-        public void Continue() => CurrentStatus = Status.Running;
-        private void DrawPlayerInfo()
-        {
-            SplashKit.DrawText($"Health: {(int)_player.Health}", Color.Green, Global.SmallFont, 24, 20, 40);
-            SplashKit.DrawText($"Score: {(int)_player.Score}", Color.Yellow, Global.SmallFont, 24, 20, 70);
+            _renderer.Draw();
         }
         public void ProcessInput()
         {
-            if (SplashKit.KeyDown(KeyCode.LeftKey) && _player.X > 0)   _player.MoveLeft();
-            if (SplashKit.KeyDown(KeyCode.RightKey) && _player.X < Global.Width)  _player.MoveRight();
-            if (SplashKit.KeyDown(KeyCode.UpKey) && _player.Y > Global.Height / 2)   _player.MoveUp();
-            if (SplashKit.KeyDown(KeyCode.DownKey) && _player.Y < Global.Height)  _player.MoveDown();
-            if (SplashKit.KeyDown(KeyCode.SpaceKey) && _player.CoolDown == 0) _player.Shoot();
+            if (SplashKit.KeyDown(KeyCode.LeftKey) && Player.X > 0)   Player.MoveLeft();
+            if (SplashKit.KeyDown(KeyCode.RightKey) && Player.X < Global.Width)  Player.MoveRight();
+            if (SplashKit.KeyDown(KeyCode.UpKey) && Player.Y > Global.Height / 2)   Player.MoveUp();
+            if (SplashKit.KeyDown(KeyCode.DownKey) && Player.Y < Global.Height)  Player.MoveDown();
+            if (SplashKit.KeyDown(KeyCode.SpaceKey) && Player.CoolDown == 0) Player.Shoot();
             if (SplashKit.KeyDown(KeyCode.EscapeKey)) CurrentStatus = Status.Paused;
-        }
-        private void DrawEnemies() => _gameMode.Enemies.ForEach(enemy => enemy.Draw());
-        private void DrawExplosions() => _explosions.ForEach(explosion => explosion.Draw());
-        private void UpdateEnemies()
-        {
-            _gameMode.CheckGameEnding(_player);
-            _gameMode.AddEnemies((int)_player.Score);
-            foreach(Enemy enemy in _gameMode.Enemies.ToArray())
-            {
-                enemy.Update();
-                enemy.CheckPlayerBullets(_player.Bullets);
-                CheckEnemyStatus(enemy);
-                if (_player.CollideWith(enemy.Image, enemy.X, enemy.Y) && !(enemy is Boss))
-                { 
-                    _player.LoseHealth(enemy.CollisionDamage);
-                    enemy.LoseHealth(100);
-                }
-                if (enemy is IHaveGun Gunner) 
-                    _player.CheckEnemyBullets(Gunner.Bullets);   
-            }
-        }
-        private void CheckEnemyStatus(Enemy enemy)
-        {
-            if (enemy.Y > Global.Height || enemy.Health <= 0)
-            {
-                if (enemy.Health <= 0) 
-                    CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType); 
-                _gameMode.RemoveEnemy(enemy);            
-            }
-        }
-        private void CreateExplosion(int x, int y, Explosion.Type type) => _explosions.Add(new Explosion(x, y, type));
-        private void UpdateExplosions()
-        {
-            foreach (var explosion in _explosions.ToArray())
-            {
-                explosion.Update();
-                if (explosion.AnimationEnded) _explosions.Remove(explosion);
-            }
         }
     }
 }
