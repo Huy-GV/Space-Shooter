@@ -57,7 +57,6 @@ namespace Space_Shooter
         public override void Update() 
         {            
             _movePattern.Update();
-
         }
         public override void Draw()
         {
