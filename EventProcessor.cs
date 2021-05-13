@@ -16,14 +16,15 @@ namespace SpaceShooter
         public void Update()
         {
             _session.Player.Update();
-            _session.Enemies.ForEach(enemy => enemy.Update());
+            _session.Player.CheckEnemyBullets(_session.EnemyProjectiles);
             _session.Explosions.ForEach(explosion => explosion.Update());
             _gameMode.CheckGameEnding(_session.Player);
             _gameMode.AddEnemies((int)_session.Player.Score);
+            UpdateProjectiles();
             foreach(Enemy enemy in _gameMode.Enemies.ToArray())
             {
                 enemy.Update();
-                enemy.CheckPlayerBullets(_session.Player.Bullets);
+                enemy.CheckPlayerBullets(_session.Projectiles);
                 CheckEnemyStatus(enemy);
                 if (_session.Player.CollideWith(enemy.Image, enemy.X, enemy.Y) && !(enemy is Boss))
                 { 
@@ -31,8 +32,13 @@ namespace SpaceShooter
                     enemy.LoseHealth(100);
                 }
                 if (enemy is IHaveGun Gunner) 
-                    _session.Player.CheckEnemyBullets(Gunner.Bullets);   
+                    if (Gunner.CoolDownEnded) _session.EnemyProjectiles.Add(Gunner.Shoot());  
             }
+        }
+        private void UpdateProjectiles()
+        {
+            _session.Projectiles.ForEach(projectile => projectile.Update());
+            _session.EnemyProjectiles.ForEach(projectile => projectile.Update());
         }
         private void CreateExplosion(int x, int y, Explosion.Type type) => _session.Explosions.Add(new Explosion(x, y, type));
         private void UpdateExplosions()

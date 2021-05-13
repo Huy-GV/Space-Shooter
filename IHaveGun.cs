@@ -3,6 +3,7 @@ namespace SpaceShooter
 {
     public interface IHaveGun
     {
-        public List<Bullet> Bullets{get;}
+        public bool CoolDownEnded{get;}
+        public Bullet Shoot();
     }
 }

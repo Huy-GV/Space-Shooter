@@ -17,7 +17,10 @@ namespace SpaceShooter
         {
             _session.Player.Draw();
             _session.Enemies.ForEach(enemy => enemy.Draw());
+            _session.Projectiles.ForEach(projectile => projectile.Draw());
+            _session.EnemyProjectiles.ForEach(projectile => projectile.Draw());
             _session.Explosions.ForEach(explosion => explosion.Draw());
+            DrawPlayerInfo();
         }
         private void DrawPlayerInfo()
         {

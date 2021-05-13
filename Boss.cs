@@ -7,12 +7,14 @@ namespace SpaceShooter
     public abstract class Boss : Enemy, IHaveGun
     {
         public List<Bullet> Bullets{get{ return _gun.Bullets;}}
+        public bool CoolDownEnded{get => _gun.CoolDownEnded;}
         protected Gun _gun;   
         protected int _speed;
         public Boss()
         {
             Health = 80;
         }
+        public virtual Bullet Shoot() => _gun.OpenFire(X, Y, Angle, 0); 
     }
     public class Nightmare : Boss
     { 
@@ -29,7 +31,7 @@ namespace SpaceShooter
         public override void Update()
         {
             base.Update();
-            _gun.AutoFire(X, Y, Angle, 0);
+            
             _gun.Update();
             ChangeMovePattern();
         }
@@ -79,7 +81,6 @@ namespace SpaceShooter
         public override void Update()
         {
             base.Update();
-            _gun.AutoFire(X, Y, Angle, 0);
             _gun.Update();
             UpdateVisibility();
         }

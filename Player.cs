@@ -8,16 +8,15 @@ namespace SpaceShooter
     {
         public int X{get; private set;}
         public int Y{get; private set;}
+        public bool CoolDownEnded{get => _gun.CoolDownEnded;}
         public enum ShipType
         {
             Versatile,
             Agile,
             Armoured
         }
-        public double CoolDown{get; private set;}
         public int Health{get; private set;}
         private Gun _gun;
-        public List<Bullet> Bullets{ get { return _gun.Bullets; }}
         public AnimatedImage _image;
         private int _speed;
         public double Score{get; private set;}
@@ -78,10 +77,7 @@ namespace SpaceShooter
         public void MoveRight() => X += _speed;
         public void MoveUp() => Y -= _speed;
         public void MoveDown() => Y += _speed;
-        public void Shoot() 
-        { 
-            if (_gun.CoolDownEnded) _gun.OpenFire(X, Y, -90, -180);
-        }
+        public Bullet Shoot() => _gun.OpenFire(X, Y, -90, -180);
         public override void Update()
         {
             _gun.Update();

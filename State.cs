@@ -114,7 +114,7 @@ namespace SpaceShooter
         }
         public override void ProcessInput()
         {
-            if (_sessionStarted && _session.CurrentStatus != Session.Status.Paused)
+            if (_sessionStarted && _session.CurrentState != Session.State.Paused)
                 _session.ProcessInput();
         }
         public override void Update()
@@ -126,11 +126,11 @@ namespace SpaceShooter
             } else
             {
                 _session.Update();
-                if (_session.CurrentStatus == Session.Status.Over)
+                if (_session.CurrentState == Session.State.Over)
                 {
                     _game.SetState(_game.GameOverState);
                     _sessionStarted = false;
-                } else if (_session.CurrentStatus == Session.Status.Paused)
+                } else if (_session.CurrentState == Session.State.Paused)
                     _game.SetState(_game.PausedGameState);
             }             
         }

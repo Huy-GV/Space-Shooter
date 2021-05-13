@@ -9,6 +9,7 @@ namespace SpaceShooter
         protected Gun _gun;
         protected int _x, _y;
         public List<Bullet> Bullets{ get { return _gun.Bullets; }}
+        public bool CoolDownEnded{get => _gun.CoolDownEnded;}
         public Alienship(int lastEnemyX, int lastEnemyY) : base()
         {
             int randomX = SplashKit.Rnd(0, 6);
@@ -25,13 +26,8 @@ namespace SpaceShooter
         public override void Update()
         {
             base.Update();
-            UpdateGun();
-        }
-        protected void UpdateGun()
-        { 
             _gun.Update();
-            if (_movePattern.Y >= 0 && _movePattern.Y <= Global.Height / 2) 
-                _gun.AutoFire(_movePattern.X, _movePattern.Y, Angle, 0); 
         }
+        public Bullet Shoot() => _gun.OpenFire(_movePattern.X, _movePattern.Y, Angle, 0); 
     }
 }
