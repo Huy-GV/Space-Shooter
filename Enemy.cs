@@ -17,17 +17,6 @@ namespace SpaceShooter{
             Angle = 90;
         }
         public void LoseHealth(int damage) => Health -= damage;
-        public virtual void CheckPlayerBullets(List<Bullet> bullets)
-        {
-            foreach(var bullet in bullets.ToArray())
-            {
-                if (bullet.HitTarget(Image, X, Y))
-                {
-                    Health -= bullet.Damage;
-                    bullets.Remove(bullet);
-                }
-            }
-        }
         public virtual void Update()
         {
             _movePattern.Update();

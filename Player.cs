@@ -83,17 +83,6 @@ namespace SpaceShooter
         }
         public void GainScore(){ Score += 1/(double)60;}
         public void LoseHealth(int damage) => Health -= damage;
-        public void CheckEnemyBullets(List<Bullet> enemyBullets)
-        {
-            foreach(var bullet in enemyBullets.ToArray())
-            {
-                if (bullet.HitTarget(Image, X, Y))
-                {
-                    Health -= bullet.Damage;
-                    enemyBullets.Remove(bullet);
-                }
-            }
-        }
         public bool CollideWith(Image image, int x, int y)
         {
             return (SplashKit.BitmapCollision(

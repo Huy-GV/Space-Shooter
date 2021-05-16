@@ -8,38 +8,38 @@ namespace SpaceShooter
     {
         private Session _session;
         private GameMode _gameMode;
+        private Player _player;
         public EventProcessor(Session session, GameMode gameMode)
         {
             _session = session;
             _gameMode = gameMode;
+            _player = _session.Player;
         }
         public void Update()
         {
-            _session.Player.CheckEnemyBullets(_session.EnemyProjectiles);
-            _gameMode.CheckGameEnding(_session.Player);
-            _gameMode.AddEnemies((int)_session.Player.Score);
+            _gameMode.CheckGameEnding(_player);
+            _gameMode.AddEnemies((int)_player.Score);
 
             UpdateExplosions(_session.Explosions);
-            UpdatePlayer(_session.Player, _session.GameModeIndex);
+            UpdatePlayer(_player, _session.GameModeIndex);
             UpdateProjectiles(_session.PlayerProjectiles);
             UpdateProjectiles(_session.EnemyProjectiles);
-            PlayerProjectileCheck(_session.Player, _session.EnemyProjectiles);
+            PlayerProjectileCheck(_player, _session.EnemyProjectiles);
 
             foreach(Enemy enemy in _gameMode.Enemies.ToArray())
             {
                 enemy.Update();
-                EnemyProjectileCheck(enemy, _session.EnemyProjectiles);
-                CheckEnemyStatus(enemy);
-                if (_session.Player.CollideWith(enemy.Image, enemy.X, enemy.Y) && !(enemy is Boss))
+                EnemyProjectileCheck(enemy, _session.PlayerProjectiles);
+                EnemyStateCheck(enemy);
+                if (_player.CollideWith(enemy.Image, enemy.X, enemy.Y) && !(enemy is Boss))
                 { 
-                    _session.Player.LoseHealth(enemy.CollisionDamage);
+                    _player.LoseHealth(enemy.CollisionDamage);
                     enemy.LoseHealth(100);
                 }
                 if (enemy is IHaveGun GunShip) 
                     if (GunShip.CoolDownEnded) _session.EnemyProjectiles.Add(GunShip.Shoot());  
             }
         }
-        //TODO: write a class to process collisions?
         private void PlayerProjectileCheck(Player player, List<Bullet> projectiles)
         {
             foreach(var projectile in projectiles.ToArray())
@@ -80,7 +80,7 @@ namespace SpaceShooter
                 if (explosion.AnimationEnded) _session.Explosions.Remove(explosion);
             }
         }
-        private void CheckEnemyStatus(Enemy enemy)
+        private void EnemyStateCheck(Enemy enemy)
         {
             if (enemy.Y > Global.Height || enemy.Health <= 0)
             {

@@ -33,10 +33,6 @@ namespace SpaceShooter
             _gun.Update();
             ChangeMovePattern();
         }
-        public override void Draw()
-        { 
-            Image.Draw(X, Y);
-        }
         private void ChangeMovePattern()
         {
             _time += 1/(double)60;

@@ -12,7 +12,6 @@ namespace SpaceShooter
         {
             _session = session;
         }
-        //create environment that will contain bullets?
         public void Draw()
         {
             _session.Player.Draw();
