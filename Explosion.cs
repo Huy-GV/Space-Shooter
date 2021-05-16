@@ -2,7 +2,7 @@ using SplashKitSDK;
 
 namespace SpaceShooter
 {
-    public class Explosion : GameObject
+    public class Explosion 
     {
         private AnimatedImage _image;
         private int _x, _y;
@@ -50,11 +50,11 @@ namespace SpaceShooter
             var cellDetails = new int[]{180, 180, 20, 1, 20};
             return new AnimatedImage("defaultExplosion", "defaultExplosion", bitmap, cellDetails);
         }
-        public override void Draw()
+        public void Draw()
         {
             _image.Draw(_x, _y);
         } 
-        public override void Update()
+        public void Update()
         {
             _y += 2;
         }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace SpaceShooter
 
 {
-    public class Player : GameObject
+    public class Player
     {
         public int X{get; private set;}
         public int Y{get; private set;}
@@ -17,7 +17,7 @@ namespace SpaceShooter
         }
         public int Health{get; private set;}
         private Gun _gun;
-        public AnimatedImage _image;
+        public AnimatedImage Image{get; private set;}
         private int _speed;
         public double Score{get; private set;}
         public Player(int option){
@@ -48,14 +48,14 @@ namespace SpaceShooter
             _speed = 4;
             var bitmap = SplashKit.LoadBitmap("player1", "PlayerSprites/VersatileShipSprites.png");
             var cellDetails = new int[]{90, 90, 5, 1, 5};
-            _image = new AnimatedImage("spaceship1Script", "flying", bitmap, cellDetails);
+            Image = new AnimatedImage("spaceship1Script", "flying", bitmap, cellDetails);
         }
         private void SetAgileShip()
         {  
             Health = 50;
             var bitmap = SplashKit.LoadBitmap("player2", "PlayerSprites/AgileShipSprites.png");
             var cellDetails = new int[]{90, 90, 4, 1, 4};
-            _image = new AnimatedImage("spaceship2Script", "flying", bitmap, cellDetails);
+            Image = new AnimatedImage("spaceship2Script", "flying", bitmap, cellDetails);
             _gun = new Gun(1, Bullet.Type.RedBeam, true);
             _speed = 5;
         }
@@ -64,20 +64,20 @@ namespace SpaceShooter
             Health = 150;
             var bitmap = SplashKit.LoadBitmap("player3", "PlayerSprites/ArmouredShipSprites.png");
             var cellDetails = new int[]{90, 90, 8, 1, 8};
-            _image = new AnimatedImage("spaceship3Script", "flying", bitmap, cellDetails);
+            Image = new AnimatedImage("spaceship3Script", "flying", bitmap, cellDetails);
             _gun = new Gun(1.5, Bullet.Type.RedBeam, true);
             _speed = 3;
         }
-        public override void Draw()
+        public void Draw()
         { 
-            _image.Draw(X, Y);
+            Image.Draw(X, Y);
         }
         public void MoveLeft() => X -= _speed;
         public void MoveRight() => X += _speed;
         public void MoveUp() => Y -= _speed;
         public void MoveDown() => Y += _speed;
         public Bullet Shoot() => _gun.OpenFire(X, Y, -90, -180);
-        public override void Update()
+        public void Update()
         {
             _gun.Update();
         }
@@ -87,7 +87,7 @@ namespace SpaceShooter
         {
             foreach(var bullet in enemyBullets.ToArray())
             {
-                if (bullet.HitTarget(_image, X, Y))
+                if (bullet.HitTarget(Image, X, Y))
                 {
                     Health -= bullet.Damage;
                     enemyBullets.Remove(bullet);
@@ -98,7 +98,7 @@ namespace SpaceShooter
         {
             return (SplashKit.BitmapCollision(
                 image.Bitmap, image.AdjustedX(x),  image.AdjustedY(y),
-                _image.Bitmap, image.AdjustedX(X),  image.AdjustedY(Y)));
+                Image.Bitmap, image.AdjustedX(X),  image.AdjustedY(Y)));
         }
     }
 }

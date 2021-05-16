@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 namespace SpaceShooter{
-    public abstract class Enemy : GameObject
+    public abstract class Enemy
     {
         protected MovePattern _movePattern;
         public int X => _movePattern.X;
@@ -28,11 +28,11 @@ namespace SpaceShooter{
                 }
             }
         }
-        public override void Update()
+        public virtual void Update()
         {
             _movePattern.Update();
         }
-        public override void Draw()
+        public virtual void Draw()
         {
             Image.Draw(X, Y);
         }

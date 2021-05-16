@@ -3,7 +3,7 @@ using SplashKitSDK;
 
 namespace SpaceShooter
 {
-    public class Bullet : GameObject
+    public class Bullet
     {
         Image _image;
         private MovePattern _movePattern;
@@ -54,11 +54,11 @@ namespace SpaceShooter
             var option = SplashKit.OptionRotateBmp(imageAngle);
             _image = new StaticImage(bitmap, option);
         }
-        public override void Update() 
+        public void Update() 
         {            
             _movePattern.Update();
         }
-        public override void Draw()
+        public void Draw()
         {
             _image.Draw(_movePattern.X, _movePattern.Y);
         }
