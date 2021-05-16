@@ -14,7 +14,7 @@ namespace SpaceShooter
         }
         public Player Player{get; init;}
         public List<Explosion> Explosions{get; init;}
-        public List<Bullet> Projectiles{get; init;}
+        public List<Bullet> PlayerProjectiles{get; init;}
         public List<Bullet> EnemyProjectiles{get; init;}
         public int GameModeIndex{get; init;}
         public List<Enemy> Enemies{ get => _gameMode.Enemies;}
@@ -27,7 +27,7 @@ namespace SpaceShooter
             Player = new Player(spaceshipChoice);
             Explosions = new List<Explosion>();
             //expand into mini bombs?
-            Projectiles = new List<Bullet>();
+            PlayerProjectiles = new List<Bullet>();
             EnemyProjectiles = new List<Bullet>();
             _gameMode = SetGameMode(GameModeIndex);
             _renderer = new Renderer(this);
@@ -37,6 +37,7 @@ namespace SpaceShooter
         }
         public void Continue() => CurrentState = State.Running;
         public void End() => CurrentState = State.Over;
+        public void Pause() => CurrentState = State.Paused;
         private GameMode SetGameMode(int gameModeIndex)
         {
             switch(gameModeIndex)
@@ -62,7 +63,7 @@ namespace SpaceShooter
             if (SplashKit.KeyDown(KeyCode.RightKey) && Player.X < Global.Width)  Player.MoveRight();
             if (SplashKit.KeyDown(KeyCode.UpKey) && Player.Y > Global.Height / 2)   Player.MoveUp();
             if (SplashKit.KeyDown(KeyCode.DownKey) && Player.Y < Global.Height)  Player.MoveDown();
-            if (SplashKit.KeyDown(KeyCode.SpaceKey) && Player.CoolDownEnded) Projectiles.Add(Player.Shoot());
+            if (SplashKit.KeyDown(KeyCode.SpaceKey) && Player.CoolDownEnded) PlayerProjectiles.Add(Player.Shoot());
             if (SplashKit.KeyDown(KeyCode.EscapeKey)) CurrentState = State.Paused;
         }
     }

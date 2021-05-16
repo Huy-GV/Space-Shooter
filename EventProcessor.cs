@@ -20,11 +20,12 @@ namespace SpaceShooter
             _session.Explosions.ForEach(explosion => explosion.Update());
             _gameMode.CheckGameEnding(_session.Player);
             _gameMode.AddEnemies((int)_session.Player.Score);
-            UpdateProjectiles();
+            UpdateProjectiles(_session.PlayerProjectiles);
+            UpdateProjectiles(_session.EnemyProjectiles);
             foreach(Enemy enemy in _gameMode.Enemies.ToArray())
             {
                 enemy.Update();
-                enemy.CheckPlayerBullets(_session.Projectiles);
+                enemy.CheckPlayerBullets(_session.PlayerProjectiles);
                 CheckEnemyStatus(enemy);
                 if (_session.Player.CollideWith(enemy.Image, enemy.X, enemy.Y) && !(enemy is Boss))
                 { 
@@ -35,10 +36,13 @@ namespace SpaceShooter
                     if (Gunner.CoolDownEnded) _session.EnemyProjectiles.Add(Gunner.Shoot());  
             }
         }
-        private void UpdateProjectiles()
+        private void UpdateProjectiles(List<Bullet> projectiles)
         {
-            _session.Projectiles.ForEach(projectile => projectile.Update());
-            _session.EnemyProjectiles.ForEach(projectile => projectile.Update());
+            foreach( var projectile in projectiles)
+            {
+                projectile.Update();
+                if (projectile.Y < 0 || projectile.Y > Global.Height || projectile.X < 0 || projectile.X > Global.Width) projectiles.Remove(projectile);
+            }
         }
         private void CreateExplosion(int x, int y, Explosion.Type type) => _session.Explosions.Add(new Explosion(x, y, type));
         private void UpdateExplosions()
