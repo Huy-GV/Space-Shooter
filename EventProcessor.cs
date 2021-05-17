@@ -21,7 +21,7 @@ namespace SpaceShooter
             _gameMode.AddEnemies((int)_player.Score);
 
             UpdateExplosions(_session.Explosions);
-            UpdatePlayer(_player, _session.GameModeIndex);
+            UpdatePlayer();
             UpdateProjectiles(_session.PlayerProjectiles);
             UpdateProjectiles(_session.EnemyProjectiles);
             PlayerProjectileCheck(_player, _session.EnemyProjectiles);
@@ -67,7 +67,7 @@ namespace SpaceShooter
             foreach( var projectile in projectiles.ToArray())
             {
                 projectile.Update();
-                if (projectile.Y < 0 || projectile.Y > Global.Height || projectile.X < 0 || projectile.X > Global.Width) 
+                if (Global.InWindow(projectile.X, projectile.Y)) 
                     projectiles.Remove(projectile);
             }
         }
@@ -89,11 +89,11 @@ namespace SpaceShooter
                 _gameMode.RemoveEnemy(enemy);            
             }
         }
-        private void UpdatePlayer(Player player, int gameModeIndex)
+        private void UpdatePlayer()
         {
-            player.Update();
-            if ((player.Score < 100 && gameModeIndex < 7) || gameModeIndex >= 7)
-                player.GainScore();
+            _player.Update();
+            if ((_player.Score < 100 && _gameMode is ByLevelMode) || (_gameMode is not ByLevelMode))
+                _player.GainScore();
             if (_gameMode.GameEnded) 
                 _session.End();
         }

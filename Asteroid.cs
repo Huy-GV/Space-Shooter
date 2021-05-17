@@ -8,7 +8,6 @@ namespace SpaceShooter
     {
         public Asteroid(int lastAsteroidX, int lastAsteroidY) : base()
         {
-            // SetCoordinates(lastAsteroidX, lastAsteroidY);
             Image = SetAnimation();
             var x = (2 * SplashKit.Rnd(0, 6) + 1) * 50;
             var y = (lastAsteroidY > 50) ? -10 : lastAsteroidY - 60;
