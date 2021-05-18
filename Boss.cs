@@ -19,6 +19,7 @@ namespace SpaceShooter
     { 
         private double _time;
         private double _movePatternDuration;
+        private readonly int _defaultPatternDuration = 4;
         public Nightmare()
         {
             _gun = new Gun(1.2, Bullet.Type.RedLaser, false);
@@ -39,7 +40,7 @@ namespace SpaceShooter
             if (_time >= _movePatternDuration)
             {
                 _time = 0;
-                _movePatternDuration = 4;
+                _movePatternDuration = _defaultPatternDuration;
                 if (_movePattern.GetType() == typeof(HorizontalPattern))
                 {
                     _movePattern = new ZigzagPattern(_speed - 1, _speed - 2, X, Y);
@@ -89,7 +90,7 @@ namespace SpaceShooter
         }
         public override void Draw()
         { 
-            if (!_isInvisible)  Image.Draw(X, Y); 
+            if (!_isInvisible) Image.Draw(X, Y); 
         }
     }
 }

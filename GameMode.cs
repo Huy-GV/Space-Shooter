@@ -10,7 +10,7 @@ namespace SpaceShooter
         public int SpawnRate{get; protected set;}
         public bool GameEnded{get; protected set;}
         public List<Enemy> Enemies{get; protected init;}
-        protected Dictionary<Type, int> _enemyAmountByClass;
+        protected Dictionary<Type, int> _enemyAmountByType;
         public GameMode()
         {
             _limits = new Dictionary<Type, int>()
@@ -24,7 +24,7 @@ namespace SpaceShooter
                 {typeof(Nightmare), 0},
                 {typeof(Phantom), 0}
             };
-            _enemyAmountByClass = new Dictionary<Type, int>()
+            _enemyAmountByType = new Dictionary<Type, int>()
             {
                 {typeof(BlueAlienship), 0},
                 {typeof(PurpleAlienship), 0},
@@ -42,14 +42,12 @@ namespace SpaceShooter
         protected bool TimeToSpawn()=> SplashKit.Rnd(0, SpawnRate) == 0;
         public virtual void AddEnemies(int score)
         {
-            int enemyAmount;
-            foreach (var enemyType in _enemyAmountByClass.Keys)
+            foreach (var enemyType in _enemyAmountByType.Keys)
             {
-                enemyAmount = _enemyAmountByClass[enemyType];
                 object[] parameters;
-                if (TimeToSpawn() && enemyAmount < _limits[enemyType])
+                if (TimeToSpawn() && _enemyAmountByType[enemyType] < _limits[enemyType])
                 {
-                    if (enemyAmount == 0)
+                    if (_enemyAmountByType[enemyType] == 0)
                     {
                         parameters = new object[]{null, null};
                         Enemies.Add((Enemy)Activator.CreateInstance(enemyType, parameters));
@@ -72,7 +70,7 @@ namespace SpaceShooter
             UpdateEnemyAmount(enemy.GetType(), -1);
             Enemies.Remove(enemy);
         }
-        private void UpdateEnemyAmount(Type type, int increment)=> _enemyAmountByClass[type] += increment;
+        private void UpdateEnemyAmount(Type type, int increment)=> _enemyAmountByType[type] += increment;
     }
     public class ByLevelMode : GameMode
     {
@@ -147,6 +145,8 @@ namespace SpaceShooter
     public class SurvivalMode : GameMode
     {
         private int _stage;
+        private readonly int _firstStageThreshold = 10;
+        private readonly int _secondStageThreshold = 20;
         public SurvivalMode() : base()
         {
             _stage = 0;
@@ -187,8 +187,7 @@ namespace SpaceShooter
         }      
         public override void AddEnemies(int score)
         {
-            if (score > 10 && _stage == 0) _stage++;
-            else if (score > 15 && _stage == 1) _stage++;
+            if ((score > 10 && _stage == _firstStageThreshold) || (score > 15 && _stage == _secondStageThreshold)) _stage++;
             base.AddEnemies(score);
         } 
     }
@@ -204,13 +203,13 @@ namespace SpaceShooter
     public class BossRunMode : GameMode
     {
         private int _stage = 0;
-        private int _stageAmount = 3;
+        private readonly int _stageAmount = 3;
         public BossRunMode() : base()
         {
             _limits[typeof(Phantom)] = 1; 
             _limits[typeof(Nightmare)] = 1;
-            _enemyAmountByClass[typeof(Phantom)] = 0; 
-            _enemyAmountByClass[typeof(Nightmare)] = 0;
+            _enemyAmountByType[typeof(Phantom)] = 0; 
+            _enemyAmountByType[typeof(Nightmare)] = 0;
         }
         public override void CheckGameEnding(Player player)
         {
@@ -236,7 +235,6 @@ namespace SpaceShooter
                         Enemies.Add(new Nightmare());
                         _stage++;
                         break;
-                    default: throw new IndexOutOfRangeException("Stage index can only be between 0 and 2");
                 }
             }
         }  

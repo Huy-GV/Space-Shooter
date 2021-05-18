@@ -18,15 +18,13 @@ namespace SpaceShooter
         {
             if (lastEnemyX >= 120)
                 return (2 * random + 1) * 100; 
-            else
-                return (2 * SplashKit.Rnd(0,3) + 1) * 100;
+            return (2 * SplashKit.Rnd(0,3) + 1) * 100;
         }
         private int SetY(int lastEnemyY, int random)
         {
             if (lastEnemyY >= 120)
                 return -140;
-            else
-                return lastEnemyY - 240;
+            return lastEnemyY - 240;
         }
         private Image SetAnimations()
         {
