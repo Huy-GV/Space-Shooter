@@ -10,11 +10,11 @@ namespace SpaceShooter
         private readonly int _defaultGameMode = 7;
         private readonly int _defaultSpaceship = 0;
         private Window gameWindow = new Window("Space Shooter", Global.Width, Global.Height);
-        public State MainMenuState{ get; private set;}
-        public State PlayingState{ get; private set;}
-        public State GameModeState{ get; private set;}
-        public State GameOverState{ get; private set;}
-        public State PausedGameState{ get; private set;}
+        public State MainMenuState{ get; init;}
+        public State PlayingState{ get; init;}
+        public State GameModeState{ get; init;}
+        public State GameOverState{ get; init;}
+        public State PausedGameState{ get; init;}
         private int _spaceshipChoice, _gameMode;
         public int GameMode
         { 
@@ -51,7 +51,7 @@ namespace SpaceShooter
         }
         public void SetState(State newState) 
         {
-            Console.WriteLine("state transition from: {0} to {1}", _currentState, newState);
+            // Console.WriteLine("state transition from: {0} to {1}", _currentState, newState);
             _currentState = newState;
         }
         public void Draw()

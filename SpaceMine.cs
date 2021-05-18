@@ -6,7 +6,7 @@ namespace SpaceShooter
 {
     public class Spacemine : Enemy
     {
-        public Spacemine(int lastEnemyX, int lastEnemyY): base()
+        public Spacemine(int lastEnemyX = Global.Width, int lastEnemyY = Global.Height): base()
         {
             ExplosionType = Explosion.Type.Default;
             CollisionDamage = 16;
@@ -34,6 +34,5 @@ namespace SpaceShooter
             var cellDetails = new int[]{120, 120, 2, 1, 2};
             return new AnimatedImage("spacemineScript", "floating", bitmap, cellDetails);
         }
-        public Spacemine() : this(Global.Width, Global.Height){}
     }
 }

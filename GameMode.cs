@@ -46,13 +46,17 @@ namespace SpaceShooter
             foreach (var enemyType in _enemyAmountByClass.Keys)
             {
                 enemyAmount = _enemyAmountByClass[enemyType];
+                object[] parameters;
                 if (TimeToSpawn() && enemyAmount < _limits[enemyType])
                 {
-                    if (enemyAmount == 0) Enemies.Add((Enemy)Activator.CreateInstance(enemyType));
-                    else
+                    if (enemyAmount == 0)
+                    {
+                        parameters = new object[]{null, null};
+                        Enemies.Add((Enemy)Activator.CreateInstance(enemyType, parameters));
+                    } else
                     {
                         var lastEnemy = Enemies[Enemies.Count - 1];
-                        Object[] parameters = {lastEnemy.X, lastEnemy.Y};
+                        parameters = new object[]{lastEnemy.X, lastEnemy.Y};
                         Enemies.Add((Enemy)Activator.CreateInstance(enemyType, parameters));
                     }
                     UpdateEnemyAmount(enemyType, 1);

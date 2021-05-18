@@ -6,11 +6,11 @@ namespace SpaceShooter
 {
     public class Asteroid : Enemy
     {
-        public Asteroid(int lastAsteroidX, int lastAsteroidY) : base()
+        public Asteroid(int lastEnemyX = Global.Width, int lastEnemyY = Global.Height) : base()
         {
             Image = SetAnimation();
             var x = (2 * SplashKit.Rnd(0, 6) + 1) * 50;
-            var y = (lastAsteroidY > 50) ? -10 : lastAsteroidY - 60;
+            var y = (lastEnemyY > 50) ? -10 : lastEnemyY - 60;
 
             _movePattern = new StraightLinePattern(4, x, y, 90);
             ExplosionType = Explosion.Type.Fire;
@@ -24,6 +24,5 @@ namespace SpaceShooter
                 bitmap = SplashKit.LoadBitmap("asteroid2", "Asteroids/brownAsteroid.png");
             return new StaticImage(bitmap);
         }
-        public Asteroid() : this(Global.Width, Global.Height){}
     }
 }

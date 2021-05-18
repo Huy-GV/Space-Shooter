@@ -16,7 +16,6 @@ namespace SpaceShooter
         public List<Explosion> Explosions{get; init;}
         public List<Bullet> PlayerProjectiles{get; init;}
         public List<Bullet> EnemyProjectiles{get; init;}
-        public int GameModeIndex{get; init;}
         public List<Enemy> Enemies{ get => _gameMode.Enemies;}
         private Renderer _renderer;
         private EventProcessor _eventProcessor;
@@ -29,10 +28,9 @@ namespace SpaceShooter
             //expand into mini bombs?
             PlayerProjectiles = new List<Bullet>();
             EnemyProjectiles = new List<Bullet>();
-            _gameMode = SetGameMode(GameModeIndex);
+            _gameMode = SetGameMode(gameModeIndex);
             _renderer = new Renderer(this);
             _eventProcessor = new EventProcessor(this, _gameMode);
-            GameModeIndex = gameModeIndex;
             CurrentState = State.Running;
         }
         public void Continue() => CurrentState = State.Running;
@@ -46,7 +44,7 @@ namespace SpaceShooter
                 case 7: return new SurvivalMode(); 
                 case 6: return new BossRunMode(); 
                 case 5: return new MineFieldMode(10);
-                default: throw new IndexOutOfRangeException("Game mode index should be between 1 and 7");
+                default: throw new IndexOutOfRangeException($"Game mode for index {gameModeIndex} does not exist");
             }
         }
         public void Update()

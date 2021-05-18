@@ -6,7 +6,7 @@ namespace SpaceShooter
 {
     public class KamikazeAlien : Enemy
     {
-        public KamikazeAlien(int lastEnemyX, int lastEnemyY) : base()
+        public KamikazeAlien(int lastEnemyX = Global.Width, int lastEnemyY = Global.Height) : base()
         {
             var x = Global.Width / 2;
             var y = -50;
@@ -16,7 +16,6 @@ namespace SpaceShooter
             _movePattern = new StraightLinePattern(9, x, y, Angle);
             Image = SetAnimation();
         }
-        public KamikazeAlien() : this(Global.Width, Global.Height) { }
         private Image SetAnimation()
         {
             var bitmap = SplashKit.LoadBitmap("KamikazeAlien", "Alienships/KamikazeAlien.png");
