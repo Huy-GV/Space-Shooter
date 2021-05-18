@@ -42,10 +42,11 @@ namespace SpaceShooter
         {
             switch(gameModeIndex)
             {
+                case int n when (n >= 1 && n <= 4): return new ByLevelMode(gameModeIndex);
                 case 7: return new SurvivalMode(); 
                 case 6: return new BossRunMode(); 
                 case 5: return new MineFieldMode(10);
-                default: return new ByLevelMode(gameModeIndex);
+                default: throw new IndexOutOfRangeException("Game mode index should be between 1 and 7");
             }
         }
         public void Update()

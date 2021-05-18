@@ -99,8 +99,8 @@ namespace SpaceShooter
         {
             _targetAngle = angle;
             _pathVector = SplashKit.VectorFromAngle(_targetAngle, 1);
-            Console.WriteLine("angle is " + _targetAngle);
-            Console.WriteLine("vector is " + _pathVector.X +" "+ _pathVector.Y);
+            // Console.WriteLine("angle is " + _targetAngle);
+            // Console.WriteLine("vector is " + _pathVector.X +" "+ _pathVector.Y);
         }
         public StraightLinePattern(int speed, int x, int y) : base(speed, speed, x ,y)
         {

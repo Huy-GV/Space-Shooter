@@ -232,6 +232,7 @@ namespace SpaceShooter
                         Enemies.Add(new Nightmare());
                         _stage++;
                         break;
+                    default: throw new IndexOutOfRangeException("Stage index can only be between 0 and 2");
                 }
             }
         }  
