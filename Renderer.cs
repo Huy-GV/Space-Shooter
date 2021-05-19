@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using SplashKitSDK;
 
+//TODO: separate logic from draw with another namespace?
 
 namespace SpaceShooter
 {

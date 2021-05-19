@@ -50,13 +50,12 @@ namespace SpaceShooter
                     if (_enemyAmountByType[enemyType] == 0)
                     {
                         parameters = new object[]{null, null};
-                        Enemies.Add((Enemy)Activator.CreateInstance(enemyType, parameters));
                     } else
                     {
                         var lastEnemy = Enemies[Enemies.Count - 1];
-                        parameters = new object[]{lastEnemy.X, lastEnemy.Y};
-                        Enemies.Add((Enemy)Activator.CreateInstance(enemyType, parameters));
+                        parameters = new object[]{lastEnemy.X, lastEnemy.Y}; 
                     }
+                    Enemies.Add((Enemy)Activator.CreateInstance(enemyType, parameters));
                     UpdateEnemyAmount(enemyType, 1);
                 }
             }
