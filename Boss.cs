@@ -20,7 +20,7 @@ namespace SpaceShooter
         private double _time;
         private double _movePatternDuration;
         private readonly int _defaultPatternDuration = 4;
-        public Nightmare()
+        public Nightmare() : base()
         {
             _gun = new Gun(1.2, Bullet.Type.RedLaser, false);
             _speed = 5;
@@ -57,7 +57,7 @@ namespace SpaceShooter
         private double _invisibleDuration;
         private double _time;
         private bool _isInvisible;
-        public Phantom()
+        public Phantom() : base()
         {
             Image = SetAnimation();
             _gun = new Gun(1, Bullet.Type.TripleLaser, false);

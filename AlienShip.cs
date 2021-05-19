@@ -8,7 +8,7 @@ namespace SpaceShooter
     {
         protected Gun _gun;
         protected int _x, _y;
-        public bool CoolDownEnded{get => _gun.CoolDownEnded;}
+        public bool CoolDownEnded => _gun.CoolDownEnded;
         public Alienship(int lastEnemyX, int lastEnemyY) : base()
         {
             int randomX = SplashKit.Rnd(0, 6);
