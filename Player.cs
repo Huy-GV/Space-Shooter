@@ -4,11 +4,12 @@ using System.Collections.Generic;
 namespace SpaceShooter
 
 {
-    public class Player
+    public class Player : IShootableObject
     {
         public int X{get; private set;}
         public int Y{get; private set;}
         public bool CoolDownEnded{get => _gun.CoolDownEnded;}
+        public Explosion.Type ExplosionType{get; init;}
         public enum ShipType
         {
             Versatile,
@@ -17,7 +18,7 @@ namespace SpaceShooter
         }
         public int Health{get; private set;}
         private Gun _gun;
-        public AnimatedImage Image{get; private set;}
+        public Image Image{get; private set;}
         private int _speed;
         public double Score{get; private set;}
         public Player(int option){
@@ -87,7 +88,7 @@ namespace SpaceShooter
         {
             return (SplashKit.BitmapCollision(
                 image.Bitmap, image.AdjustedX(x),  image.AdjustedY(y),
-                Image.Bitmap, image.AdjustedX(X),  image.AdjustedY(Y)));
+                Image.Bitmap, Image.AdjustedX(X),  Image.AdjustedY(Y)));
         }
     }
 }

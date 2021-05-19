@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 namespace SpaceShooter{
-    public abstract class Enemy
+    public abstract class Enemy : IShootableObject
     {
         protected MovePattern _movePattern;
         public int X => _movePattern.X;

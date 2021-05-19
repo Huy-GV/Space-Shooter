@@ -24,12 +24,12 @@ namespace SpaceShooter
             UpdatePlayer();
             UpdateProjectiles(_session.PlayerProjectiles);
             UpdateProjectiles(_session.EnemyProjectiles);
-            PlayerProjectileCheck(_player, _session.EnemyProjectiles);
+            ProjectileCheck(_player, _session.EnemyProjectiles);
 
             foreach(Enemy enemy in _gameMode.Enemies.ToArray())
             {
                 enemy.Update();
-                EnemyProjectileCheck(enemy, _session.PlayerProjectiles);
+                ProjectileCheck(enemy, _session.PlayerProjectiles);
                 EnemyRemovalCheck(enemy);
                 if (_player.CollideWith(enemy.Image, enemy.X, enemy.Y) && !(enemy is Boss))
                 { 
@@ -41,26 +41,15 @@ namespace SpaceShooter
                     if (GunShip.CoolDownEnded) _session.EnemyProjectiles.Add(GunShip.Shoot());  
             }
         }
-        private void PlayerProjectileCheck(Player player, List<Bullet> projectiles)
+        private void ProjectileCheck(IShootableObject target, List<Bullet> projectiles)
         {
             foreach(var projectile in projectiles.ToArray())
             {
-                if (projectile.HitTarget(player.Image, player.X, player.Y))
+                if (projectile.HitTarget(target.Image, target.X, target.Y))
                 {
-                    player.LoseHealth(projectile.Damage);
-                    _session.Explosions.Add(new Explosion(player.X, player.Y, Explosion.Type.BlueLaser));
-                    projectiles.Remove(projectile);
-                }
-            }
-        }
-        private void EnemyProjectileCheck(Enemy enemy, List<Bullet> projectiles)
-        {
-            foreach(var projectile in projectiles.ToArray())
-            {
-                if (projectile.HitTarget(enemy.Image, enemy.X, enemy.Y))
-                {
-                    _session.Explosions.Add(new Explosion(enemy.X, enemy.Y, enemy.ExplosionType));
-                    enemy.LoseHealth(projectile.Damage);
+                    //TODO: move explosion type to projectile?
+                    _session.Explosions.Add(new Explosion(target.X, target.Y, Explosion.Type.Fire));
+                    target.LoseHealth(projectile.Damage);
                     projectiles.Remove(projectile);
                 }
             }
