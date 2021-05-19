@@ -57,6 +57,7 @@ namespace SpaceShooter
             {
                 if (projectile.HitTarget(enemy.Image, enemy.X, enemy.Y))
                 {
+                     _session.Explosions.Add(new Explosion(enemy.X, enemy.Y, enemy.ExplosionType));
                     enemy.LoseHealth(projectile.Damage);
                     projectiles.Remove(projectile);
                 }
@@ -84,8 +85,6 @@ namespace SpaceShooter
         {
             if (enemy.Y > Global.Height || enemy.Health <= 0)
             {
-                if (enemy.Health <= 0) 
-                    CreateExplosion(enemy.X, enemy.Y, enemy.ExplosionType); 
                 _gameMode.RemoveEnemy(enemy);            
             }
         }
