@@ -30,10 +30,11 @@ namespace SpaceShooter
             {
                 enemy.Update();
                 EnemyProjectileCheck(enemy, _session.PlayerProjectiles);
-                EnemyStateCheck(enemy);
+                EnemyRemovalCheck(enemy);
                 if (_player.CollideWith(enemy.Image, enemy.X, enemy.Y) && !(enemy is Boss))
                 { 
                     _player.LoseHealth(enemy.CollisionDamage);
+                    _session.Explosions.Add(new Explosion(_player.X, _player.Y, Explosion.Type.Fire));
                     enemy.LoseHealth(100);
                 }
                 if (enemy is IHaveGun GunShip) 
@@ -47,6 +48,7 @@ namespace SpaceShooter
                 if (projectile.HitTarget(player.Image, player.X, player.Y))
                 {
                     player.LoseHealth(projectile.Damage);
+                    _session.Explosions.Add(new Explosion(player.X, player.Y, Explosion.Type.BlueLaser));
                     projectiles.Remove(projectile);
                 }
             }
@@ -57,7 +59,7 @@ namespace SpaceShooter
             {
                 if (projectile.HitTarget(enemy.Image, enemy.X, enemy.Y))
                 {
-                     _session.Explosions.Add(new Explosion(enemy.X, enemy.Y, enemy.ExplosionType));
+                    _session.Explosions.Add(new Explosion(enemy.X, enemy.Y, enemy.ExplosionType));
                     enemy.LoseHealth(projectile.Damage);
                     projectiles.Remove(projectile);
                 }
@@ -72,7 +74,6 @@ namespace SpaceShooter
                     projectiles.Remove(projectile);
             }
         }
-        private void CreateExplosion(int x, int y, Explosion.Type type) => _session.Explosions.Add(new Explosion(x, y, type));
         private void UpdateExplosions(List<Explosion> explosions)
         {
             foreach (var explosion in explosions.ToArray())
@@ -81,7 +82,7 @@ namespace SpaceShooter
                 if (explosion.AnimationEnded) _session.Explosions.Remove(explosion);
             }
         }
-        private void EnemyStateCheck(Enemy enemy)
+        private void EnemyRemovalCheck(Enemy enemy)
         {
             if (enemy.Y > Global.Height || enemy.Health <= 0)
             {

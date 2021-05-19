@@ -1,4 +1,5 @@
 using SplashKitSDK;
+using System;
 
 namespace SpaceShooter
 {
@@ -8,6 +9,7 @@ namespace SpaceShooter
         private int _x, _y;
         public enum Type{
             RedLaser,
+            BlueLaser,
             Fire,
             Default
         }
@@ -25,18 +27,28 @@ namespace SpaceShooter
             switch(type)
             {
                 case Type.RedLaser:
-                    return SetLaserExplosion();
+                    return SetRedLaserExplosion();
                 case Type.Fire:
                     return SetFireExplosion();
-                default:
+                case Type.BlueLaser:
+                    return SetBlueLaserExplosion();
+                case Type.Default:
                     return SetDefaultExplosion();
+                default:
+                    throw new NotImplementedException($"The type {type} does not exist");
             }
         }
-        private AnimatedImage SetLaserExplosion()
+        private AnimatedImage SetRedLaserExplosion()
         {
             var bitmap = SplashKit.LoadBitmap("laserExplosion", "Explosions/laserExplosion.png"); 
             var cellDetails = new int[]{180,180, 17, 1, 17};
             return new AnimatedImage("laserExplosion", "laserExplosion", bitmap, cellDetails);
+        }
+        private AnimatedImage SetBlueLaserExplosion()
+        {
+            var bitmap = SplashKit.LoadBitmap("blueExplosion", "Explosions/blueExplosion.png"); 
+            var cellDetails = new int[]{120, 120, 17, 1, 17};
+            return new AnimatedImage("blueLaserExplosion", "blueLaserExplosion", bitmap, cellDetails);
         }
         private AnimatedImage SetFireExplosion()
         {
