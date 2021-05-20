@@ -44,6 +44,7 @@ namespace SpaceShooter
         {
             foreach (var enemyType in _enemyAmountByType.Keys)
             {
+                //TODO: have a constructor for each type?
                 object[] parameters;
                 if (TimeToSpawn() && _enemyAmountByType[enemyType] < _limits[enemyType])
                 {

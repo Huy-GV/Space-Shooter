@@ -45,11 +45,13 @@ namespace SpaceShooter
                     _speed = 8;
                     Damage = 7;
                     break;  
-                default:
+                case Type.TripleLaser:
                     bitmap = SplashKit.LoadBitmap("TripleLaser", "Bullets/TripleLaser.png");
                     _speed = 7;
                     Damage = 20;
-                    break;             
+                    break;  
+                default:
+                    throw new NotImplementedException($"The bullet type {type} doesnt exist");           
             }
             var option = SplashKit.OptionRotateBmp(imageAngle);
             _image = new StaticImage(bitmap, option);

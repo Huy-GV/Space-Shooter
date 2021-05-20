@@ -37,9 +37,11 @@ namespace SpaceShooter
                 case ShipType.Agile:
                     SetAgileShip();
                     break;
-                default:
+                case ShipType.Versatile:
                     SetVersatileShip();
                     break;
+                default: 
+                    throw new NotImplementedException($"The type {type} does not exist");
             }
         }
         private void SetVersatileShip()

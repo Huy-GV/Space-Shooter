@@ -77,28 +77,3 @@ namespace SpaceShooter
 
 
 
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
