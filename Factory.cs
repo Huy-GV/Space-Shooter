@@ -11,6 +11,22 @@ namespace SpaceShooter
         {
             _enemies = enemies;
         }
-        // public SpawnEnemy
+        public Enemy SpawnEnemy(Type enemyType)
+        {
+            switch(enemyType)
+            {
+                case typeof(BlueAlienship): return new BlueAlienship();
+                case typeof(BlueAlienship): return new BlueAlienship();
+                case typeof(BlueAlienship): return new BlueAlienship();
+                case typeof(BlueAlienship): return new BlueAlienship();
+                case typeof(BlueAlienship): return new BlueAlienship();
+                case typeof(BlueAlienship): return new BlueAlienship();
+                case typeof(BlueAlienship): return new BlueAlienship();
+                case typeof(BlueAlienship): return new BlueAlienship();
+                case typeof(BlueAlienship): return new BlueAlienship();
+                case typeof(BlueAlienship): return new BlueAlienship();
+                case typeof(BlueAlienship): return new BlueAlienship();
+            }
+        }
     }
 }
