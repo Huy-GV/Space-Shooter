@@ -26,7 +26,7 @@ namespace SpaceShooter
             UpdateProjectiles(_session.EnemyProjectiles);
             ProjectileCheck(_player, _session.EnemyProjectiles);
 
-            foreach(Enemy enemy in _gameMode.Enemies.ToArray())
+            foreach(Enemy enemy in _gameMode.Enemies)
             {
                 enemy.Update();
                 ProjectileCheck(enemy, _session.PlayerProjectiles);
@@ -47,7 +47,6 @@ namespace SpaceShooter
             {
                 if (projectile.HitTarget(target.Image, target.X, target.Y))
                 {
-                    //TODO: move explosion type to projectile?
                     _session.Explosions.Add(new Explosion(target.X, target.Y, Explosion.Type.Fire));
                     target.LoseHealth(projectile.Damage);
                     projectiles.Remove(projectile);

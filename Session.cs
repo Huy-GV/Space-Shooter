@@ -16,7 +16,7 @@ namespace SpaceShooter
         public List<Explosion> Explosions{get; init;}
         public List<Bullet> PlayerProjectiles{get; init;}
         public List<Bullet> EnemyProjectiles{get; init;}
-        public List<Enemy> Enemies{ get => _gameMode.Enemies;}
+        public IEnumerable<Enemy> Enemies{ get => _gameMode.Enemies;}
         private Renderer _renderer;
         private EventProcessor _eventProcessor;
         private GameMode _gameMode;

@@ -9,8 +9,14 @@ namespace SpaceShooter
         protected Dictionary<Type, int> _limits;
         public int SpawnRate{get; protected set;}
         public bool GameEnded{get; protected set;}
-        public List<Enemy> Enemies{get; protected init;}
-        protected EnemyFactory _enemyFactory;
+        protected readonly List<Enemy> _enemies;
+        public IEnumerable<Enemy> Enemies 
+        {
+            get
+            {
+                foreach(var enemy in _enemies.ToArray()) yield return enemy;
+            }
+        }
         protected Dictionary<Type, int> _enemyAmountByType;
         public GameMode()
         {
@@ -36,19 +42,25 @@ namespace SpaceShooter
                 {typeof(Nightmare), 1},
                 {typeof(Phantom), 1}
             };
-            Enemies = new List<Enemy>();
-            _enemyFactory = new EnemyFactory(Enemies);
+            _enemies = new List<Enemy>();
             SpawnRate = 70;
             GameEnded = false;
         }
         protected bool TimeToSpawn()=> SplashKit.Rnd(0, SpawnRate) == 0;
         public virtual void AddEnemies(int score)
         {
+            object[] parameters;
             foreach (var enemyType in _enemyAmountByType.Keys)
             {
                 if (TimeToSpawn() && _enemyAmountByType[enemyType] < _limits[enemyType])
                 {
-                    Enemies.Add(_enemyFactory.SpawnEnemy(enemyType));
+                    if (_enemies.Count == 0) parameters = new object[]{null, null};
+                    else
+                    {
+                        var lastEnemy = _enemies[_enemies.Count - 1];
+                        parameters = new object[]{lastEnemy.X, lastEnemy.Y};
+                    } 
+                    _enemies.Add(EnemyFactory.SpawnEnemy(enemyType, parameters));
                     UpdateEnemyAmount(enemyType, 1);
                 }
             }
@@ -60,7 +72,7 @@ namespace SpaceShooter
         public void RemoveEnemy(Enemy enemy)
         {
             UpdateEnemyAmount(enemy.GetType(), -1);
-            Enemies.Remove(enemy);
+            _enemies.Remove(enemy);
         }
         private void UpdateEnemyAmount(Type type, int increment)=> _enemyAmountByType[type] += increment;
     }
@@ -79,14 +91,14 @@ namespace SpaceShooter
             if (score < 80 ) base.AddEnemies(score);
             else if (!_bossSpawned)
             {
-                Enemies.Add(SpawnBoss());
+                _enemies.Add(SpawnBoss());
                 _bossSpawned = true;
             }
         }
         public override void CheckGameEnding(Player player)
         {
             base.CheckGameEnding(player);
-            if (Enemies.Count == 0 && ((_level < 3 && player.Score >= 100) || (_level >= 3 && _bossSpawned)))
+            if (_enemies.Count == 0 && ((_level < 3 && player.Score >= 100) || (_level >= 3 && _bossSpawned)))
                 GameEnded = true;
         }
         private Boss SpawnBoss()
@@ -207,25 +219,25 @@ namespace SpaceShooter
         public override void CheckGameEnding(Player player)
         {
             base.CheckGameEnding(player);
-            if (_stage == _stageAmount && Enemies.Count == 0) GameEnded = true;
+            if (_stage == _stageAmount && _enemies.Count == 0) GameEnded = true;
         }
         public override void AddEnemies(int score)
         {
-            if (Enemies.Count == 0)
+            if (_enemies.Count == 0)
             {
                 switch(_stage)
                 {
                     case 0:
-                        Enemies.Add(new Nightmare());   
+                        _enemies.Add(new Nightmare());   
                         _stage++;
                         break;
                     case 1:
-                        Enemies.Add(new Phantom());
+                        _enemies.Add(new Phantom());
                         _stage++;
                         break;
                     case 2:
-                        Enemies.Add(new Phantom());
-                        Enemies.Add(new Nightmare());
+                        _enemies.Add(new Phantom());
+                        _enemies.Add(new Nightmare());
                         _stage++;
                         break;
                 }

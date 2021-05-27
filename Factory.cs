@@ -4,47 +4,28 @@ using SplashKitSDK;
 
 namespace SpaceShooter
 {
-    public class EnemyFactory
+    public static class EnemyFactory
     {
-        //TODO: enemies is accessible by factory?
-        private List<Enemy> _enemies; 
-        public EnemyFactory(List<Enemy> enemies)
-        {
-            _enemies = enemies;
-        }
-        public Enemy SpawnEnemy(Type enemyType)
+        public static Enemy SpawnEnemy(Type enemyType, object[] parameters)
         {
             if (enemyType == typeof(Asteroid))
-                return SpawnAsteroid();
+                return SpawnAsteroid(parameters[1]);
             else if ((enemyType == typeof(BlueAlienship) || 
                 enemyType == typeof(PurpleAlienship) || 
                 enemyType == typeof(RedAlienship) || 
                 enemyType == typeof(Spacemine)))
-                return SpawnBasedOnXY(enemyType);
+                return (Enemy)Activator.CreateInstance(enemyType, parameters);
             else if (enemyType == typeof(KamikazeAlien))
                 return new KamikazeAlien();
             else
                 throw new NotImplementedException($"The type {enemyType} does not exist");
         }
-        private Enemy SpawnAsteroid()
+        private static Enemy SpawnAsteroid(object parameter)
         {
-            if (_enemies.Count != 0)
-            {
-                var lastEnemyY = _enemies[_enemies.Count - 1].Y;
-                return new Asteroid(lastEnemyY);
-            }
-            return (Enemy)new Asteroid();
-        }
-        private Enemy SpawnBasedOnXY(Type enemyType)
-        {
-            object[] parameters;
-            if (_enemies.Count != 0)
-            {
-                var lastEnemy = _enemies[_enemies.Count - 1];
-                parameters = new object[]{lastEnemy.X, lastEnemy.Y};
-            } else 
-                parameters = new object[]{null, null};
-            return (Enemy)Activator.CreateInstance(enemyType, parameters);
+            if (parameter == null || parameter is not int)
+                return (Enemy)Activator.CreateInstance(typeof(Asteroid), new object[]{null});
+            else
+                return (Enemy)Activator.CreateInstance(typeof(Asteroid), new object[]{parameter});
         }
     }
 }
