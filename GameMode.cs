@@ -10,6 +10,7 @@ namespace SpaceShooter
         public int SpawnRate{get; protected set;}
         public bool GameEnded{get; protected set;}
         public List<Enemy> Enemies{get; protected init;}
+        protected EnemyFactory _enemyFactory;
         protected Dictionary<Type, int> _enemyAmountByType;
         public GameMode()
         {
@@ -36,6 +37,7 @@ namespace SpaceShooter
                 {typeof(Phantom), 1}
             };
             Enemies = new List<Enemy>();
+            _enemyFactory = new EnemyFactory(Enemies);
             SpawnRate = 70;
             GameEnded = false;
         }
@@ -44,19 +46,9 @@ namespace SpaceShooter
         {
             foreach (var enemyType in _enemyAmountByType.Keys)
             {
-                //TODO: have a constructor for each type?
-                object[] parameters;
                 if (TimeToSpawn() && _enemyAmountByType[enemyType] < _limits[enemyType])
                 {
-                    if (_enemyAmountByType[enemyType] == 0)
-                    {
-                        parameters = new object[]{null, null};
-                    } else
-                    {
-                        var lastEnemy = Enemies[Enemies.Count - 1];
-                        parameters = new object[]{lastEnemy.X, lastEnemy.Y}; 
-                    }
-                    Enemies.Add((Enemy)Activator.CreateInstance(enemyType, parameters));
+                    Enemies.Add(_enemyFactory.SpawnEnemy(enemyType));
                     UpdateEnemyAmount(enemyType, 1);
                 }
             }
@@ -103,6 +95,7 @@ namespace SpaceShooter
             {
                 case 3: return new Nightmare(); 
                 case 4: return new Phantom(); 
+                //TODO: handle exceptions here
                 default: return new Nightmare();
             }
         }

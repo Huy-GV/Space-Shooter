@@ -6,7 +6,7 @@ namespace SpaceShooter
 {
     public class KamikazeAlien : Enemy
     {
-        public KamikazeAlien(int lastEnemyX = Global.Width, int lastEnemyY = Global.Height) : base()
+        public KamikazeAlien() : base()
         {
             var x = Global.Width / 2;
             var y = -50;

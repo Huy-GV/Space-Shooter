@@ -6,7 +6,7 @@ namespace SpaceShooter
 {
     public class Asteroid : Enemy
     {
-        public Asteroid(int lastEnemyX = Global.Width, int lastEnemyY = Global.Height) : base()
+        public Asteroid(int lastEnemyY = Global.Height) : base()
         {
             Image = SetAnimation();
             var x = (2 * SplashKit.Rnd(0, 6) + 1) * 50;
