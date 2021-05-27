@@ -91,8 +91,8 @@ namespace SpaceShooter
             if (score < 80 ) base.AddEnemies(score);
             else if (!_bossSpawned)
             {
-                _enemies.Add(SpawnBoss());
-                _bossSpawned = true;
+                if (_level == 3) _enemies.Add(new Nightmare());  
+                else if (_level == 4) _enemies.Add( new Phantom()); 
             }
         }
         public override void CheckGameEnding(Player player)
@@ -100,16 +100,6 @@ namespace SpaceShooter
             base.CheckGameEnding(player);
             if (_enemies.Count == 0 && ((_level < 3 && player.Score >= 100) || (_level >= 3 && _bossSpawned)))
                 GameEnded = true;
-        }
-        private Boss SpawnBoss()
-        {
-            switch(_level)
-            {
-                case 3: return new Nightmare(); 
-                case 4: return new Phantom(); 
-                //TODO: handle exceptions here
-                default: return new Nightmare();
-            }
         }
         private void SetEnemyLimitsByLevel()
         {
@@ -150,8 +140,6 @@ namespace SpaceShooter
     public class SurvivalMode : GameMode
     {
         private int _stage;
-        private readonly int _firstStageThreshold = 10;
-        private readonly int _secondStageThreshold = 20;
         public SurvivalMode() : base()
         {
             _stage = 0;
@@ -179,7 +167,7 @@ namespace SpaceShooter
                     _limits[typeof(Asteroid)] = 6;
                     _limits[typeof(Spacemine)] = 2;
                     break;
-                default: 
+                case 2: 
                     SpawnRate = SplashKit.Rnd(0,70);
                     _limits[typeof(BlueAlienship)] = 5;
                     _limits[typeof(PurpleAlienship)] = 3;
@@ -188,11 +176,12 @@ namespace SpaceShooter
                     _limits[typeof(Asteroid)] = 7;
                     _limits[typeof(Spacemine)] = 3;
                     break;
+                default: throw new IndexOutOfRangeException($"The stage index exceeds the limit of 2");
             }
         }      
         public override void AddEnemies(int score)
         {
-            if ((score > 10 && _stage == _firstStageThreshold) || (score > 15 && _stage == _secondStageThreshold)) _stage++;
+            if ((score > 10 && _stage == 0) || (score > 20 && _stage == 1)) _stage++;
             base.AddEnemies(score);
         } 
     }

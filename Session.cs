@@ -55,7 +55,6 @@ namespace SpaceShooter
         {
             _renderer.Draw();
         }
-        //TODO: delegate input processor into a class ???
         public void ProcessInput()
         {
             if (SplashKit.KeyDown(KeyCode.LeftKey) && Player.X > 0)   Player.MoveLeft();
