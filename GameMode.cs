@@ -7,10 +7,8 @@ namespace SpaceShooter
     public abstract class GameMode
     {
         protected Dictionary<Type, int> _limits;
-        public int SpawnRate{get; protected set;}
-        public bool GameEnded{get; protected set;}
         protected readonly List<Enemy> _enemies;
-        private EnemyQuantity _enemyQuantity;
+        private EnemyQuantityList _quantityList;
         public IEnumerable<Enemy> Enemies 
         {
             get
@@ -18,6 +16,8 @@ namespace SpaceShooter
                 foreach(var enemy in _enemies.ToArray()) yield return enemy;
             }
         }
+        public int SpawnRate{get; protected set;}
+        public bool GameEnded{get; protected set;}
         public GameMode()
         {
             _limits = new Dictionary<Type, int>()
@@ -31,18 +31,18 @@ namespace SpaceShooter
                 {typeof(Nightmare), 0},
                 {typeof(Phantom), 0}
             };
-            _enemyQuantity = new EnemyQuantity();
+            _quantityList = new EnemyQuantityList();
             _enemies = new List<Enemy>();
             SpawnRate = 70;
             GameEnded = false;
         }
-        protected bool TimeToSpawn()=> SplashKit.Rnd(0, SpawnRate) == 0;
+        private bool TimeToSpawn()=> SplashKit.Rnd(0, SpawnRate) == 0;
         public virtual void AddEnemies(int score)
         {
             object[] parameters;
-            foreach (var enemyType in _enemyQuantity.Type)
+            foreach (var enemyType in _quantityList.Type)
             {
-                if (TimeToSpawn() && _enemyQuantity.Quantity(enemyType) < _limits[enemyType])
+                if (TimeToSpawn() && _quantityList.Quantity(enemyType) < _limits[enemyType])
                 {
                     if (_enemies.Count == 0) parameters = new object[]{null, null};
                     else
@@ -51,7 +51,7 @@ namespace SpaceShooter
                         parameters = new object[]{lastEnemy.X, lastEnemy.Y};
                     } 
                     _enemies.Add(EnemyFactory.SpawnEnemy(enemyType, parameters));
-                    _enemyQuantity.UpdateQuantity(enemyType, 1);
+                    _quantityList.UpdateQuantity(enemyType, 1);
                 }
             }
         }
@@ -61,7 +61,7 @@ namespace SpaceShooter
         }
         public void RemoveEnemy(Enemy enemy)
         {
-            _enemyQuantity.UpdateQuantity(enemy.GetType(), -1);
+            _quantityList.UpdateQuantity(enemy.GetType(), -1);
             _enemies.Remove(enemy);
         }
     }
@@ -77,7 +77,7 @@ namespace SpaceShooter
         }
         public override void AddEnemies(int score)
         {
-            if (score < 10 ) base.AddEnemies(score);
+            if (score < 100 ) base.AddEnemies(score);
             else if (!_bossSpawned && _level > 3)
             {
                 _bossSpawned = true;
@@ -94,7 +94,7 @@ namespace SpaceShooter
         private void SetEnemyLimitsByLevel()
         {
             if (_level < 1) _level = 1;
-            if (_level > 7) _level = 7;
+            if (_level > 4) _level = 4;
             switch(_level)
             {
                 case 1:
@@ -122,6 +122,7 @@ namespace SpaceShooter
                     _limits[typeof(Asteroid)] = 5;
                     _limits[typeof(Spacemine)] = 3; 
                     break;
+                default: throw new NotImplementedException($"The level {_level} has not been implemented");
             }
         }
     }
@@ -174,7 +175,7 @@ namespace SpaceShooter
                 _stage++;
                 SetEnemyLimitsByStage();
             } 
-            Console.WriteLine(_stage);
+            // Console.WriteLine(_stage);
             base.AddEnemies(score);
         } 
     }

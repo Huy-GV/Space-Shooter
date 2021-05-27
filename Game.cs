@@ -9,13 +9,13 @@ namespace SpaceShooter
         private State _currentState;
         private readonly int _defaultGameMode = 7;
         private readonly int _defaultSpaceship = 0;
+        private int _spaceshipChoice, _gameMode;
         private Window gameWindow = new Window("Space Shooter", Global.Width, Global.Height);
         public State MainMenuState{ get; init;}
         public State PlayingState{ get; init;}
         public State GameModeState{ get; init;}
         public State GameOverState{ get; init;}
         public State PausedGameState{ get; init;}
-        private int _spaceshipChoice, _gameMode;
         public int GameMode
         { 
             get{ return _gameMode;}

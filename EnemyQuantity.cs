@@ -3,19 +3,19 @@ using System.Collections.Generic;
 
 namespace SpaceShooter
 {
-    public class EnemyQuantity
+    public class EnemyQuantityList
     {
-        private Dictionary<Type, int> _enemyAmountByType;   
+        private Dictionary<Type, int> _quantityByType;   
         public IEnumerable<Type> Type
         {
             get
             {
-                foreach(var key in _enemyAmountByType.Keys) yield return key;
+                foreach(var key in _quantityByType.Keys) yield return key;
             }
         }
-        public EnemyQuantity()
+        public EnemyQuantityList()
         {
-            _enemyAmountByType = new Dictionary<Type, int>()
+            _quantityByType = new Dictionary<Type, int>()
             {
                 {typeof(BlueAlienship), 0},
                 {typeof(PurpleAlienship), 0},
@@ -27,7 +27,7 @@ namespace SpaceShooter
                 {typeof(Phantom), 1}
             };
         }
-        public void UpdateQuantity(Type type, int increment ) => _enemyAmountByType[type] += increment;
-        public int Quantity(Type type) => _enemyAmountByType[type];
+        public void UpdateQuantity(Type type, int increment ) => _quantityByType[type] += increment;
+        public int Quantity(Type type) => _quantityByType[type];
     }
 }

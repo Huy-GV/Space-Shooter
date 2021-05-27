@@ -22,10 +22,13 @@ namespace SpaceShooter
 
             UpdateExplosions(_session.Explosions);
             UpdatePlayer();
+            UpdateEnemies();
             UpdateProjectiles(_session.PlayerProjectiles);
             UpdateProjectiles(_session.EnemyProjectiles);
             ProjectileCheck(_player, _session.EnemyProjectiles);
-
+        }
+        private void UpdateEnemies()
+        {
             foreach(Enemy enemy in _gameMode.Enemies)
             {
                 enemy.Update();

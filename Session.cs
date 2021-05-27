@@ -25,7 +25,6 @@ namespace SpaceShooter
         {
             Player = new Player(spaceshipChoice);
             Explosions = new List<Explosion>();
-            //expand into mini bombs?
             PlayerProjectiles = new List<Bullet>();
             EnemyProjectiles = new List<Bullet>();
             _gameMode = SetGameMode(gameModeIndex);
@@ -35,7 +34,6 @@ namespace SpaceShooter
         }
         public void Continue() => CurrentState = State.Running;
         public void End() => CurrentState = State.Over;
-        public void Pause() => CurrentState = State.Paused;
         private GameMode SetGameMode(int gameModeIndex)
         {
             switch(gameModeIndex)
