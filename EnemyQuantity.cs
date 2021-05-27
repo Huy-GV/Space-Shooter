@@ -6,6 +6,13 @@ namespace SpaceShooter
     public class EnemyQuantity
     {
         private Dictionary<Type, int> _enemyAmountByType;   
+        public IEnumerable<Type> Type
+        {
+            get
+            {
+                foreach(var key in _enemyAmountByType.Keys) yield return key;
+            }
+        }
         public EnemyQuantity()
         {
             _enemyAmountByType = new Dictionary<Type, int>()
@@ -21,5 +28,6 @@ namespace SpaceShooter
             };
         }
         public void UpdateQuantity(Type type, int increment ) => _enemyAmountByType[type] += increment;
+        public int Quantity(Type type) => _enemyAmountByType[type];
     }
 }

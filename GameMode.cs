@@ -10,6 +10,7 @@ namespace SpaceShooter
         public int SpawnRate{get; protected set;}
         public bool GameEnded{get; protected set;}
         protected readonly List<Enemy> _enemies;
+        private EnemyQuantity _enemyQuantity;
         public IEnumerable<Enemy> Enemies 
         {
             get
@@ -17,7 +18,6 @@ namespace SpaceShooter
                 foreach(var enemy in _enemies.ToArray()) yield return enemy;
             }
         }
-        protected Dictionary<Type, int> _enemyAmountByType;
         public GameMode()
         {
             _limits = new Dictionary<Type, int>()
@@ -31,17 +31,7 @@ namespace SpaceShooter
                 {typeof(Nightmare), 0},
                 {typeof(Phantom), 0}
             };
-            _enemyAmountByType = new Dictionary<Type, int>()
-            {
-                {typeof(BlueAlienship), 0},
-                {typeof(PurpleAlienship), 0},
-                {typeof(RedAlienship), 0},
-                {typeof(KamikazeAlien), 0},
-                {typeof(Asteroid), 0},
-                {typeof(Spacemine), 0},
-                {typeof(Nightmare), 1},
-                {typeof(Phantom), 1}
-            };
+            _enemyQuantity = new EnemyQuantity();
             _enemies = new List<Enemy>();
             SpawnRate = 70;
             GameEnded = false;
@@ -50,9 +40,9 @@ namespace SpaceShooter
         public virtual void AddEnemies(int score)
         {
             object[] parameters;
-            foreach (var enemyType in _enemyAmountByType.Keys)
+            foreach (var enemyType in _enemyQuantity.Type)
             {
-                if (TimeToSpawn() && _enemyAmountByType[enemyType] < _limits[enemyType])
+                if (TimeToSpawn() && _enemyQuantity.Quantity(enemyType) < _limits[enemyType])
                 {
                     if (_enemies.Count == 0) parameters = new object[]{null, null};
                     else
@@ -61,7 +51,7 @@ namespace SpaceShooter
                         parameters = new object[]{lastEnemy.X, lastEnemy.Y};
                     } 
                     _enemies.Add(EnemyFactory.SpawnEnemy(enemyType, parameters));
-                    UpdateEnemyAmount(enemyType, 1);
+                    _enemyQuantity.UpdateQuantity(enemyType, 1);
                 }
             }
         }
@@ -71,10 +61,9 @@ namespace SpaceShooter
         }
         public void RemoveEnemy(Enemy enemy)
         {
-            UpdateEnemyAmount(enemy.GetType(), -1);
+            _enemyQuantity.UpdateQuantity(enemy.GetType(), -1);
             _enemies.Remove(enemy);
         }
-        private void UpdateEnemyAmount(Type type, int increment)=> _enemyAmountByType[type] += increment;
     }
     public class ByLevelMode : GameMode
     {
@@ -88,9 +77,10 @@ namespace SpaceShooter
         }
         public override void AddEnemies(int score)
         {
-            if (score < 80 ) base.AddEnemies(score);
-            else if (!_bossSpawned)
+            if (score < 10 ) base.AddEnemies(score);
+            else if (!_bossSpawned && _level > 3)
             {
+                _bossSpawned = true;
                 if (_level == 3) _enemies.Add(new Nightmare());  
                 else if (_level == 4) _enemies.Add( new Phantom()); 
             }
@@ -123,7 +113,6 @@ namespace SpaceShooter
                     _limits[typeof(RedAlienship)] = 5;
                     _limits[typeof(Asteroid)] = 4;
                     _limits[typeof(Spacemine)] = 2;
-                    _limits[typeof(Nightmare)] = 1;
                     break;
                 case 4:
                     _limits[typeof(BlueAlienship)] = 3;
@@ -132,7 +121,6 @@ namespace SpaceShooter
                     _limits[typeof(KamikazeAlien)] = 3;
                     _limits[typeof(Asteroid)] = 5;
                     _limits[typeof(Spacemine)] = 3; 
-                    _limits[typeof(Phantom)] = 1;
                     break;
             }
         }
@@ -159,20 +147,20 @@ namespace SpaceShooter
                     _limits[typeof(Spacemine)] = 1;
                     break;
                 case 1:
-                    SpawnRate = SplashKit.Rnd(0,65);
+                    SpawnRate = SplashKit.Rnd(0,70);
                     _limits[typeof(BlueAlienship)] = 4;
                     _limits[typeof(PurpleAlienship)] = 3;
                     _limits[typeof(RedAlienship)] = 2;
-                    _limits[typeof(KamikazeAlien)] = 1;
+                    _limits[typeof(KamikazeAlien)] = 2;
                     _limits[typeof(Asteroid)] = 6;
                     _limits[typeof(Spacemine)] = 2;
                     break;
                 case 2: 
-                    SpawnRate = SplashKit.Rnd(0,70);
+                    SpawnRate = SplashKit.Rnd(0,65);
                     _limits[typeof(BlueAlienship)] = 5;
                     _limits[typeof(PurpleAlienship)] = 3;
                     _limits[typeof(RedAlienship)] = 2;
-                    _limits[typeof(KamikazeAlien)] = 3;
+                    _limits[typeof(KamikazeAlien)] = 2;
                     _limits[typeof(Asteroid)] = 7;
                     _limits[typeof(Spacemine)] = 3;
                     break;
@@ -181,7 +169,12 @@ namespace SpaceShooter
         }      
         public override void AddEnemies(int score)
         {
-            if ((score > 10 && _stage == 0) || (score > 20 && _stage == 1)) _stage++;
+            if ((score > 10 && _stage == 0) || (score > 20 && _stage == 1))
+            {
+                _stage++;
+                SetEnemyLimitsByStage();
+            } 
+            Console.WriteLine(_stage);
             base.AddEnemies(score);
         } 
     }
@@ -202,8 +195,8 @@ namespace SpaceShooter
         {
             _limits[typeof(Phantom)] = 1; 
             _limits[typeof(Nightmare)] = 1;
-            _enemyAmountByType[typeof(Phantom)] = 0; 
-            _enemyAmountByType[typeof(Nightmare)] = 0;
+            // _enemyAmountByType[typeof(Phantom)] = 0; 
+            // _enemyAmountByType[typeof(Nightmare)] = 0;
         }
         public override void CheckGameEnding(Player player)
         {
