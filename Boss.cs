@@ -46,7 +46,7 @@ namespace SpaceShooter
                     _movePattern = new ZigzagPattern(_speed - 1, _speed - 2, X, Y);
                 } else if (Y < Global.Height / 2)
                 {
-                    _movePattern = new HorizontalPattern(_speed - 2, _speed - 3, X, Y);
+                    _movePattern = new HorizontalPattern(_speed - 3, X, Y);
                 }
             }
         }
