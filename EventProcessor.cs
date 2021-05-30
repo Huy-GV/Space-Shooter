@@ -8,24 +8,22 @@ namespace SpaceShooter
     {
         private Session _session;
         private GameMode _gameMode;
-        private Player _player;
         public EventProcessor(Session session, GameMode gameMode)
         {
             _session = session;
             _gameMode = gameMode;
-            _player = _session.Player;
         }
         public void Update()
         {
-            _gameMode.CheckGameEnding(_player);
-            _gameMode.AddEnemies((int)_player.Score);
+            _gameMode.CheckGameEnding(_session.Player);
+            _gameMode.AddEnemies((int)_session.Player.Score);
 
             UpdateExplosions(_session.Explosions);
             UpdatePlayer();
             UpdateEnemies();
             UpdateProjectiles(_session.PlayerProjectiles);
             UpdateProjectiles(_session.EnemyProjectiles);
-            ProjectileCheck(_player, _session.EnemyProjectiles);
+            ProjectileCheck(_session.Player, _session.EnemyProjectiles);
         }
         private void UpdateEnemies()
         {
@@ -34,10 +32,10 @@ namespace SpaceShooter
                 enemy.Update();
                 ProjectileCheck(enemy, _session.PlayerProjectiles);
                 EnemyRemovalCheck(enemy);
-                if (_player.CollideWith(enemy.Image, enemy.X, enemy.Y) && !(enemy is Boss))
+                if (_session.Player.CollideWith(enemy.Image, enemy.X, enemy.Y) && !(enemy is Boss))
                 { 
-                    _player.LoseHealth(enemy.CollisionDamage);
-                    _session.Explosions.Add(new Explosion(_player.X, _player.Y, Explosion.Type.Fire));
+                    _session.Player.LoseHealth(enemy.CollisionDamage);
+                    _session.Explosions.Add(new Explosion(_session.Player.X, _session.Player.Y, Explosion.Type.Fire));
                     enemy.LoseHealth(100);
                 }
                 if (enemy is IHaveGun GunShip) 
@@ -82,9 +80,10 @@ namespace SpaceShooter
         }
         private void UpdatePlayer()
         {
-            _player.Update();
-            if ((_player.Score < 100 && _gameMode is ByLevelMode) || (_gameMode is not ByLevelMode))
-                _player.GainScore();
+            _session.Player.Update();
+            if ((_session.Player.Score < 100 && _gameMode is ByLevelMode) || 
+            (_gameMode is not ByLevelMode))
+                _session.Player.GainScore();
             if (_gameMode.GameEnded) 
                 _session.End();
         }
