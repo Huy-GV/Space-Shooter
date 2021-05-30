@@ -3,12 +3,10 @@ using SplashKitSDK;
 
 namespace SpaceShooter
 {
-    public class Bullet
+    public class Bullet : GameObject
     {
         Image _image;
         private MovePattern _movePattern;
-        public int X => _movePattern.X;
-        public int Y => _movePattern.Y;
         public enum Type
         {
             RedLaser,
@@ -19,7 +17,8 @@ namespace SpaceShooter
         private int _moveAngle;
         public int Damage{get; private set;}
         private int _speed;
-        public Bullet(int x, int y, Type type, bool hasSound, int moveAngle, int imageAngle){
+        public Bullet(int x, int y, Type type, bool hasSound, int moveAngle, int imageAngle) : base()
+        {
             if (hasSound) SplashKit.LoadSoundEffect("laserSound", "laser.mp3").Play();
             SetType(type, imageAngle);
             _moveAngle = moveAngle;
@@ -58,11 +57,11 @@ namespace SpaceShooter
         }
         public void Update() 
         {            
-            _movePattern.Update();
+            _position = _movePattern.Update();
         }
         public void Draw()
         {
-            _image.Draw(_movePattern.X, _movePattern.Y);
+            _image.Draw(X, Y);
         }
         public bool HitTarget(Image image, int x, int y)
         {

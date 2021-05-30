@@ -4,10 +4,8 @@ using System.Collections.Generic;
 namespace SpaceShooter
 
 {
-    public class Player : IShootableObject
+    public class Player : GameObject, IShootableObject
     {
-        public int X{get; private set;}
-        public int Y{get; private set;}
         public bool CoolDownEnded{get => _gun.CoolDownEnded;}
         public Explosion.Type ExplosionType{get; init;}
         public enum ShipType
@@ -21,9 +19,10 @@ namespace SpaceShooter
         public Image Image{get; private set;}
         private int _speed;
         public double Score{get; private set;}
-        public Player(int option){
-            X = Global.Width / 2;
-            Y = Global.Height * 4 / 5;      
+        public Player(int option) : base()
+        {
+            _position.X = Global.Width / 2;
+            _position.Y = Global.Height * 4 / 5;    
             Score = 0;
             SetAnimation((ShipType)option);
         }
@@ -71,20 +70,14 @@ namespace SpaceShooter
             _gun = new Gun(1.5, Bullet.Type.RedBeam, true);
             _speed = 3;
         }
-        public void Draw()
-        { 
-            Image.Draw(X, Y);
-        }
-        public void MoveLeft() => X -= _speed;
-        public void MoveRight() => X += _speed;
-        public void MoveUp() => Y -= _speed;
-        public void MoveDown() => Y += _speed;
+        public void Draw() =>Image.Draw(X, Y);
+        public void MoveLeft() => _position.X -= _speed;
+        public void MoveRight() => _position.X += _speed;
+        public void MoveUp() => _position.Y -= _speed;
+        public void MoveDown() => _position.Y += _speed;
         public Bullet Shoot() => _gun.OpenFire(X, Y, -90, -180);
-        public void Update()
-        {
-            _gun.Update();
-        }
-        public void GainScore(){ Score += 1/(double)60;}
+        public void Update() => _gun.Update();
+        public void GainScore() => Score += 1/(double)60;
         public void LoseHealth(int damage) => Health -= damage;
         public bool CollideWith(Image image, int x, int y)
         {

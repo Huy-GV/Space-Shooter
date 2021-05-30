@@ -8,15 +8,13 @@ namespace SpaceShooter
     public abstract class MovePattern
     {
         protected Point2D _updatedPosition;
-        public int X { get{ return (int)_updatedPosition.X;}}
-        public int Y { get{ return (int)_updatedPosition.Y;}}
         public MovePattern(double x, double y)
         {
             _updatedPosition = new Point2D();
             _updatedPosition.Y = y;
             _updatedPosition.X = x;
         }
-        public abstract void Update();
+        public abstract Point2D Update();
     }
     public class HorizontalPattern : MovePattern
     {
@@ -27,10 +25,11 @@ namespace SpaceShooter
             _direction = SplashKit.Rnd(2) * 2 - 1;
             _speed = speed;
         }
-        public override void Update()
+        public override Point2D Update()
         {
             _updatedPosition.X += _direction * _speed;
             if (_updatedPosition.X >= Global.Width - 5 || _updatedPosition.X <= 5) _direction *= -1;
+            return _updatedPosition;
         }
     }
     public class ZigzagPattern : MovePattern
@@ -52,13 +51,14 @@ namespace SpaceShooter
             _firstCrossing = _updatedPosition.Y <= 0 ? true : false;
             _random = random;
         }
-        public override void Update()
+        public override Point2D Update()
         {
             _updatedPosition.Y += _verticalSpeed * _verticalDirection;
             _updatedPosition.X += _horizontalSpeed * _horizontalDirection;
             RandomizeSpeed();
             UpdateHorizontalComponent();
             UpdateVerticalComponent();
+            return _updatedPosition;
         }   
         private void UpdateHorizontalComponent()
         {
@@ -101,10 +101,11 @@ namespace SpaceShooter
         }
         public StraightLinePattern(int speed, int x, int y) : 
         this(speed, x ,y, (SplashKit.Rnd(0, 42) + 69)){}
-        public override void Update()
+        public override Point2D Update()
         {
             _updatedPosition.X += _pathVector.X * _speed;
             _updatedPosition.Y += _pathVector.Y * _speed;
+            return _updatedPosition;
         }
     }
 }

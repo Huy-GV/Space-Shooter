@@ -13,7 +13,6 @@ namespace SpaceShooter
             var y = (lastEnemyY > 50) ? -10 : lastEnemyY - 60;
 
             _movePattern = new StraightLinePattern(4, x, y, 90);
-            ExplosionType = Explosion.Type.Fire;
         }
         private Image SetAnimation()
         {

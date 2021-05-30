@@ -1,12 +1,16 @@
-using SplashKitSDK;
 using System;
+using SplashKitSDK;
 
 namespace SpaceShooter
 {
     public abstract class GameObject
     {
-        public int X { get; protected set;}
-        public int Y { get; protected set;}
-
+        protected Point2D _position;
+        public int X {get => (int)_position.X;}
+        public int Y {get => (int)_position.Y;}
+        public GameObject()
+        {
+            _position = new Point2D();
+        }
     }
 }

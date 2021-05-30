@@ -11,7 +11,6 @@ namespace SpaceShooter
             var x = Global.Width / 2;
             var y = -50;
             CollisionDamage = 13;
-            ExplosionType = Explosion.Type.Fire;
             Angle = (SplashKit.Rnd(0, 42) + 69);
             _movePattern = new StraightLinePattern(9, x, y, Angle);
             Image = SetAnimation();

@@ -8,7 +8,6 @@ namespace SpaceShooter
     {
         public Spacemine(int lastEnemyX = Global.Width, int lastEnemyY = Global.Height): base()
         {
-            ExplosionType = Explosion.Type.Default;
             CollisionDamage = 16;
             Image = SetAnimations();
             int random = SplashKit.Rnd(0,3);
