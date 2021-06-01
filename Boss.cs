@@ -12,6 +12,8 @@ namespace SpaceShooter
         public Boss()
         {
             Health = 80;
+            _position.X = Global.Width / 2;
+            _position.Y = -50;
         }
         public virtual Bullet Shoot() => _gun.OpenFire(X, Y, Angle, 0); 
     }
@@ -24,34 +26,33 @@ namespace SpaceShooter
         {
             _gun = new Gun(1.2, Bullet.Type.RedLaser, false);
             _speed = 5;
+            _movePattern = new StraightLinePattern(_speed / 2, X, Y, 90);
             var bitmap = SplashKit.LoadBitmap("Nightmare", "Bosses/Nightmare.png");
             Image = new StaticImage(bitmap);
-            _movePattern = new ZigzagPattern(_speed, _speed - 2, Global.Width/2 , -20, true);
         }
         public override void Update()
         {
             base.Update();
             _gun.Update();
-            ChangeMovePattern();
+            if (Y > 100 && _movePattern is StraightLinePattern) 
+                _movePattern = new HorizontalPattern(_speed - 3, X, Y);
+            else if (_movePattern is not StraightLinePattern)
+                SwitchMovePattern();
         }
-        private void ChangeMovePattern()
+        private void SwitchMovePattern()
         {
             _time += 1/(double)60;
             if (_time >= _movePatternDuration)
             {
                 _time = 0;
                 _movePatternDuration = _defaultPatternDuration;
-                if (_movePattern.GetType() == typeof(HorizontalPattern))
-                {
+                if (_movePattern is HorizontalPattern)
                     _movePattern = new ZigzagPattern(_speed - 1, _speed - 2, X, Y);
-                } else if (Y < Global.Height / 2)
-                {
+                else if (Y < Global.Height / 2)
                     _movePattern = new HorizontalPattern(_speed - 3, X, Y);
-                }
             }
         }
     }
-
     public class Phantom : Boss
     {
         private double _invisibleDuration;

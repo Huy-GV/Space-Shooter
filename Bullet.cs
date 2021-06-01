@@ -31,7 +31,7 @@ namespace SpaceShooter
                 case Type.RedLaser:
                     bitmap = SplashKit.LoadBitmap("RedLaser", "Bullets/RedLaser.png");
                     _speed = 9;
-                    Damage = 15;
+                    Damage = 25;
                     break;
                 case Type.BlueLaser:
                     bitmap = SplashKit.LoadBitmap("BlueLaser", "Bullets/BlueLaser.png");
@@ -46,7 +46,7 @@ namespace SpaceShooter
                 case Type.TripleLaser:
                     bitmap = SplashKit.LoadBitmap("TripleLaser", "Bullets/TripleLaser.png");
                     _speed = 7;
-                    Damage = 20;
+                    Damage = 30;
                     break;  
                 default:
                     throw new NotImplementedException($"The bullet type {type} doesnt exist");           
