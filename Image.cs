@@ -12,8 +12,8 @@ namespace SpaceShooter
         {
             SplashKit.DrawBitmap(Bitmap, AdjustedX(x) , AdjustedY(y), Option);
         }
-        public double AdjustedX(int x) => x - Bitmap.CellWidth / 2;
-        public double AdjustedY(int y) => y - Bitmap.CellHeight / 2;
+        public double AdjustedX(int x) => x - Bitmap.CellCenter.X;
+        public double AdjustedY(int y) => y - Bitmap.CellCenter.Y;
     }
     public class StaticImage : Image
     {

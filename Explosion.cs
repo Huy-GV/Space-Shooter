@@ -60,10 +60,6 @@ namespace SpaceShooter
             var cellDetails = new int[]{180, 180, 20, 1, 20};
             return new AnimatedImage("defaultExplosion", "defaultExplosion", bitmap, cellDetails);
         }
-        public void Draw()
-        {
-            Image.Draw(X, Y);
-        } 
         public void Update()
         {
             _position.Y += 2;

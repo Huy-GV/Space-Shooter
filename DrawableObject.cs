@@ -13,5 +13,6 @@ namespace SpaceShooter
         {
             _position = new Point2D();
         }
+        public virtual void Draw() => Image.Draw(X, Y);  
     }
 }

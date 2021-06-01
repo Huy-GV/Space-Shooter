@@ -69,7 +69,6 @@ namespace SpaceShooter
             _gun = new Gun(1.5, Bullet.Type.RedBeam, true);
             _speed = 3;
         }
-        public void Draw() =>Image.Draw(X, Y);
         public void MoveLeft() => _position.X -= _speed;
         public void MoveRight() => _position.X += _speed;
         public void MoveUp() => _position.Y -= _speed;

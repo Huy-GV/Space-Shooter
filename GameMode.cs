@@ -192,13 +192,7 @@ namespace SpaceShooter
     {
         private int _stage = 0;
         private readonly int _stageAmount = 3;
-        public BossRunMode() : base()
-        {
-            _limits[typeof(Phantom)] = 1; 
-            _limits[typeof(Nightmare)] = 1;
-            // _enemyAmountByType[typeof(Phantom)] = 0; 
-            // _enemyAmountByType[typeof(Nightmare)] = 0;
-        }
+        public BossRunMode() : base(){}
         public override void CheckGameEnding(Player player)
         {
             base.CheckGameEnding(player);

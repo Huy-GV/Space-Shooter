@@ -20,10 +20,6 @@ namespace SpaceShooter{
         {
             _position = _movePattern.Update();
         }
-        public virtual void Draw()
-        {
-            Image.Draw(X, Y);
-        }
     }
 }
 

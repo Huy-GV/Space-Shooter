@@ -58,14 +58,10 @@ namespace SpaceShooter
         {            
             _position = _movePattern.Update();
         }
-        public void Draw()
-        {
-            Image.Draw(X, Y);
-        }
-        public bool HitTarget(Image image, int x, int y)
+        public bool HitTarget(Image targetImage, int x, int y)
         {
             return (SplashKit.BitmapCollision(
-                image.Bitmap, image.AdjustedX(x),  image.AdjustedY(y),
+                targetImage.Bitmap, targetImage.AdjustedX(x),  targetImage.AdjustedY(y),
                 Image.Bitmap, Image.AdjustedX(X),  Image.AdjustedY(Y)));
         }
     }
