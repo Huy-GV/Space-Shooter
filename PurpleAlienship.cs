@@ -18,7 +18,7 @@ namespace SpaceShooter
         {
             base.Update();
             var verticalLimit = (Global.Width / 2) / (SplashKit.Rnd(4) + 1);
-            if (Y > verticalLimit && _movePattern is StraightLinePattern) 
+            if (Y > verticalLimit && _movePattern.GetType() == typeof(StraightLinePattern)) 
                 _movePattern = new HorizontalPattern(2, X, Y);
         }
     }
