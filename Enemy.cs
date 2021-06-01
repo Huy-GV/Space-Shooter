@@ -13,7 +13,6 @@ namespace SpaceShooter{
             Health = 1;
             CollisionDamage = 10;
             Angle = 90;
-            
         }
         public void LoseHealth(int damage) => Health -= damage;
         public virtual void Update()

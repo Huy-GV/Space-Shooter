@@ -34,9 +34,9 @@ namespace SpaceShooter
         {
             base.Update();
             _gun.Update();
-            if (Y > 100 && _movePattern is StraightLinePattern) 
+            if (Y > 100 && _movePattern.GetType() == typeof(StraightLinePattern)) 
                 _movePattern = new HorizontalPattern(_speed - 3, X, Y);
-            else if (_movePattern is not StraightLinePattern)
+            else if (_movePattern.GetType() != typeof(StraightLinePattern))
                 SwitchMovePattern();
         }
         private void SwitchMovePattern()
@@ -46,7 +46,7 @@ namespace SpaceShooter
             {
                 _time = 0;
                 _movePatternDuration = _defaultPatternDuration;
-                if (_movePattern is HorizontalPattern)
+                if (_movePattern.GetType() == typeof(HorizontalPattern))
                     _movePattern = new ZigzagPattern(_speed - 1, _speed - 2, X, Y);
                 else if (Y < Global.Height / 2)
                     _movePattern = new HorizontalPattern(_speed - 3, X, Y);

@@ -42,7 +42,7 @@ namespace SpaceShooter
             object[] parameters;
             foreach (var enemyType in _quantityList.Type)
             {
-                if (TimeToSpawn() && _quantityList.Quantity(enemyType) < _limits[enemyType])
+                if (TimeToSpawn() && _quantityList.GetQuantity(enemyType) < _limits[enemyType])
                 {
                     if (_enemies.Count == 0) parameters = new object[]{null, null};
                     else

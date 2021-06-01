@@ -28,6 +28,6 @@ namespace SpaceShooter
             };
         }
         public void UpdateQuantity(Type type, int increment ) => _quantityByType[type] += increment;
-        public int Quantity(Type type) => _quantityByType[type];
+        public int GetQuantity(Type type) => _quantityByType[type];
     }
 }
