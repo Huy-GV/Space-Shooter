@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace SpaceShooter
 
 {
-    public class Player : GameObject, IShootableObject
+    public class Player : DrawableObject, IShootableObject
     {
         public bool CoolDownEnded{get => _gun.CoolDownEnded;}
         public Explosion.Type ExplosionType{get; init;}
@@ -16,7 +16,6 @@ namespace SpaceShooter
         }
         public int Health{get; private set;}
         private Gun _gun;
-        public Image Image{get; private set;}
         private int _speed;
         public double Score{get; private set;}
         public Player(int option) : base()

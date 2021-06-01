@@ -3,24 +3,22 @@ using System;
 
 namespace SpaceShooter
 {
-    public class Explosion 
+    public class Explosion : DrawableObject
     {
-        private AnimatedImage _image;
-        private int _x, _y;
         public enum Type{
             RedLaser,
             BlueLaser,
             Fire,
             Default
         }
-        public bool AnimationEnded => _image.AnimationEnded;
+        public bool AnimationEnded => ((AnimatedImage)Image).AnimationEnded;
         public Explosion(int x, int y, Type type)
         {
             var explosionSound = SplashKit.LoadSoundEffect("explosionSound", "explosion.mp3");
             SplashKit.PlaySoundEffect("explosionSound", (float)0.12);
-            _x = x;
-            _y = y;
-            _image = SetAnimations(type);
+            _position.X = x;
+            _position.Y = y;
+            Image = SetAnimations(type);
         }
         public AnimatedImage SetAnimations(Type type)
         {
@@ -64,11 +62,11 @@ namespace SpaceShooter
         }
         public void Draw()
         {
-            _image.Draw(_x, _y);
+            Image.Draw(X, Y);
         } 
         public void Update()
         {
-            _y += 2;
+            _position.Y += 2;
         }
     }
 }

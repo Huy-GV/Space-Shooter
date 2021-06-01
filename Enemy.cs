@@ -2,12 +2,11 @@ using System.Collections.Generic;
 using SplashKitSDK;
 
 namespace SpaceShooter{
-    public abstract class Enemy : GameObject, IShootableObject
+    public abstract class Enemy : DrawableObject, IShootableObject
     {
         protected MovePattern _movePattern; 
         public int CollisionDamage{get; protected set;}
         public int Health{get; protected set;}
-        public Image Image{ get; protected init;}
         protected int Angle{get; set;}
         public Enemy() : base()
         {

@@ -3,9 +3,8 @@ using SplashKitSDK;
 
 namespace SpaceShooter
 {
-    public class Bullet : GameObject
+    public class Bullet : DrawableObject
     {
-        Image _image;
         private MovePattern _movePattern;
         public enum Type
         {
@@ -53,7 +52,7 @@ namespace SpaceShooter
                     throw new NotImplementedException($"The bullet type {type} doesnt exist");           
             }
             var option = SplashKit.OptionRotateBmp(imageAngle);
-            _image = new StaticImage(bitmap, option);
+            Image = new StaticImage(bitmap, option);
         }
         public void Update() 
         {            
@@ -61,13 +60,13 @@ namespace SpaceShooter
         }
         public void Draw()
         {
-            _image.Draw(X, Y);
+            Image.Draw(X, Y);
         }
         public bool HitTarget(Image image, int x, int y)
         {
             return (SplashKit.BitmapCollision(
                 image.Bitmap, image.AdjustedX(x),  image.AdjustedY(y),
-                _image.Bitmap, _image.AdjustedX(X),  _image.AdjustedY(Y)));
+                Image.Bitmap, Image.AdjustedX(X),  Image.AdjustedY(Y)));
         }
     }
 }
