@@ -6,7 +6,7 @@ namespace SpaceShooter
 {
     public class Spacemine : Enemy
     {
-        public Spacemine(int lastEnemyX = Global.Width, int lastEnemyY = Global.Height): base()
+        public Spacemine(int lastEnemyX = Global.Width, int lastEnemyY = Global.Height)
         {
             CollisionDamage = 16;
             Image = SetAnimations();

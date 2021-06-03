@@ -13,24 +13,20 @@ namespace SpaceShooter
             Over
         }
         public Player Player{get; init;}
-        public List<Explosion> Explosions{get; init;}
-        public List<Bullet> PlayerProjectiles{get; init;}
-        public List<Bullet> EnemyProjectiles{get; init;}
+        public List<Explosion> Explosions{get; init;} = new List<Explosion>();
+        public List<Bullet> PlayerProjectiles{get; init;} = new List<Bullet>();
+        public List<Bullet> EnemyProjectiles{get; init;} = new List<Bullet>();
         public IEnumerable<Enemy> Enemies{ get => _gameMode.Enemies;}
         private Renderer _renderer;
         private EventProcessor _eventProcessor;
         private GameMode _gameMode;
-        public State CurrentState{get; private set;}
+        public State CurrentState{get; private set;} = State.Running;
         public Session(int spaceshipChoice, int gameModeIndex)
         {
             Player = new Player(spaceshipChoice);
-            Explosions = new List<Explosion>();
-            PlayerProjectiles = new List<Bullet>();
-            EnemyProjectiles = new List<Bullet>();
             _gameMode = SetGameMode(gameModeIndex);
             _renderer = new Renderer(this);
             _eventProcessor = new EventProcessor(this, _gameMode);
-            CurrentState = State.Running;
         }
         public void Continue() => CurrentState = State.Running;
         public void End() => CurrentState = State.Over;

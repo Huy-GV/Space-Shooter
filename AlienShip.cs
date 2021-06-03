@@ -10,7 +10,7 @@ namespace SpaceShooter
     {
         protected Gun _gun;
         public bool CoolDownEnded => _gun.CoolDownEnded;
-        public Alienship(int lastEnemyX, int lastEnemyY) : base()
+        public Alienship(int lastEnemyX, int lastEnemyY)
         {
             int randomX = SplashKit.Rnd(0, 6);
             if (lastEnemyY >= 100){

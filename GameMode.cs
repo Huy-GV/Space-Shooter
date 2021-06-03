@@ -2,25 +2,13 @@ using System;
 using System.Collections.Generic;
 using SplashKitSDK;
 
+//TODO: fix spawn rates for survival mode
+
 namespace SpaceShooter
 {
     public abstract class GameMode
     {
-        protected Dictionary<Type, int> _limits;
-        protected readonly List<Enemy> _enemies;
-        private EnemyQuantityList _quantityList;
-        public IEnumerable<Enemy> Enemies 
-        {
-            get
-            {
-                foreach(var enemy in _enemies.ToArray()) yield return enemy;
-            }
-        }
-        public int SpawnRate{get; protected set;}
-        public bool GameEnded{get; protected set;}
-        public GameMode()
-        {
-            _limits = new Dictionary<Type, int>()
+        protected Dictionary<Type, int> _limits = new Dictionary<Type, int>()
             {
                 {typeof(BlueAlienship), 0},
                 {typeof(PurpleAlienship), 0},
@@ -31,10 +19,20 @@ namespace SpaceShooter
                 {typeof(Nightmare), 0},
                 {typeof(Phantom), 0}
             };
-            _quantityList = new EnemyQuantityList();
-            _enemies = new List<Enemy>();
+        protected readonly List<Enemy> _enemies = new List<Enemy>();
+        private EnemyQuantityList _quantityList = new EnemyQuantityList();
+        public IEnumerable<Enemy> Enemies 
+        {
+            get
+            {
+                foreach(var enemy in _enemies.ToArray()) yield return enemy;
+            }
+        }
+        public int SpawnRate{get; protected set;}
+        public bool GameEnded{get; protected set;} = false;
+        public GameMode()
+        {
             SpawnRate = 70;
-            GameEnded = false;
         }
         private bool TimeToSpawn()=> SplashKit.Rnd(0, SpawnRate) == 0;
         public virtual void AddEnemies(int score)

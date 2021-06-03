@@ -55,16 +55,14 @@ namespace SpaceShooter
     }
     public class Phantom : Boss
     {
-        private double _invisibleDuration;
+        private double _invisibleDuration = 3;
         private double _time;
-        private bool _isInvisible;
+        private bool _isInvisible = false;
         public Phantom() : base()
         {
             Image = SetAnimation();
             _gun = new Gun(1, Bullet.Type.TripleLaser, false);
             _speed = 4;
-            _isInvisible = false;
-            _invisibleDuration = 3;
             _movePattern = new ZigzagPattern(_speed, _speed, Global.Width/2 , -20, true);
         }
         private Image SetAnimation()

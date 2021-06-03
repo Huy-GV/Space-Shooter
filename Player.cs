@@ -19,12 +19,11 @@ namespace SpaceShooter
         public int Health{get; private set;}
         private Gun _primaryGun, _secondaryGun, _currentGun;
         private int _speed;
-        public double Score{get; private set;}
+        public double Score{get; private set;} = 0;
         public Player(int option) : base()
         {
             _position.X = Global.Width / 2;
             _position.Y = Global.Height * 4 / 5;    
-            Score = 0;
             SetAnimation((ShipType)option);
             _primaryGun = new Gun(1, Bullet.Type.BlueLaser, true);
             _secondaryGun = new Gun(2, Bullet.Type.RedBeam, true);

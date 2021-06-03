@@ -5,15 +5,9 @@ namespace SpaceShooter{
     public abstract class Enemy : DrawableObject, IShootableObject
     {
         protected MovePattern _movePattern; 
-        public int CollisionDamage{get; protected set;}
-        public int Health{get; protected set;}
-        protected int Angle{get; set;}
-        public Enemy() : base()
-        {
-            Health = 1;
-            CollisionDamage = 10;
-            Angle = 90;
-        }
+        public int CollisionDamage{get; protected set;} = 10;
+        public int Health{get; protected set;} = 1;
+        protected int Angle{get; set;} = 90;
         public void LoseHealth(int damage) => Health -= damage;
         public virtual void Update()
         {
