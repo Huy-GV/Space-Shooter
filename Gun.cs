@@ -13,7 +13,6 @@ namespace SpaceShooter
         private bool _hasSound;
         public Gun(double coolDownLimit, Bullet.Type type, bool hasSound)
         {
-
             _coolDownLimit = coolDownLimit;
             _type = type;
             _hasSound = hasSound;
@@ -23,8 +22,9 @@ namespace SpaceShooter
         public bool CoolDownEnded => _coolDownTime == 0;
         public Bullet OpenFire(int x, int y, int moveAngle, int imageAngle)
         {
+            if (_hasSound) SplashKit.LoadSoundEffect("laserSound", "laser.mp3").Play();
             _coolDownTime = _coolDownLimit;
-            return new Bullet(x, y, _type, _hasSound, moveAngle, imageAngle);
+            return new Bullet(x, y, _type, moveAngle, imageAngle);
         }
         public void Update()
         {

@@ -61,6 +61,7 @@ namespace SpaceShooter
             if (SplashKit.KeyDown(KeyCode.DownKey) && Player.Y < Global.Height)  Player.MoveDown();
             if (SplashKit.KeyDown(KeyCode.SpaceKey) && Player.CoolDownEnded) PlayerProjectiles.Add(Player.Shoot());
             if (SplashKit.KeyDown(KeyCode.EscapeKey)) CurrentState = State.Paused;
+            if (SplashKit.KeyDown(KeyCode.FKey)) Player.SwapGun();
         }
-    }
+    }                                                                   
 }

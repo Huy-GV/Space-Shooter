@@ -16,9 +16,8 @@ namespace SpaceShooter
         private int _moveAngle;
         public int Damage{get; private set;}
         private int _speed;
-        public Bullet(int x, int y, Type type, bool hasSound, int moveAngle, int imageAngle) : base()
+        public Bullet(int x, int y, Type type, int moveAngle, int imageAngle) : base()
         {
-            if (hasSound) SplashKit.LoadSoundEffect("laserSound", "laser.mp3").Play();
             SetType(type, imageAngle);
             _moveAngle = moveAngle;
             _movePattern = new StraightLinePattern(_speed, x, y, _moveAngle);
@@ -30,7 +29,7 @@ namespace SpaceShooter
             {
                 case Type.RedLaser:
                     bitmap = SplashKit.LoadBitmap("RedLaser", "Bullets/RedLaser.png");
-                    _speed = 9;
+                    _speed = 12;
                     Damage = 25;
                     break;
                 case Type.BlueLaser:
@@ -40,12 +39,12 @@ namespace SpaceShooter
                     break;
                 case Type.RedBeam:
                     bitmap = SplashKit.LoadBitmap("RedBeam", "Bullets/RedBeam.png");
-                    _speed = 8;
+                    _speed = 9;
                     Damage = 7;
                     break;  
                 case Type.TripleLaser:
                     bitmap = SplashKit.LoadBitmap("TripleLaser", "Bullets/TripleLaser.png");
-                    _speed = 7;
+                    _speed = 8;
                     Damage = 30;
                     break;  
                 default:
