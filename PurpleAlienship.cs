@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace SpaceShooter
 {
+    
     public class PurpleAlienship : Alienship
     {
         public PurpleAlienship(Position position, ICanMove movePattern, Gun gun) : base(position, gun, movePattern)
@@ -11,8 +12,6 @@ namespace SpaceShooter
             Angle = 90;
             var bitmap = SplashKit.LoadBitmap("PurpleAlienship", "Alienships/PurpleAlienship.png");
             Image = new StaticImage(bitmap);
-            // _gun = new Gun(3);
-            // _movePattern = new StraightLinePattern(2, X, Y, 90);
         }
         public override void Update()
         {

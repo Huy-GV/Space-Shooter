@@ -21,8 +21,7 @@ namespace SpaceShooter
         public double Score{get; private set;} = 0;
         public Player(int option)
         {
-            _position.X = Global.Width / 2;
-            _position.Y = Global.Height * 4 / 5;    
+            _position = new Position(Global.Width / 2, Global.Height * 4 / 5);
             SetAnimation((ShipType)option);
             _primaryGun = new Gun(1, Bullet.Type.BlueLaser, true);
             _secondaryGun = new Gun(2, Bullet.Type.RedBeam, true);

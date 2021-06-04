@@ -4,38 +4,38 @@ using SplashKitSDK;
 using System.Linq;
 namespace SpaceShooter
 {
-    public abstract class Boss : Enemy, IHaveGun
-    {
-        public bool OverheatEnded{get => _gun.OverheatEnded;}
-        protected Gun _gun;   
-        protected int _speed;
-        public Boss()
-        {
-            Health = 80;
-            _position.X = Global.Width / 2;
-            _position.Y = -50;
-        }
-        public virtual Bullet Shoot() => _gun.OpenFire(X, Y, Angle, 0); 
-    }
-    public class Nightmare : Boss
+    // public abstract class Boss : Enemy, IHaveGun
+    // {
+    //     public bool OverheatEnded{get => _gun.OverheatEnded;}
+    //     protected Gun _gun;   
+    //     protected int _speed;
+    //     public Boss() : base(new Position(Global.Width / 2, -50))
+    //     {
+    //         Health = 80;
+    //     }
+    //     public virtual Bullet Shoot() => _gun.OpenFire(X, Y, Angle, 0); 
+    // }
+    public class Nightmare : Alienship
     { 
         private double _time;
+        private int _speed;
         private double _movePatternDuration;
         private readonly int _defaultPatternDuration = 4;
-        public Nightmare() : base()
+        public Nightmare(Position position, ICanMove movePattern, Gun gun) : base(position, gun, movePattern)
         {
-            _gun = new Gun(1.2, Bullet.Type.RedLaser, false);
+            // _gun = new Gun(1.2, Bullet.Type.RedLaser, false);
             _speed = 5;
-            _movePattern = new StraightLinePattern(_speed / 2, X, Y, 90);
+            // _movePattern = new StraightLinePattern(_speed / 2, 90);
             var bitmap = SplashKit.LoadBitmap("Nightmare", "Bosses/Nightmare.png");
             Image = new StaticImage(bitmap);
+            Health = 70;
         }
         public override void Update()
         {
             base.Update();
             _gun.Update();
             if (Y > 100 && _movePattern.GetType() == typeof(StraightLinePattern)) 
-                _movePattern = new HorizontalPattern(_speed - 3, X, Y);
+                _movePattern = new HorizontalPattern(_speed - 3);
             else if (_movePattern.GetType() != typeof(StraightLinePattern))
                 SwitchMovePattern();
         }
@@ -47,23 +47,25 @@ namespace SpaceShooter
                 _time = 0;
                 _movePatternDuration = _defaultPatternDuration;
                 if (_movePattern.GetType() == typeof(HorizontalPattern))
-                    _movePattern = new ZigzagPattern(_speed - 1, _speed - 2, X, Y);
+                    _movePattern = new ZigzagPattern(_speed - 1, _speed - 2, Y);
                 else if (Y < Global.Height / 2)
-                    _movePattern = new HorizontalPattern(_speed - 3, X, Y);
+                    _movePattern = new HorizontalPattern(_speed - 3);
             }
         }
     }
-    public class Phantom : Boss
+    public class Phantom : Alienship
     {
         private double _invisibleDuration = 3;
         private double _time;
+        private int _speed;
         private bool _isInvisible = false;
-        public Phantom() : base()
+        public Phantom(Position position, ICanMove movePattern, Gun gun) : base(position, gun, movePattern)
         {
             Image = SetAnimation();
+            Health = 80;
             _gun = new Gun(1, Bullet.Type.TripleLaser, false);
             _speed = 4;
-            _movePattern = new ZigzagPattern(_speed, _speed, Global.Width/2 , -20, true);
+            _movePattern = new ZigzagPattern(_speed, _speed, -20, true);
         }
         private Image SetAnimation()
         {

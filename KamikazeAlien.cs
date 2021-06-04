@@ -6,13 +6,10 @@ namespace SpaceShooter
 {
     public class KamikazeAlien : Enemy
     {
-        public KamikazeAlien() : base()
+        public KamikazeAlien(Position position, ICanMove movePattern, int angle) : base(position, movePattern)
         {
-            var x = Global.Width / 2;
-            var y = -50;
             CollisionDamage = 13;
-            Angle = (SplashKit.Rnd(0, 42) + 69);
-            _movePattern = new StraightLinePattern(9, x, y, Angle);
+            Angle = angle;
             Image = SetAnimation();
         }
         private Image SetAnimation()

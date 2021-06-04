@@ -81,8 +81,12 @@ namespace SpaceShooter
                 _bossSpawned = true;
                 switch(_level)
                 {
-                    case 3: _enemies.Add(new Nightmare()); break;
-                    case 4: _enemies.Add(new Phantom()); break;
+                    case 3: 
+                        _enemies.Add(EnemyFactory.SpawnEnemy(typeof(Nightmare), new int[]{})); 
+                        break;
+                    case 4: 
+                        _enemies.Add(EnemyFactory.SpawnEnemy(typeof(Phantom), new int[]{})); 
+                        break;
                     default: throw new IndexOutOfRangeException($"The level {_level} is not implemented or the threshold for levels with bosses is incorrect");
                 }
             }
@@ -207,16 +211,16 @@ namespace SpaceShooter
                 switch(_stage)
                 {
                     case 0:
-                        _enemies.Add(new Nightmare());   
+                        _enemies.Add(EnemyFactory.SpawnEnemy(typeof(Nightmare), new int[]{}));   
                         _stage++;
                         break;
                     case 1:
-                        _enemies.Add(new Phantom());
+                        _enemies.Add(EnemyFactory.SpawnEnemy(typeof(Phantom), new int[]{}));
                         _stage++;
                         break;
                     case 2:
-                        _enemies.Add(new Phantom());
-                        _enemies.Add(new Nightmare());
+                        _enemies.Add(EnemyFactory.SpawnEnemy(typeof(Phantom), new int[]{}));
+                        _enemies.Add(EnemyFactory.SpawnEnemy(typeof(Nightmare), new int[]{}));
                         _stage++;
                         break;
                 }

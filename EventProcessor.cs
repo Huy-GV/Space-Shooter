@@ -32,7 +32,7 @@ namespace SpaceShooter
                 enemy.Update();
                 ProjectileCheck(enemy, _session.PlayerProjectiles);
                 EnemyRemovalCheck(enemy);
-                if (_session.Player.CollideWith(enemy.Image, enemy.X, enemy.Y) && (enemy is not Boss))
+                if (_session.Player.CollideWith(enemy.Image, enemy.X, enemy.Y) && !(enemy is Phantom && enemy is Nightmare))
                 { 
                     _session.Player.LoseHealth(enemy.CollisionDamage);
                     _session.Explosions.Add(new Explosion(_session.Player.X, _session.Player.Y, Explosion.Type.Fire));

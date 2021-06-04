@@ -16,8 +16,7 @@ namespace SpaceShooter
         {
             var explosionSound = SplashKit.LoadSoundEffect("explosionSound", "explosion.mp3");
             SplashKit.PlaySoundEffect("explosionSound", (float)0.12);
-            _position.X = x;
-            _position.Y = y;
+            _position = new Position(x, y);
             Image = SetAnimations(type);
         }
         public AnimatedImage SetAnimations(Type type)
