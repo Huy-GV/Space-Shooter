@@ -79,8 +79,12 @@ namespace SpaceShooter
             else if (!_bossSpawned && _level > 3)
             {
                 _bossSpawned = true;
-                if (_level == 3) _enemies.Add(new Nightmare());  
-                else if (_level == 4) _enemies.Add( new Phantom()); 
+                switch(_level)
+                {
+                    case 3: _enemies.Add(new Nightmare()); break;
+                    case 4: _enemies.Add(new Phantom()); break;
+                    default: throw new IndexOutOfRangeException($"The level {_level} is not implemented or the threshold for levels with bosses is incorrect");
+                }
             }
         }
         public override void CheckGameEnding(Player player)
@@ -120,7 +124,7 @@ namespace SpaceShooter
                     _limits[typeof(Asteroid)] = 5;
                     _limits[typeof(Spacemine)] = 3; 
                     break;
-                default: throw new NotImplementedException($"The level {_level} has not been implemented");
+                default: throw new NotImplementedException($"The level {_level} is not implemented");
             }
         }
     }
@@ -163,7 +167,7 @@ namespace SpaceShooter
                     _limits[typeof(Asteroid)] = 7;
                     _limits[typeof(Spacemine)] = 3;
                     break;
-                default: throw new IndexOutOfRangeException($"The stage index exceeds the limit of 2");
+                default: throw new IndexOutOfRangeException($"The stage index exceeds 2");
             }
         }      
         public override void AddEnemies(int score)

@@ -32,14 +32,14 @@ namespace SpaceShooter
                 enemy.Update();
                 ProjectileCheck(enemy, _session.PlayerProjectiles);
                 EnemyRemovalCheck(enemy);
-                if (_session.Player.CollideWith(enemy.Image, enemy.X, enemy.Y) && !(enemy is Boss))
+                if (_session.Player.CollideWith(enemy.Image, enemy.X, enemy.Y) && (enemy is not Boss))
                 { 
                     _session.Player.LoseHealth(enemy.CollisionDamage);
                     _session.Explosions.Add(new Explosion(_session.Player.X, _session.Player.Y, Explosion.Type.Fire));
                     enemy.LoseHealth(100);
                 }
                 if (enemy is IHaveGun GunShip) 
-                    if (GunShip.CoolDownEnded) _session.EnemyProjectiles.Add(GunShip.Shoot());  
+                    if (GunShip.OverheatEnded) _session.EnemyProjectiles.Add(GunShip.Shoot());  
             }
         }
         private void ProjectileCheck(IShootableObject target, List<Bullet> projectiles)
@@ -67,7 +67,6 @@ namespace SpaceShooter
         {
             foreach (var explosion in explosions.ToArray())
             {
-                explosion.Update();
                 if (explosion.AnimationEnded) _session.Explosions.Remove(explosion);
             }
         }

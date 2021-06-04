@@ -6,8 +6,7 @@ namespace SpaceShooter
 {
     public class Player : DrawableObject, IShootableObject
     {
-        public bool CoolDownEnded{get => _currentGun.CoolDownEnded;}
-        public Explosion.Type ExplosionType{get; init;}
+        public bool CoolDownEnded{get => _currentGun.OverheatEnded;}
         private readonly double _swapTimeDuration = 0.5;
         private double _swapTime = 0;
         public enum ShipType
@@ -20,7 +19,7 @@ namespace SpaceShooter
         private Gun _primaryGun, _secondaryGun, _currentGun;
         private int _speed;
         public double Score{get; private set;} = 0;
-        public Player(int option) : base()
+        public Player(int option)
         {
             _position.X = Global.Width / 2;
             _position.Y = Global.Height * 4 / 5;    

@@ -9,11 +9,12 @@ namespace SpaceShooter
     public abstract class Alienship : Enemy, IHaveGun
     {
         protected Gun _gun;
-        public bool CoolDownEnded => _gun.CoolDownEnded;
+        public bool OverheatEnded => _gun.OverheatEnded;
         public Alienship(int lastEnemyX, int lastEnemyY)
         {
             int randomX = SplashKit.Rnd(0, 6);
-            if (lastEnemyY >= 100){
+            if (lastEnemyY >= 100)
+            {
                 _position.X = (2 * randomX + 1) * 50; 
                 _position.Y = -50;
             } else

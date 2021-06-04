@@ -6,7 +6,7 @@ namespace SpaceShooter
 {
     public abstract class Boss : Enemy, IHaveGun
     {
-        public bool CoolDownEnded{get => _gun.CoolDownEnded;}
+        public bool OverheatEnded{get => _gun.OverheatEnded;}
         protected Gun _gun;   
         protected int _speed;
         public Boss()

@@ -18,7 +18,7 @@ namespace SpaceShooter
             else if (enemyType == typeof(KamikazeAlien))
                 return new KamikazeAlien();
             else
-                throw new NotImplementedException($"The type {enemyType} does not exist");
+                throw new NotImplementedException($"The type {enemyType} is not implemented");
         }
         private static Enemy SpawnAsteroid(object parameter)
         {

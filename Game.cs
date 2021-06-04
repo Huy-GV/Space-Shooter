@@ -6,7 +6,7 @@ namespace SpaceShooter
 {
     public class Game
     {
-        private State _currentState;
+
         private readonly int _defaultGameMode = 7;
         private readonly int _defaultSpaceship = 0;
         private int _spaceshipChoice, _gameMode;
@@ -16,6 +16,7 @@ namespace SpaceShooter
         public State GameModeState{ get; init;}
         public State GameOverState{ get; init;}
         public State PausedGameState{ get; init;}
+        private State _currentState;
         public int GameMode
         { 
             get{ return _gameMode;}

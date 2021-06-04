@@ -4,7 +4,7 @@ namespace SpaceShooter
 {
     public interface IHaveGun
     {
-        public bool CoolDownEnded{get;}
+        public bool OverheatEnded{get;}
         public Bullet Shoot();
     }
     public interface IShootableObject

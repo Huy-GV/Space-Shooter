@@ -7,10 +7,9 @@ namespace SpaceShooter
 
     public abstract class MovePattern
     {
-        protected Point2D _updatedPosition;
+        protected Point2D _updatedPosition = new Point2D();
         public MovePattern(double x, double y)
         {
-            _updatedPosition = new Point2D();
             _updatedPosition.Y = y;
             _updatedPosition.X = x;
         }

@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using SplashKitSDK;
 
-namespace SpaceShooter{
+namespace SpaceShooter
+{
     public abstract class Enemy : DrawableObject, IShootableObject
     {
         protected MovePattern _movePattern; 
