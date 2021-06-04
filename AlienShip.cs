@@ -10,20 +10,9 @@ namespace SpaceShooter
     {
         protected Gun _gun;
         public bool OverheatEnded => _gun.OverheatEnded;
-        public Alienship(int lastEnemyX, int lastEnemyY)
+        public Alienship(Position position, Gun gun, ICanMove movePattern) : base(position, movePattern)
         {
-            int randomX = SplashKit.Rnd(0, 6);
-            if (lastEnemyY >= 100)
-            {
-                _position.X = (2 * randomX + 1) * 50; 
-                _position.Y = -50;
-            } else
-            {
-                while ( (2 * randomX + 1) * 50  == lastEnemyX) randomX = SplashKit.Rnd(0, 6);
-                _position.X = (2 * randomX + 1) * 50; 
-                _position.Y = lastEnemyY - 100;
-            } 
-
+            _gun = gun;
         }
         public override void Update()
         {

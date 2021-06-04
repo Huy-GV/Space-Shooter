@@ -5,7 +5,7 @@ namespace SpaceShooter
 {
     public class Bullet : DrawableObject
     {
-        private MovePattern _movePattern;
+        private ICanMove _movePattern;
         public enum Type
         {
             RedLaser,
@@ -19,8 +19,9 @@ namespace SpaceShooter
         public Bullet(int x, int y, Type type, int moveAngle, int imageAngle) : base()
         {
             SetType(type, imageAngle);
+            _position = new Position(x, y);
             _moveAngle = moveAngle;
-            _movePattern = new StraightLinePattern(_speed, x, y, _moveAngle);
+            _movePattern = new StraightLinePattern(_speed, _moveAngle);
         }
         private void SetType(Type type, int imageAngle)
         {
@@ -55,7 +56,7 @@ namespace SpaceShooter
         }
         public void Update() 
         {            
-            _position = _movePattern.Update();
+            _position = _movePattern.Move(_position);
         }
         public bool HitTarget(Image targetImage, int x, int y)
         {

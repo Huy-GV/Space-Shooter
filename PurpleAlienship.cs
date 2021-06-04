@@ -6,20 +6,20 @@ namespace SpaceShooter
 {
     public class PurpleAlienship : Alienship
     {
-        public PurpleAlienship(int lastEnemyX = Global.Width, int lastEnemyY = Global.Height) : base(lastEnemyX, lastEnemyY)
+        public PurpleAlienship(Position position, ICanMove movePattern, Gun gun) : base(position, gun, movePattern)
         {
             Angle = 90;
             var bitmap = SplashKit.LoadBitmap("PurpleAlienship", "Alienships/PurpleAlienship.png");
             Image = new StaticImage(bitmap);
-            _gun = new Gun(3);
-            _movePattern = new StraightLinePattern(2, X, Y, 90);
+            // _gun = new Gun(3);
+            // _movePattern = new StraightLinePattern(2, X, Y, 90);
         }
         public override void Update()
         {
             base.Update();
             var verticalLimit = (Global.Width / 2) / (SplashKit.Rnd(4) + 1);
             if (Y > verticalLimit && _movePattern.GetType() == typeof(StraightLinePattern)) 
-                _movePattern = new HorizontalPattern(2, X, Y);
+                _movePattern = new HorizontalPattern(2);
         }
     }
 }

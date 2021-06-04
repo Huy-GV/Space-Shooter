@@ -37,16 +37,16 @@ namespace SpaceShooter
         private bool TimeToSpawn()=> SplashKit.Rnd(0, SpawnRate) == 0;
         public virtual void AddEnemies(int score)
         {
-            object[] parameters;
+            int[] parameters;
             foreach (var enemyType in _quantityList.Type)
             {
                 if (TimeToSpawn() && _quantityList.GetQuantity(enemyType) < _limits[enemyType])
                 {
-                    if (_enemies.Count == 0) parameters = new object[]{null, null};
+                    if (_enemies.Count == 0) parameters = new int[]{Global.Width, Global.Height};
                     else
                     {
                         var lastEnemy = _enemies[_enemies.Count - 1];
-                        parameters = new object[]{lastEnemy.X, lastEnemy.Y};
+                        parameters = new int[]{lastEnemy.X, lastEnemy.Y};
                     } 
                     _enemies.Add(EnemyFactory.SpawnEnemy(enemyType, parameters));
                     _quantityList.UpdateQuantity(enemyType, 1);
