@@ -47,7 +47,7 @@ namespace SpaceShooter
             int x, y;     
             Position position;
             Gun gun;
-            ICanMove movePattern;  
+            IMoveStrategy movePattern;  
             if (type == typeof(BlueAlienship))
             {
 

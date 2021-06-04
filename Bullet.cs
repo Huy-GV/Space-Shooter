@@ -5,7 +5,7 @@ namespace SpaceShooter
 {
     public class Bullet : DrawableObject
     {
-        private ICanMove _movePattern;
+        private IMoveStrategy _movePattern;
         public enum Type
         {
             RedLaser,

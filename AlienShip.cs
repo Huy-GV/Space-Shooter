@@ -10,8 +10,7 @@ namespace SpaceShooter
     {
         protected Gun _gun;
         public bool OverheatEnded => _gun.OverheatEnded;
-        public bool IsBoss { get; init;}
-        public Alienship(Position position, Gun gun, ICanMove movePattern) : base(position, movePattern)
+        public Alienship(Position position, Gun gun, IMoveStrategy movePattern) : base(position, movePattern)
         {
             _gun = gun;
         }

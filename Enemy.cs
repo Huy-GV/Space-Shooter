@@ -5,7 +5,7 @@ namespace SpaceShooter
 {
     public abstract class Enemy : DrawableObject, IShootableObject
     {
-        protected ICanMove _movePattern; 
+        protected IMoveStrategy _movePattern; 
         public int CollisionDamage{get; protected set;} = 10;
         public int Health{get; protected set;} = 1;
         public void LoseHealth(int damage) => Health -= damage;
@@ -13,7 +13,7 @@ namespace SpaceShooter
         {
             _position = _movePattern.Move(_position);
         }
-        public Enemy(Position position, ICanMove movePattern) 
+        public Enemy(Position position, IMoveStrategy movePattern) 
         {
             _position = position;
             _movePattern = movePattern;

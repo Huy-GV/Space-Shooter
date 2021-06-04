@@ -6,7 +6,7 @@ namespace SpaceShooter
 {
     public class KamikazeAlien : Enemy
     {
-        public KamikazeAlien(Position position, ICanMove movePattern, int angle) : base(position, movePattern)
+        public KamikazeAlien(Position position, IMoveStrategy movePattern, int angle) : base(position, movePattern)
         {
             CollisionDamage = 13;
             Angle = angle;

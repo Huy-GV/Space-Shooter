@@ -6,7 +6,7 @@ namespace SpaceShooter
 {
     public class RedAlienship : Alienship
     {
-        public RedAlienship(Position position, ICanMove movePattern, Gun gun) : base(position, gun, movePattern)
+        public RedAlienship(Position position, IMoveStrategy movePattern, Gun gun) : base(position, gun, movePattern)
         {
             var bitmap = SplashKit.LoadBitmap("RedAlienship", "Alienships/RedAlienship.png");
             Image = new StaticImage(bitmap);

@@ -7,7 +7,7 @@ namespace SpaceShooter
     
     public class PurpleAlienship : Alienship
     {
-        public PurpleAlienship(Position position, ICanMove movePattern, Gun gun) : base(position, gun, movePattern)
+        public PurpleAlienship(Position position, IMoveStrategy movePattern, Gun gun) : base(position, gun, movePattern)
         {
             Angle = 90;
             var bitmap = SplashKit.LoadBitmap("PurpleAlienship", "Alienships/PurpleAlienship.png");

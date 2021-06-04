@@ -4,22 +4,11 @@ using System.Collections.Generic;
 
 namespace SpaceShooter
 {
-
-    // public abstract class ICanMove
-    // {
-    //     protected Point2D _updatedPosition = new Point2D();
-    //     public ICanMove(double x, double y)
-    //     {
-    //         _updatedPosition.Y = y;
-    //         _updatedPosition.X = x;
-    //     }
-    //     // public abstract Point2D Update();
-    // }
-    public interface ICanMove
+    public interface IMoveStrategy
     {
         Position Move(Position position);
     }
-    public class HorizontalPattern : ICanMove
+    public class HorizontalPattern : IMoveStrategy
     {
         private double _speed;
         private int _direction;
@@ -35,7 +24,7 @@ namespace SpaceShooter
             return currentPosition;
         }
     }
-    public class ZigzagPattern : ICanMove
+    public class ZigzagPattern : IMoveStrategy
     {
         private int _heightLimit, _verticalDirection, _horizontalDirection;
         private double _horizontalSpeed, _verticalSpeed;
@@ -89,7 +78,7 @@ namespace SpaceShooter
             }
         }
     }
-    public class StraightLinePattern : ICanMove
+    public class StraightLinePattern : IMoveStrategy
     {
         private double _speed;
         private Vector2D _pathVector;

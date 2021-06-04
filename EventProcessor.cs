@@ -32,14 +32,15 @@ namespace SpaceShooter
                 enemy.Update();
                 ProjectileCheck(enemy, _session.PlayerProjectiles);
                 EnemyRemovalCheck(enemy);
-                if (_session.Player.CollideWith(enemy.Image, enemy.X, enemy.Y) && !(enemy is Phantom && enemy is Nightmare))
+                if (_session.Player.CollideWith(enemy.Image, enemy.X, enemy.Y) && 
+                !(enemy is Phantom && enemy is Nightmare))
                 { 
                     _session.Player.LoseHealth(enemy.CollisionDamage);
                     _session.Explosions.Add(new Explosion(_session.Player.X, _session.Player.Y, Explosion.Type.Fire));
                     enemy.LoseHealth(100);
                 }
-                if (enemy is IHaveGun GunShip) 
-                    if (GunShip.OverheatEnded) _session.EnemyProjectiles.Add(GunShip.Shoot());  
+                if (enemy is Alienship gunship) 
+                    if (gunship.OverheatEnded) _session.EnemyProjectiles.Add(gunship.Shoot());  
             }
         }
         private void ProjectileCheck(IShootableObject target, List<Bullet> projectiles)
