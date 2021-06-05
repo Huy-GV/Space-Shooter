@@ -91,7 +91,7 @@ namespace SpaceShooter
             // Console.WriteLine("angle is " + _targetAngle);
             // Console.WriteLine("vector is " + _pathVector.X +" "+ _pathVector.Y);
         }
-        public StraightLinePattern(int speed) :  this(speed,(SplashKit.Rnd(0, 42) + 69)){}
+        public StraightLinePattern(int speed) :  this(speed, 90){}
         public Position Move(Position currentPosition)
         {
             currentPosition.X += (int)(_pathVector.X * _speed);

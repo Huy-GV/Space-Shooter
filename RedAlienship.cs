@@ -10,8 +10,6 @@ namespace SpaceShooter
         {
             var bitmap = SplashKit.LoadBitmap("RedAlienship", "Alienships/RedAlienship.png");
             Image = new StaticImage(bitmap);
-            // _gun = new Gun(2);
-            // _movePattern = new ZigzagPattern(2, 3, X, Y);
         }
     }
 }

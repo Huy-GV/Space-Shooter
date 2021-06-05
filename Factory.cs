@@ -6,7 +6,7 @@ namespace SpaceShooter
 {
     public class EnemyFactory
     {
-        public static Enemy SpawnEnemy(Type enemyType, int[] parameters)
+        public static Enemy Create(Type enemyType, int[] parameters)
         {
             if (enemyType == typeof(Asteroid))
                 return CreateAsteroid(parameters[1]);
@@ -22,6 +22,7 @@ namespace SpaceShooter
         private static Enemy CreateSpacemine(int[] lastEnemy)
         {
             int x, y;
+            //TODO: catch exceptions for null parameters
             if (lastEnemy[0] >= 120)
                 x = (2 * SplashKit.Rnd(0,3) + 1) * 100; 
             else 
@@ -32,7 +33,7 @@ namespace SpaceShooter
             else
                 y = lastEnemy[1] - 240;
             var position = new Position(x, y);
-            var movePattern = new StraightLinePattern(3, 90);
+            var movePattern = new StraightLinePattern(3);
             return (Enemy)new Spacemine(position, movePattern);
         }
         private static Enemy CreateKamikaze()
@@ -63,7 +64,7 @@ namespace SpaceShooter
                     y = lastEnemy[1] - 100;
                 } 
                 gun = new Gun(3);
-                movePattern = new StraightLinePattern(3, 90);
+                movePattern = new StraightLinePattern(3);
                 position = new Position(x, y);
             } else if (type == typeof(PurpleAlienship))
             {
@@ -71,7 +72,7 @@ namespace SpaceShooter
                 else y = lastEnemy[1] - 110;
                 x = (2 * SplashKit.Rnd(0, 6) + 1) * 50;
                 gun = new Gun(3);
-                movePattern = new StraightLinePattern(2, 90);
+                movePattern = new StraightLinePattern(2);
                 position = new Position(x, y);
             } else if (type == typeof(RedAlienship))
             {
@@ -85,7 +86,7 @@ namespace SpaceShooter
             {
                 position = new Position(Global.Width / 2, -50);
                 gun = new Gun(1.2, Bullet.Type.RedLaser, false);
-                movePattern = new StraightLinePattern(3, 90);
+                movePattern = new StraightLinePattern(3);
             } else 
             {
                 position = new Position(Global.Width / 2, -50);
@@ -100,7 +101,7 @@ namespace SpaceShooter
             var x = (2 * SplashKit.Rnd(0, 6) + 1) * 50;
             var y = (parameter > 50) ? -10 : parameter - 60;
             var position = new Position(x, y);
-            var movePattern = new StraightLinePattern(4, 90);
+            var movePattern = new StraightLinePattern(4);
             return (Enemy)new Asteroid(position, movePattern);
         }
     }

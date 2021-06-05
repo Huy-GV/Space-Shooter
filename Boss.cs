@@ -23,9 +23,7 @@ namespace SpaceShooter
         private readonly int _defaultPatternDuration = 4;
         public Nightmare(Position position, IMoveStrategy movePattern, Gun gun) : base(position, gun, movePattern)
         {
-            // _gun = new Gun(1.2, Bullet.Type.RedLaser, false);
             _speed = 5;
-            // _movePattern = new StraightLinePattern(_speed / 2, 90);
             var bitmap = SplashKit.LoadBitmap("Nightmare", "Bosses/Nightmare.png");
             Image = new StaticImage(bitmap);
             Health = 70;
