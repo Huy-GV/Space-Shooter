@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using SplashKitSDK;
 
-//TODO: fix spawn rates for survival mode
-
 namespace SpaceShooter
 {
     public abstract class GameMode

@@ -11,7 +11,7 @@ namespace SpaceShooter
             if (enemyType == typeof(Asteroid))
                 return CreateAsteroid(parameters[1]);
             else if (enemyType.IsSubclassOf(typeof(Alienship)))
-                return CreateGunship(enemyType, parameters);
+                return CreateAlienship(enemyType, parameters);
             else if (enemyType == typeof(KamikazeAlien))
                 return CreateKamikaze();
             else if (enemyType == typeof(Spacemine))
@@ -22,7 +22,6 @@ namespace SpaceShooter
         private static Enemy CreateSpacemine(int[] lastEnemy)
         {
             int x, y;
-            //TODO: catch exceptions for null parameters
             if (lastEnemy[0] >= 120)
                 x = (2 * SplashKit.Rnd(0,3) + 1) * 100; 
             else 
@@ -43,7 +42,7 @@ namespace SpaceShooter
             var movePattern = new StraightLinePattern(9, angle);
             return (Enemy)new KamikazeAlien(position, movePattern, angle);
         } 
-        private static Enemy CreateGunship(Type type, int[] lastEnemy)
+        private static Enemy CreateAlienship(Type type, int[] lastEnemy)
         {     
             int x, y;     
             Position position;
