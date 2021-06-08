@@ -19,6 +19,9 @@ namespace SpaceShooter
             };
         protected readonly List<Enemy> _enemies = new List<Enemy>();
         private EnemyQuantityList _quantityList = new EnemyQuantityList();
+    ///<summary>
+    ///Prevents other classes from adding/ removing enemies but still allows foreach loops
+    ///</summary>
         public IEnumerable<Enemy> Enemies 
         {
             get
@@ -51,6 +54,9 @@ namespace SpaceShooter
                 }
             }
         }
+    ///<summary>
+    ///The game always ends when the player is dead. Subclassed game modes can add extra conditions
+    ///</summary>
         public virtual void CheckGameEnding(Player player)
         {
             if (player.Health <= 0) GameEnded = true;

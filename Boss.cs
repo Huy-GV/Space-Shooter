@@ -4,17 +4,6 @@ using SplashKitSDK;
 using System.Linq;
 namespace SpaceShooter
 {
-    // public abstract class Boss : Enemy, IHaveGun
-    // {
-    //     public bool OverheatEnded{get => _gun.OverheatEnded;}
-    //     protected Gun _gun;   
-    //     protected int _speed;
-    //     public Boss() : base(new Position(Global.Width / 2, -50))
-    //     {
-    //         Health = 80;
-    //     }
-    //     public virtual Bullet Shoot() => _gun.OpenFire(X, Y, Angle, 0); 
-    // }
     public class Nightmare : Alienship
     { 
         private double _time;

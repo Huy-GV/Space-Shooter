@@ -27,7 +27,7 @@ namespace SpaceShooter
         }
         private void UpdateEnemies()
         {
-            foreach(Enemy enemy in _gameMode.Enemies)
+            foreach(var enemy in _gameMode.Enemies)
             {
                 enemy.Update();
                 ProjectileCheck(enemy, _session.PlayerProjectiles);

@@ -117,6 +117,9 @@ namespace SpaceShooter
             if (_sessionStarted && _session.CurrentState != Session.State.Paused)
                 _session.ProcessInput();
         }
+///<summary>
+///Prevents the state from starting a new session when the player jumps back from the paused state 
+///</summary>
         public override void Update()
         {
             if (!_sessionStarted)

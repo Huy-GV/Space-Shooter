@@ -5,7 +5,8 @@ namespace SpaceShooter
 {
     public class Explosion : DrawableObject
     {
-        public enum Type{
+        public enum Type
+        {
             RedLaser,
             BlueLaser,
             Fire,

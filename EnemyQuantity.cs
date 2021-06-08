@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace SpaceShooter
 {
+    //TODO: after removing alienship subtypes, use enums to list enemy types?
     public class EnemyQuantityList
     {
         private Dictionary<Type, int> _quantityByType = new Dictionary<Type, int>()

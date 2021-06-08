@@ -2,10 +2,9 @@ using SplashKitSDK;
 using System;
 using System.Collections.Generic;
 
-//TODO: return to the old system, with x and y belonging to objects
-
 namespace SpaceShooter
 {
+    //TODO: delete alienship subclasses and create subtypes by attaching different components in the factory ?
     public abstract class Alienship : Enemy, IHaveGun
     {
         protected Gun _gun;

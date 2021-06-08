@@ -4,6 +4,13 @@ using SplashKitSDK;
 
 namespace SpaceShooter
 {
+    ///<summary>
+    ///Spawns enemies given a concrete type and the last enemy's position
+    ///</summary>
+
+    //TODO: look into abstract factory pattern
+
+    //TODO: build different factories to build different types of enemies?
     public class EnemyFactory
     {
         public static Enemy Create(Type enemyType, int[] parameters)
