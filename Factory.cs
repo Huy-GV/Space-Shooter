@@ -7,24 +7,27 @@ namespace SpaceShooter
     ///<summary>
     ///Spawns enemies given a concrete type and the last enemy's position
     ///</summary>
-
-    //TODO: look into abstract factory pattern
-
-    //TODO: build different factories to build different types of enemies?
     public class EnemyFactory
     {
-        public static Enemy Create(Type enemyType, int[] parameters)
+        public static Enemy Create(EnemyType enemyType, int[] lastEnemy)
         {
-            if (enemyType == typeof(Asteroid))
-                return CreateAsteroid(parameters[1]);
-            else if (enemyType.IsSubclassOf(typeof(Alienship)))
-                return CreateAlienship(enemyType, parameters);
-            else if (enemyType == typeof(KamikazeAlien))
-                return CreateKamikaze();
-            else if (enemyType == typeof(Spacemine))
-                return CreateSpacemine(parameters);
-            else
-                throw new NotImplementedException($"The type {enemyType} is not implemented");
+
+            switch(enemyType)
+            {
+                case EnemyType.BlueAlienship: 
+                    return CreateBlueAlienship(lastEnemy[0], lastEnemy[1]);
+                case EnemyType.RedAlienship:
+                    return CreateRedAlienship(lastEnemy[1]);
+                case EnemyType.PurpleAlienship:
+                    return CreatePurpleAlienship(lastEnemy[1]);
+                case EnemyType.KamikazeAlien:
+                    return CreateKamikaze();
+                case EnemyType.Asteroid:
+                    return CreateAsteroid(lastEnemy[1]);
+                case EnemyType.Spacemine:
+                    return CreateSpacemine(lastEnemy);
+                default: throw new NotImplementedException($"The type {enemyType} is not implemented");
+            }
         }
         private static Enemy CreateSpacemine(int[] lastEnemy)
         {
@@ -40,67 +43,78 @@ namespace SpaceShooter
                 y = lastEnemy[1] - 240;
             var position = new Position(x, y);
             var movePattern = new StraightLinePattern(3);
-            return (Enemy)new Spacemine(position, movePattern);
+            return new Spacemine(position, movePattern, 18);
         }
-        private static Enemy CreateKamikaze()
+        private static KamikazeAlien CreateKamikaze()
         {
             var position = new Position(Global.Width / 2, -50);
             var angle = (SplashKit.Rnd(0, 42) + 69);
             var movePattern = new StraightLinePattern(9, angle);
-            return (Enemy)new KamikazeAlien(position, movePattern, angle);
+            return new KamikazeAlien(position, movePattern, angle, 18);
         } 
-        private static Enemy CreateAlienship(Type type, int[] lastEnemy)
-        {     
-            int x, y;     
-            Position position;
-            Gun gun;
-            IMoveStrategy movePattern;  
-            if (type == typeof(BlueAlienship))
+        private static Nightmare CreateNightmare()
+        {
+            var position = new Position(Global.Width / 2, -50);
+            var gun = new Gun(1.2, Bullet.Type.RedLaser, false);
+            var movePattern = new StraightLinePattern(3);
+            var bitmap = SplashKit.LoadBitmap("Nightmare", "Bosses/Nightmare.png");
+            var image = new StaticImage(bitmap);
+            return new Nightmare(position, movePattern, gun, image);
+        }
+        private static Phantom CreatePhantom()
+        {
+            var bitmap = SplashKit.LoadBitmap("Phantom", "Bosses/Phantom.png");
+            var cellDetails = new int[]{300/2, 130, 2, 1, 2};
+            var image = new AnimatedImage("flickerScript", "flickering", bitmap, cellDetails);
+            var position = new Position(Global.Width / 2, -50);
+            var gun = new Gun(1, Bullet.Type.TripleLaser, false);
+            var movePattern = new ZigzagPattern(2, 2, -20, true);
+            return new Phantom(position, movePattern, gun, image);
+        }
+        private static Alienship CreateBlueAlienship(int lastEnemyX, int lastEnemyY)
+        {
+            int x, y;
+            int randomX = SplashKit.Rnd(0, 6);
+            if (lastEnemyY >= 100)
             {
-
-                int randomX = SplashKit.Rnd(0, 6);
-                if (lastEnemy[1] >= 100)
-                {
-                    x = (2 * randomX + 1) * 50; 
-                    y = -50;
-                } else
-                {
-                    while ( (2 * randomX + 1) * 50  == lastEnemy[0]) randomX = SplashKit.Rnd(0, 6);
-                    x = (2 * randomX + 1) * 50; 
-                    y = lastEnemy[1] - 100;
-                } 
-                gun = new Gun(3);
-                movePattern = new StraightLinePattern(3);
-                position = new Position(x, y);
-            } else if (type == typeof(PurpleAlienship))
+                x = (2 * randomX + 1) * 50; 
+                y = -50;
+            } else
             {
-                if (lastEnemy[1] >= 100) y = -60;
-                else y = lastEnemy[1] - 110;
-                x = (2 * SplashKit.Rnd(0, 6) + 1) * 50;
-                gun = new Gun(3);
-                movePattern = new StraightLinePattern(2);
-                position = new Position(x, y);
-            } else if (type == typeof(RedAlienship))
-            {
-                if (lastEnemy[1] >= 100) y = -50;
-                else y = lastEnemy[1] - 110;
-                x = (2 * SplashKit.Rnd(0, 6) + 1) * 50;
-                position = new Position(x, y);
-                gun = new Gun(2);
-                movePattern = new ZigzagPattern(2, 3, y);
-            } else if (type == typeof(Nightmare))
-            {
-                position = new Position(Global.Width / 2, -50);
-                gun = new Gun(1.2, Bullet.Type.RedLaser, false);
-                movePattern = new StraightLinePattern(3);
-            } else 
-            {
-                position = new Position(Global.Width / 2, -50);
-                gun = new Gun(1, Bullet.Type.TripleLaser, false);
-                movePattern = new ZigzagPattern(2, 2, -20, true);
-            }
-            var parameters = new object[]{position, movePattern, gun};
-            return (Enemy)Activator.CreateInstance(type, parameters);
+                while ( (2 * randomX + 1) * 50  == lastEnemyX) randomX = SplashKit.Rnd(0, 6);
+                x = (2 * randomX + 1) * 50; 
+                y = lastEnemyY - 100;
+            } 
+            var gun = new Gun(3);
+            var movePattern = new StraightLinePattern(3);
+            var position = new Position(x, y);
+            var bitmap = SplashKit.LoadBitmap("BlueAlienship", "Alienships/BlueAlienship.png");
+            var image = new StaticImage(bitmap);
+            return new Alienship(position, gun, movePattern, image, EnemyType.BlueAlienship);
+        }
+        private static Enemy CreateRedAlienship(int lastEnemyY)
+        {
+            var y = (lastEnemyY >= 100) ? -50 : lastEnemyY - 110;
+            var x = (2 * SplashKit.Rnd(0, 6) + 1) * 50;
+            var position = new Position(x, y);
+            var gun = new Gun(2);
+            var movePattern = new ZigzagPattern(2, 3, y);
+            var bitmap = SplashKit.LoadBitmap("RedAlienship", "Alienships/RedAlienship.png");
+            var image = new StaticImage(bitmap);
+            return new Alienship(position, gun, movePattern, image, EnemyType.RedAlienship);
+        }
+        private static Alienship CreatePurpleAlienship(int lastEnemyY)
+        {
+            int x, y;
+            if (lastEnemyY >= 100) y = -60;
+            else y = lastEnemyY - 110;
+            x = (2 * SplashKit.Rnd(0, 6) + 1) * 50;
+            var gun = new Gun(3);
+            var movePattern = new StraightLinePattern(2);
+            var position = new Position(x, y);
+            var bitmap = SplashKit.LoadBitmap("PurpleAlienship", "Alienships/PurpleAlienship.png");
+            var image = new StaticImage(bitmap);
+            return new Alienship(position, gun, movePattern, image, EnemyType.PurpleAlienship);
         }
         private static Enemy CreateAsteroid(int parameter)
         {

@@ -6,16 +6,16 @@ namespace SpaceShooter
 {
     public abstract class GameMode
     {
-        protected Dictionary<Type, int> _limits = new Dictionary<Type, int>()
+        protected Dictionary<EnemyType, int> _limits = new Dictionary<EnemyType, int>()
             {
-                {typeof(BlueAlienship), 0},
-                {typeof(PurpleAlienship), 0},
-                {typeof(RedAlienship), 0},
-                {typeof(KamikazeAlien), 0},
-                {typeof(Asteroid), 0},
-                {typeof(Spacemine), 0},
-                {typeof(Nightmare), 0},
-                {typeof(Phantom), 0}
+                {EnemyType.BlueAlienship, 0},
+                {EnemyType.PurpleAlienship, 0},
+                {EnemyType.RedAlienship, 0},
+                {EnemyType.KamikazeAlien, 0},
+                {EnemyType.Asteroid, 0},
+                {EnemyType.Spacemine, 0},
+                // {EnemyType.Nightmare), 0},
+                // {EnemyType.Phantom), 0}
             };
         protected readonly List<Enemy> _enemies = new List<Enemy>();
         private EnemyQuantityList _quantityList = new EnemyQuantityList();
@@ -63,7 +63,7 @@ namespace SpaceShooter
         }
         public void RemoveEnemy(Enemy enemy)
         {
-            _quantityList.UpdateQuantity(enemy.GetType(), -1);
+            _quantityList.UpdateQuantity(enemy.Type, -1);
             _enemies.Remove(enemy);
         }
     }
@@ -77,24 +77,24 @@ namespace SpaceShooter
             _bossSpawned = false;
             SetEnemyLimitsByLevel();
         }
-        public override void AddEnemies(int score)
-        {
-            if (score < 100 ) base.AddEnemies(score);
-            else if (!_bossSpawned && _level > 3)
-            {
-                _bossSpawned = true;
-                switch(_level)
-                {
-                    case 3: 
-                        _enemies.Add(EnemyFactory.Create(typeof(Nightmare), new int[]{})); 
-                        break;
-                    case 4: 
-                        _enemies.Add(EnemyFactory.Create(typeof(Phantom), new int[]{})); 
-                        break;
-                    default: throw new IndexOutOfRangeException($"The level {_level} is not implemented or the threshold for levels with bosses is incorrect");
-                }
-            }
-        }
+        // public override void AddEnemies(int score)
+        // {
+        //     if (score < 100 ) base.AddEnemies(score);
+        //     else if (!_bossSpawned && _level > 3)
+        //     {
+        //         _bossSpawned = true;
+        //         switch(_level)
+        //         {
+        //             case 3: 
+        //                 _enemies.Add(EnemyFactory.Create(EnemyType.Nightmare), new int[]{})); 
+        //                 break;
+        //             case 4: 
+        //                 _enemies.Add(EnemyFactory.Create(EnemyType.Phantom), new int[]{})); 
+        //                 break;
+        //             default: throw new IndexOutOfRangeException($"The level {_level} is not implemented or the threshold for levels with bosses is incorrect");
+        //         }
+        //     }
+        // }
         public override void CheckGameEnding(Player player)
         {
             base.CheckGameEnding(player);
@@ -108,29 +108,29 @@ namespace SpaceShooter
             switch(_level)
             {
                 case 1:
-                    _limits[typeof(BlueAlienship)] = 5;
-                    _limits[typeof(RedAlienship)] = 2;
-                    _limits[typeof(Asteroid)] = 5;
-                    _limits[typeof(Spacemine)] = 1;
+                    _limits[EnemyType.BlueAlienship] = 5;
+                    _limits[EnemyType.RedAlienship] = 2;
+                    _limits[EnemyType.Asteroid] = 5;
+                    _limits[EnemyType.Spacemine] = 1;
                     break;
                 case 2:
-                    _limits[typeof(PurpleAlienship)] = 6;
-                    _limits[typeof(Asteroid)] = 5;
-                    _limits[typeof(Spacemine)] = 2;
+                    _limits[EnemyType.PurpleAlienship] = 6;
+                    _limits[EnemyType.Asteroid] = 5;
+                    _limits[EnemyType.Spacemine] = 2;
                     break;
                 case 3:
-                    _limits[typeof(BlueAlienship)] = 3;
-                    _limits[typeof(RedAlienship)] = 5;
-                    _limits[typeof(Asteroid)] = 4;
-                    _limits[typeof(Spacemine)] = 2;
+                    _limits[EnemyType.BlueAlienship] = 3;
+                    _limits[EnemyType.RedAlienship] = 5;
+                    _limits[EnemyType.Asteroid] = 4;
+                    _limits[EnemyType.Spacemine] = 2;
                     break;
                 case 4:
-                    _limits[typeof(BlueAlienship)] = 3;
-                    _limits[typeof(PurpleAlienship)] = 2;
-                    _limits[typeof(RedAlienship)] = 4;
-                    _limits[typeof(KamikazeAlien)] = 3;
-                    _limits[typeof(Asteroid)] = 5;
-                    _limits[typeof(Spacemine)] = 3; 
+                    _limits[EnemyType.BlueAlienship] = 3;
+                    _limits[EnemyType.PurpleAlienship] = 2;
+                    _limits[EnemyType.RedAlienship] = 4;
+                    _limits[EnemyType.KamikazeAlien] = 3;
+                    _limits[EnemyType.Asteroid] = 5;
+                    _limits[EnemyType.Spacemine] = 3; 
                     break;
                 default: throw new NotImplementedException($"The level {_level} is not implemented");
             }
@@ -150,30 +150,30 @@ namespace SpaceShooter
             {
                 case 0:
                     SpawnRate = SplashKit.Rnd(0,80);                
-                    _limits[typeof(BlueAlienship)] = 3;
-                    _limits[typeof(PurpleAlienship)] = 2;
-                    _limits[typeof(RedAlienship)] = 1;
-                    _limits[typeof(KamikazeAlien)] = 0;
-                    _limits[typeof(Asteroid)] = 5;
-                    _limits[typeof(Spacemine)] = 1;
+                    _limits[EnemyType.BlueAlienship] = 3;
+                    _limits[EnemyType.PurpleAlienship] = 2;
+                    _limits[EnemyType.RedAlienship] = 1;
+                    _limits[EnemyType.KamikazeAlien] = 0;
+                    _limits[EnemyType.Asteroid] = 5;
+                    _limits[EnemyType.Spacemine] = 1;
                     break;
                 case 1:
                     SpawnRate = SplashKit.Rnd(0,70);
-                    _limits[typeof(BlueAlienship)] = 4;
-                    _limits[typeof(PurpleAlienship)] = 3;
-                    _limits[typeof(RedAlienship)] = 2;
-                    _limits[typeof(KamikazeAlien)] = 2;
-                    _limits[typeof(Asteroid)] = 6;
-                    _limits[typeof(Spacemine)] = 2;
+                    _limits[EnemyType.BlueAlienship] = 4;
+                    _limits[EnemyType.PurpleAlienship] = 3;
+                    _limits[EnemyType.RedAlienship] = 2;
+                    _limits[EnemyType.KamikazeAlien] = 2;
+                    _limits[EnemyType.Asteroid] = 6;
+                    _limits[EnemyType.Spacemine] = 2;
                     break;
                 case 2: 
                     SpawnRate = SplashKit.Rnd(0,65);
-                    _limits[typeof(BlueAlienship)] = 5;
-                    _limits[typeof(PurpleAlienship)] = 3;
-                    _limits[typeof(RedAlienship)] = 2;
-                    _limits[typeof(KamikazeAlien)] = 2;
-                    _limits[typeof(Asteroid)] = 7;
-                    _limits[typeof(Spacemine)] = 3;
+                    _limits[EnemyType.BlueAlienship] = 5;
+                    _limits[EnemyType.PurpleAlienship] = 3;
+                    _limits[EnemyType.RedAlienship] = 2;
+                    _limits[EnemyType.KamikazeAlien] = 2;
+                    _limits[EnemyType.Asteroid] = 7;
+                    _limits[EnemyType.Spacemine] = 3;
                     break;
                 default: throw new IndexOutOfRangeException($"The stage index exceeds 2");
             }
@@ -193,8 +193,8 @@ namespace SpaceShooter
     {
         public MineFieldMode(int spawnRate) : base()
         {
-            _limits[typeof(Asteroid)] = 10;
-            _limits[typeof(Spacemine)] = 6;
+            _limits[EnemyType.Asteroid] = 10;
+            _limits[EnemyType.Spacemine] = 6;
             SpawnRate = spawnRate;
         }
     }
@@ -208,27 +208,27 @@ namespace SpaceShooter
             base.CheckGameEnding(player);
             if (_stage == _stageAmount && _enemies.Count == 0) GameEnded = true;
         }
-        public override void AddEnemies(int score)
-        {
-            if (_enemies.Count == 0)
-            {
-                switch(_stage)
-                {
-                    case 0:
-                        _enemies.Add(EnemyFactory.Create(typeof(Nightmare), new int[]{}));   
-                        _stage++;
-                        break;
-                    case 1:
-                        _enemies.Add(EnemyFactory.Create(typeof(Phantom), new int[]{}));
-                        _stage++;
-                        break;
-                    case 2:
-                        _enemies.Add(EnemyFactory.Create(typeof(Phantom), new int[]{}));
-                        _enemies.Add(EnemyFactory.Create(typeof(Nightmare), new int[]{}));
-                        _stage++;
-                        break;
-                }
-            }
-        }  
+        // public override void AddEnemies(int score)
+        // {
+        //     if (_enemies.Count == 0)
+        //     {
+        //         switch(_stage)
+        //         {
+        //             case 0:
+        //                 _enemies.Add(EnemyFactory.Create(EnemyType.Nightmare), new int[]{}));   
+        //                 _stage++;
+        //                 break;
+        //             case 1:
+        //                 _enemies.Add(EnemyFactory.Create(EnemyType.Phantom), new int[]{}));
+        //                 _stage++;
+        //                 break;
+        //             case 2:
+        //                 _enemies.Add(EnemyFactory.Create(EnemyType.Phantom), new int[]{}));
+        //                 _enemies.Add(EnemyFactory.Create(EnemyType.Nightmare), new int[]{}));
+        //                 _stage++;
+        //                 break;
+        //         }
+        //     }
+        // }  
     }
 }

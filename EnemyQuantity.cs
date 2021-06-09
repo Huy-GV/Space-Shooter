@@ -6,23 +6,23 @@ namespace SpaceShooter
     //TODO: after removing alienship subtypes, use enums to list enemy types?
     public class EnemyQuantityList
     {
-        private Dictionary<Type, int> _quantityByType = new Dictionary<Type, int>()
+        private Dictionary<EnemyType, int> _quantityByType = new Dictionary<EnemyType, int>()
             {
-                {typeof(BlueAlienship), 0},
-                {typeof(PurpleAlienship), 0},
-                {typeof(RedAlienship), 0},
-                {typeof(KamikazeAlien), 0},
-                {typeof(Asteroid), 0},
-                {typeof(Spacemine), 0},
+                {EnemyType.Asteroid, 0},
+                {EnemyType.Spacemine, 0},
+                {EnemyType.BlueAlienship, 0},
+                {EnemyType.RedAlienship, 0},
+                {EnemyType.PurpleAlienship, 0},
+                {EnemyType.KamikazeAlien, 0},
             }; 
-        public IEnumerable<Type> Type
+        public IEnumerable<EnemyType> Type
         {
             get
             {
                 foreach(var key in _quantityByType.Keys) yield return key;
             }
         }
-        public void UpdateQuantity(Type type, int increment ) => _quantityByType[type] += increment;
-        public int GetQuantity(Type type) => _quantityByType[type];
+        public void UpdateQuantity(EnemyType type, int increment ) => _quantityByType[type] += increment;
+        public int GetQuantity(EnemyType type) => _quantityByType[type];
     }
 }

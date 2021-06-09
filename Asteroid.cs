@@ -6,7 +6,7 @@ namespace SpaceShooter
 {
     public class Asteroid : Enemy
     {
-        public Asteroid(Position position, IMoveStrategy movePattern) : base(position, movePattern)
+        public Asteroid(Position position, IMoveStrategy movePattern) : base(position, movePattern, EnemyType.Asteroid)
         {
             Bitmap bitmap;
             if (SplashKit.Rnd(0, 2) == 0) 

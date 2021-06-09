@@ -6,9 +6,9 @@ namespace SpaceShooter
 {
     public class Spacemine : Enemy
     {
-        public Spacemine(Position position, IMoveStrategy movePattern) : base(position, movePattern)
+        public Spacemine(Position position, IMoveStrategy movePattern, int damage) : base(position, movePattern, EnemyType.Spacemine)
         {
-            CollisionDamage = 16;
+            CollisionDamage = damage;
             Image = SetAnimations();
         }
         private Image SetAnimations()

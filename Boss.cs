@@ -10,11 +10,9 @@ namespace SpaceShooter
         private int _speed;
         private double _movePatternDuration;
         private readonly int _defaultPatternDuration = 4;
-        public Nightmare(Position position, IMoveStrategy movePattern, Gun gun) : base(position, gun, movePattern)
+        public Nightmare(Position position, IMoveStrategy movePattern, Gun gun, Image image) : base(position, gun, movePattern, image, EnemyType.NightmareBoss)
         {
             _speed = 5;
-            var bitmap = SplashKit.LoadBitmap("Nightmare", "Bosses/Nightmare.png");
-            Image = new StaticImage(bitmap);
             Health = 70;
         }
         public override void Update()
@@ -46,19 +44,12 @@ namespace SpaceShooter
         private double _time;
         private int _speed;
         private bool _isInvisible = false;
-        public Phantom(Position position, IMoveStrategy movePattern, Gun gun) : base(position, gun, movePattern)
+        public Phantom(Position position, IMoveStrategy movePattern, Gun gun, Image image) : base(position, gun, movePattern, image, EnemyType.PhantomBoss)
         {
-            Image = SetAnimation();
             Health = 80;
             _gun = new Gun(1, Bullet.Type.TripleLaser, false);
             _speed = 4;
             _movePattern = new ZigzagPattern(_speed, _speed, -20, true);
-        }
-        private Image SetAnimation()
-        {
-            var bitmap = SplashKit.LoadBitmap("Phantom", "Bosses/Phantom.png");
-            var cellDetails = new int[]{300/2, 130, 2, 1, 2};
-            return new AnimatedImage("flickerScript", "flickering", bitmap, cellDetails);
         }
         public override void Update()
         {

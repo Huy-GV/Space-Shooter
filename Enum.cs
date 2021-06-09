@@ -9,6 +9,8 @@ namespace SpaceShooter
         PurpleAlienship,
         Asteroid,
         Spacemine,
-        KamikazeAlien
+        KamikazeAlien,
+        PhantomBoss,
+        NightmareBoss
     }
 }
