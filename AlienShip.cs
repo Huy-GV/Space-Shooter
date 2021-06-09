@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 namespace SpaceShooter
 {
-    //TODO: delete alienship subclasses and create subtypes by attaching different components in the factory ?
-    
     public class Alienship : Enemy, IHaveGun
     {
         protected Gun _gun;
