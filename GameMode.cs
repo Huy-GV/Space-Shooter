@@ -77,24 +77,24 @@ namespace SpaceShooter
             _bossSpawned = false;
             SetEnemyLimitsByLevel();
         }
-        // public override void AddEnemies(int score)
-        // {
-        //     if (score < 100 ) base.AddEnemies(score);
-        //     else if (!_bossSpawned && _level > 3)
-        //     {
-        //         _bossSpawned = true;
-        //         switch(_level)
-        //         {
-        //             case 3: 
-        //                 _enemies.Add(EnemyFactory.Create(EnemyType.Nightmare), new int[]{})); 
-        //                 break;
-        //             case 4: 
-        //                 _enemies.Add(EnemyFactory.Create(EnemyType.Phantom), new int[]{})); 
-        //                 break;
-        //             default: throw new IndexOutOfRangeException($"The level {_level} is not implemented or the threshold for levels with bosses is incorrect");
-        //         }
-        //     }
-        // }
+        public override void AddEnemies(int score)
+        {
+            if (score < 100 ) base.AddEnemies(score);
+            else if (!_bossSpawned && _level > 3)
+            {
+                _bossSpawned = true;
+                switch(_level)
+                {
+                    case 3: 
+                        _enemies.Add(EnemyFactory.Create(EnemyType.NightmareBoss, new int[]{})); 
+                        break;
+                    case 4: 
+                        _enemies.Add(EnemyFactory.Create(EnemyType.PhantomBoss, new int[]{})); 
+                        break;
+                    default: throw new IndexOutOfRangeException($"The level {_level} is not implemented or the threshold for levels with bosses is incorrect");
+                }
+            }
+        }
         public override void CheckGameEnding(Player player)
         {
             base.CheckGameEnding(player);
@@ -208,27 +208,27 @@ namespace SpaceShooter
             base.CheckGameEnding(player);
             if (_stage == _stageAmount && _enemies.Count == 0) GameEnded = true;
         }
-        // public override void AddEnemies(int score)
-        // {
-        //     if (_enemies.Count == 0)
-        //     {
-        //         switch(_stage)
-        //         {
-        //             case 0:
-        //                 _enemies.Add(EnemyFactory.Create(EnemyType.Nightmare), new int[]{}));   
-        //                 _stage++;
-        //                 break;
-        //             case 1:
-        //                 _enemies.Add(EnemyFactory.Create(EnemyType.Phantom), new int[]{}));
-        //                 _stage++;
-        //                 break;
-        //             case 2:
-        //                 _enemies.Add(EnemyFactory.Create(EnemyType.Phantom), new int[]{}));
-        //                 _enemies.Add(EnemyFactory.Create(EnemyType.Nightmare), new int[]{}));
-        //                 _stage++;
-        //                 break;
-        //         }
-        //     }
-        // }  
+        public override void AddEnemies(int score)
+        {
+            if (_enemies.Count == 0)
+            {
+                switch(_stage)
+                {
+                    case 0:
+                        _enemies.Add(EnemyFactory.Create(EnemyType.NightmareBoss, new int[]{}));   
+                        _stage++;
+                        break;
+                    case 1:
+                        _enemies.Add(EnemyFactory.Create(EnemyType.PhantomBoss, new int[]{}));
+                        _stage++;
+                        break;
+                    case 2:
+                        _enemies.Add(EnemyFactory.Create(EnemyType.PhantomBoss, new int[]{}));
+                        _enemies.Add(EnemyFactory.Create(EnemyType.NightmareBoss, new int[]{}));
+                        _stage++;
+                        break;
+                }
+            }
+        }  
     }
 }
