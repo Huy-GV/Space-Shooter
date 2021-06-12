@@ -14,8 +14,6 @@ namespace SpaceShooter
                 {EnemyType.KamikazeAlien, 0},
                 {EnemyType.Asteroid, 0},
                 {EnemyType.Spacemine, 0},
-                // {EnemyType.Nightmare), 0},
-                // {EnemyType.Phantom), 0}
             };
         protected readonly List<Enemy> _enemies = new List<Enemy>();
         private EnemyQuantityList _quantityList = new EnemyQuantityList();
