@@ -33,13 +33,12 @@ namespace SpaceShooter
         {
             SpawnRate = 70;
         }
-        private bool TimeToSpawn()=> SplashKit.Rnd(0, SpawnRate) == 0;
         public virtual void AddEnemies(int score)
         {
             int[] parameters;
             foreach (var enemyType in _quantityList.Type)
             {
-                if (TimeToSpawn() && _quantityList.GetQuantity(enemyType) < _limits[enemyType])
+                if (SpawnAllowed(_quantityList.GetQuantity(enemyType), enemyType))
                 {
                     if (_enemies.Count == 0) parameters = new int[]{Global.Width, Global.Height};
                     else
@@ -52,7 +51,7 @@ namespace SpaceShooter
                 }
             }
         }
-        public bool SpawnAllowed(int typeQuantity, EnemyType type)
+        private bool SpawnAllowed(int typeQuantity, EnemyType type)
         {
             return SplashKit.Rnd(0, SpawnRate) == 0 && typeQuantity < _limits[type];
         }

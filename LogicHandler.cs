@@ -8,11 +8,12 @@ namespace SpaceShooter
     {
         private Session _session;
         private GameMode _gameMode;
-        private EnemyQuantityList _quantityList = new EnemyQuantityList();
+        private EnemyController _enemyController;
         public LogicHandler(Session session, GameMode gameMode)
         {
             _session = session;
             _gameMode = gameMode;
+            _enemyController = new EnemyController(_session.EnemyProjectiles, _gameMode.Enemies);
         }
         public void Update()
         {
@@ -21,16 +22,16 @@ namespace SpaceShooter
 
             UpdateExplosions(_session.Explosions);
             UpdatePlayer();
-            UpdateEnemies();
+            CollisionCheck();
+            _enemyController.UpdateEnemies();
             UpdateProjectiles(_session.PlayerProjectiles);
             UpdateProjectiles(_session.EnemyProjectiles);
             ProjectileCheck(_session.Player, _session.EnemyProjectiles);
         }
-        private void UpdateEnemies()
+        private void CollisionCheck()
         {
             foreach(var enemy in _gameMode.Enemies)
             {
-                enemy.Update();
                 ProjectileCheck(enemy, _session.PlayerProjectiles);
                 EnemyRemovalCheck(enemy);
                 if (_session.Player.CollideWith(enemy.Image, enemy.X, enemy.Y) && 
@@ -40,8 +41,6 @@ namespace SpaceShooter
                     _session.Explosions.Add(new Explosion(_session.Player.X, _session.Player.Y, Explosion.Type.Fire));
                     enemy.LoseHealth(100);
                 }
-                if (enemy is Alienship gunship) 
-                    if (gunship.OverheatEnded) _session.EnemyProjectiles.Add(gunship.Shoot());  
             }
         }
         private void ProjectileCheck(IShootableObject target, List<Bullet> projectiles)
@@ -77,18 +76,6 @@ namespace SpaceShooter
             if (enemy.Y > Global.Height || enemy.Health <= 0)
             {
                 _gameMode.RemoveEnemy(enemy);            
-            }
-        }
-        private void AddEnemies()
-        {
-            foreach(var type in _quantityList.Type)
-            {
-                if (_gameMode.SpawnAllowed(_quantityList.GetQuantity(type), type))
-                {
-                    var lastEnemyPosition = _session.EnemyManager.LastEnemyPostion;
-                    var enemy = EnemyFactory.Create(type, lastEnemyPosition);
-                    _session.EnemyManager.AddEnemy(enemy);
-                }
             }
         }
         private void UpdatePlayer()
