@@ -8,6 +8,7 @@ namespace SpaceShooter
     {
         private Session _session;
         private GameMode _gameMode;
+        private EnemyQuantityList _quantityList = new EnemyQuantityList();
         public LogicHandler(Session session, GameMode gameMode)
         {
             _session = session;
@@ -76,6 +77,18 @@ namespace SpaceShooter
             if (enemy.Y > Global.Height || enemy.Health <= 0)
             {
                 _gameMode.RemoveEnemy(enemy);            
+            }
+        }
+        private void AddEnemies()
+        {
+            foreach(var type in _quantityList.Type)
+            {
+                if (_gameMode.SpawnAllowed(_quantityList.GetQuantity(type), type))
+                {
+                    var lastEnemyPosition = _session.EnemyManager.LastEnemyPostion;
+                    var enemy = EnemyFactory.Create(type, lastEnemyPosition);
+                    _session.EnemyManager.AddEnemy(enemy);
+                }
             }
         }
         private void UpdatePlayer()

@@ -18,7 +18,8 @@ namespace SpaceShooter
         public List<Bullet> EnemyProjectiles{get; init;} = new List<Bullet>();
         public IEnumerable<Enemy> Enemies{ get => _gameMode.Enemies;}
         private Renderer _renderer;
-        private LogicHandler _eventProcessor;
+        private LogicHandler _logicHandler;
+        public EnemyManager EnemyManager { get; init;}
         private GameMode _gameMode;
         public State CurrentState{get; private set;} = State.Running;
         public Session(int spaceshipChoice, int gameModeIndex)
@@ -26,7 +27,8 @@ namespace SpaceShooter
             Player = new Player(spaceshipChoice);
             _gameMode = SetGameMode(gameModeIndex);
             _renderer = new Renderer(this);
-            _eventProcessor = new LogicHandler(this, _gameMode);
+            _logicHandler = new LogicHandler(this, _gameMode);
+            EnemyManager = new EnemyManager(EnemyProjectiles);
         }
         public void Continue() => CurrentState = State.Running;
         public void End() => CurrentState = State.Over;
@@ -43,7 +45,7 @@ namespace SpaceShooter
         }
         public void Update()
         {
-            _eventProcessor.Update();
+            _logicHandler.Update();
         }
         public void Draw()
         {

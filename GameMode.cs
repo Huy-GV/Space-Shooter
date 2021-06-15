@@ -52,6 +52,11 @@ namespace SpaceShooter
                 }
             }
         }
+        public bool SpawnAllowed(int typeQuantity, EnemyType type)
+        {
+            return SplashKit.Rnd(0, SpawnRate) == 0 && typeQuantity < _limits[type];
+        }
+ 
     ///<summary>
     ///The game always ends when the player is dead. Subclassed game modes can add extra conditions
     ///</summary>
