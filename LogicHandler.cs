@@ -4,11 +4,11 @@ using SplashKitSDK;
 
 namespace SpaceShooter
 {
-    public class EventProcessor
+    public class LogicHandler
     {
         private Session _session;
         private GameMode _gameMode;
-        public EventProcessor(Session session, GameMode gameMode)
+        public LogicHandler(Session session, GameMode gameMode)
         {
             _session = session;
             _gameMode = gameMode;
