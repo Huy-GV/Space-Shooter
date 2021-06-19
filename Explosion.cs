@@ -20,6 +20,7 @@ namespace SpaceShooter
             _position = new Position(x, y);
             Image = SetAnimations(type);
         }
+        public Explosion(int x, int y) : this(x, y, Type.Fire){}
         public AnimatedImage SetAnimations(Type type)
         {
             switch(type)

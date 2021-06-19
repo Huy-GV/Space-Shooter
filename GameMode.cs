@@ -121,17 +121,17 @@ namespace SpaceShooter
                     _limits[EnemyType.Spacemine] = 2;
                     break;
                 case 3:
-                    _limits[EnemyType.BlueAlienship] = 3;
-                    _limits[EnemyType.RedAlienship] = 5;
+                    _limits[EnemyType.BlueAlienship] = 2;
+                    _limits[EnemyType.RedAlienship] = 4;
                     _limits[EnemyType.Asteroid] = 4;
                     _limits[EnemyType.Spacemine] = 2;
                     break;
                 case 4:
-                    _limits[EnemyType.BlueAlienship] = 3;
+                    _limits[EnemyType.BlueAlienship] = 2;
                     _limits[EnemyType.PurpleAlienship] = 2;
                     _limits[EnemyType.RedAlienship] = 4;
                     _limits[EnemyType.KamikazeAlien] = 3;
-                    _limits[EnemyType.Asteroid] = 5;
+                    _limits[EnemyType.Asteroid] = 4;
                     _limits[EnemyType.Spacemine] = 3; 
                     break;
                 default: throw new NotImplementedException($"The level {_level} is not implemented");
@@ -161,7 +161,7 @@ namespace SpaceShooter
                     break;
                 case 1:
                     SpawnRate = SplashKit.Rnd(0,70);
-                    _limits[EnemyType.BlueAlienship] = 4;
+                    _limits[EnemyType.BlueAlienship] = 3;
                     _limits[EnemyType.PurpleAlienship] = 3;
                     _limits[EnemyType.RedAlienship] = 2;
                     _limits[EnemyType.KamikazeAlien] = 2;
@@ -170,11 +170,11 @@ namespace SpaceShooter
                     break;
                 case 2: 
                     SpawnRate = SplashKit.Rnd(0,65);
-                    _limits[EnemyType.BlueAlienship] = 5;
+                    _limits[EnemyType.BlueAlienship] = 3;
                     _limits[EnemyType.PurpleAlienship] = 3;
                     _limits[EnemyType.RedAlienship] = 2;
                     _limits[EnemyType.KamikazeAlien] = 2;
-                    _limits[EnemyType.Asteroid] = 7;
+                    _limits[EnemyType.Asteroid] = 5;
                     _limits[EnemyType.Spacemine] = 3;
                     break;
                 default: throw new IndexOutOfRangeException($"The stage index exceeds 2");

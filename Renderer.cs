@@ -15,14 +15,15 @@ namespace SpaceShooter
         public void Draw()
         {
             _session.Player.Draw();
-            foreach( var enemy in _session.Enemies)
-            {
-                enemy.Draw();
-            }
-            _session.PlayerProjectiles.ForEach(projectile => projectile.Draw());
-            _session.EnemyProjectiles.ForEach(projectile => projectile.Draw());
-            _session.Explosions.ForEach(explosion => explosion.Draw());
+            DrawFromList(_session.PlayerProjectiles);
+            DrawFromList(_session.EnemyProjectiles);
+            DrawFromList(_session.Explosions);
+            DrawFromList(_session.Enemies);
             DrawPlayerInfo();
+        }
+        private void DrawFromList(IEnumerable<DrawableObject> collection)
+        {
+            foreach(var item in collection) item.Draw();
         }
         private void DrawPlayerInfo()
         {

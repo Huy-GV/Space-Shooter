@@ -7,7 +7,7 @@ namespace SpaceShooter
         public bool OverheatEnded{get;}
         public Bullet Shoot();
     }
-    public interface IShootableObject
+    public interface IKillable
     {
         public Image Image{get;}
         public int X{get;}

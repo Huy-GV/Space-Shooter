@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace SpaceShooter
 
 {
-    public class Player : DrawableObject, IShootableObject
+    public class Player : DrawableObject, IKillable
     {
         public bool CoolDownEnded{get => _currentGun.OverheatEnded;}
         private readonly double _swapTimeDuration = 0.5;

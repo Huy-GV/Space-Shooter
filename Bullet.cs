@@ -34,7 +34,7 @@ namespace SpaceShooter
                     Damage = 25;
                     break;
                 case Type.BlueLaser:
-                    bitmap = SplashKit.LoadBitmap("BlueLaser", "Bullets/BlueLaser.png");
+                    bitmap = SplashKit.LoadBitmap("BlueLaser", "Bullets/BlueLaser2.png");
                     _speed = 7;
                     Damage = 7;
                     break;

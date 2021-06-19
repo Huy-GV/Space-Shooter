@@ -22,28 +22,32 @@ namespace SpaceShooter
 
             UpdateExplosions(_session.Explosions);
             UpdatePlayer();
-            CollisionCheck();
+            EnemyKillCheck();
             _enemyController.UpdateEnemies();
             UpdateProjectiles(_session.PlayerProjectiles);
             UpdateProjectiles(_session.EnemyProjectiles);
             ProjectileCheck(_session.Player, _session.EnemyProjectiles);
         }
-        private void CollisionCheck()
+        private void EnemyKillCheck()
         {
             foreach(var enemy in _gameMode.Enemies)
             {
                 ProjectileCheck(enemy, _session.PlayerProjectiles);
-                EnemyRemovalCheck(enemy);
+                if (enemy.Y > Global.Height || enemy.Health <= 0)
+                {
+                    _gameMode.RemoveEnemy(enemy);            
+                }
                 if (_session.Player.CollideWith(enemy.Image, enemy.X, enemy.Y) && 
-                !(enemy.Type != EnemyType.PhantomBoss && enemy.Type != EnemyType.NightmareBoss))
+                !(nameof(enemy.Type).Contains("Boss")))
                 { 
                     _session.Player.LoseHealth(enemy.CollisionDamage);
-                    _session.Explosions.Add(new Explosion(_session.Player.X, _session.Player.Y, Explosion.Type.Fire));
+                    var explosion = new Explosion(_session.Player.X, _session.Player.Y);
+                    _session.Explosions.Add(explosion);
                     enemy.LoseHealth(100);
                 }
             }
         }
-        private void ProjectileCheck(IShootableObject target, List<Bullet> projectiles)
+        private void ProjectileCheck(IKillable target, List<Bullet> projectiles)
         {
             foreach(var projectile in projectiles.ToArray())
             {
@@ -69,13 +73,6 @@ namespace SpaceShooter
             foreach (var explosion in explosions.ToArray())
             {
                 if (explosion.AnimationEnded) _session.Explosions.Remove(explosion);
-            }
-        }
-        private void EnemyRemovalCheck(Enemy enemy)
-        {
-            if (enemy.Y > Global.Height || enemy.Health <= 0)
-            {
-                _gameMode.RemoveEnemy(enemy);            
             }
         }
         private void UpdatePlayer()
