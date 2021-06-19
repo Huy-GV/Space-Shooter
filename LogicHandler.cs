@@ -33,10 +33,7 @@ namespace SpaceShooter
             foreach(var enemy in _gameMode.Enemies)
             {
                 ProjectileCheck(enemy, _session.PlayerProjectiles);
-                if (enemy.Y > Global.Height || enemy.Health <= 0)
-                {
-                    _gameMode.RemoveEnemy(enemy);            
-                }
+                if (enemy.Y > Global.Height || enemy.Health <= 0) _gameMode.RemoveEnemy(enemy);       
                 if (_session.Player.CollideWith(enemy.Image, enemy.X, enemy.Y) && 
                 !(nameof(enemy.Type).Contains("Boss")))
                 { 
@@ -64,25 +61,22 @@ namespace SpaceShooter
             foreach( var projectile in projectiles.ToArray())
             {
                 projectile.Update();
-                if (Global.InWindow(projectile.X, projectile.Y)) 
-                    projectiles.Remove(projectile);
+                if (Global.InWindow(projectile.X, projectile.Y)) projectiles.Remove(projectile);
             }
         }
         private void UpdateExplosions(List<Explosion> explosions)
         {
             foreach (var explosion in explosions.ToArray())
             {
-                if (explosion.AnimationEnded) _session.Explosions.Remove(explosion);
+                if (explosion.AnimationEnded) explosions.Remove(explosion);
             }
         }
         private void UpdatePlayer()
         {
             _session.Player.Update();
             if ((_session.Player.Score < 100 && _gameMode is ByLevelMode) || 
-            (_gameMode is not ByLevelMode))
-                _session.Player.GainScore();
-            if (_gameMode.GameEnded) 
-                _session.End();
+            (_gameMode is not ByLevelMode)) _session.Player.GainScore();
+            if (_gameMode.GameEnded) _session.End();
         }
     }
 }
