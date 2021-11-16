@@ -3,7 +3,7 @@ using SplashKitSDK;
 using System.Collections.Generic;
 
 
-namespace SpaceShooter
+namespace Main
 {
     public class Program
     {

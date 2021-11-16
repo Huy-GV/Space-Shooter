@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
+using GameStates;
 using SplashKitSDK;
-
-namespace SpaceShooter
+using Drawable;
+namespace Main
 {
     public class Game
     {

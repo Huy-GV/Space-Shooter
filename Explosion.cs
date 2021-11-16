@@ -1,7 +1,7 @@
 using SplashKitSDK;
 using System;
-
-namespace SpaceShooter
+using Drawable;
+namespace Main
 {
     public class Explosion : DrawableObject
     {

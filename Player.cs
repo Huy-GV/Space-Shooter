@@ -1,7 +1,9 @@
 using System;
 using SplashKitSDK;
-using System.Collections.Generic;
-namespace SpaceShooter
+using Interface;
+using Drawable;
+using Weapon;
+namespace Main
 
 {
     public class Player : DrawableObject, IKillable
