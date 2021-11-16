@@ -2,11 +2,6 @@ using System.Collections.Generic;
 
 namespace SpaceShooter
 {
-    public interface IHaveGun
-    {
-        public bool OverheatEnded{get;}
-        public Bullet Shoot();
-    }
     public interface IKillable
     {
         public Image Image{get;}

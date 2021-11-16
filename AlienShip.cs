@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace SpaceShooter
 {
-    public class Alienship : Enemy, IHaveGun
+    public class Alienship : Enemy
     {
         protected Gun _gun;
         public bool OverheatEnded => _gun.OverheatEnded;

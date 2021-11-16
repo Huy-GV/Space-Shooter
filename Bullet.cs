@@ -41,7 +41,7 @@ namespace SpaceShooter
                 case Type.RedBeam:
                     bitmap = SplashKit.LoadBitmap("RedBeam", "Bullets/RedBeam.png");
                     _speed = 9;
-                    Damage = 7;
+                    Damage = 5;
                     break;  
                 case Type.TripleLaser:
                     bitmap = SplashKit.LoadBitmap("TripleLaser", "Bullets/TripleLaser.png");
